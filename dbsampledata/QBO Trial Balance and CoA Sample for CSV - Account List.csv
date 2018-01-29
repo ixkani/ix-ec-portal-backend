@@ -1,0 +1,95 @@
+ID,Account,Type,Detail type,Description,Balance,Currency
+,Accounts Payable,Accounts payable (A/P),Accounts Payable (A/P),,-734.51  ,CAD
+,Accounts Payable (A/P) - HKD,Accounts payable (A/P),Accounts Payable (A/P),,0.00  ,HKD
+,Accounts Receivable,Accounts receivable (A/R),Accounts Receivable (A/R),,"18,402.04  ",CAD
+,Accounts Receivable (A/R) - USD,Accounts receivable (A/R),Accounts Receivable (A/R),,0.00  ,USD
+,Accumulated Depreciation,"Property, plant and equipment",Accumulated Depreciation,,-366.63  ,CAD
+,Advertising,Expenses,Advertising/Promotional,,,CAD
+,Ask My Accountant,Other Expense,Other Miscellaneous Expense,,,CAD
+,Bank charges,Expenses,Bank charges,,,CAD
+,Billable Expense Income,Income,Service/Fee Income,,,CAD
+,Billable Expenses Income,Income,Other Primary Income,,,CAD
+,Business Licenses and Permits,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Charitable Contributions,Expenses,Charitable Contributions,,,CAD
+,Chequing,Bank,Chequing,,"21,095.57  ",CAD
+,Commission Income,Income,Other Primary Income,,,CAD
+,Commissions and fees,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Commissions Paid,Cost of Goods Sold,Cost of Goods Sold,,,CAD
+,Computer and Internet Expenses,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Continuing Education,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Cost of Goods Sold,Cost of Goods Sold,Supplies and materials - COS,,,CAD
+,Cost of sales,Cost of Goods Sold,Supplies and materials - COS,,,CAD
+,Cost of Sales - billable expenses,Cost of Goods Sold,Cost of Goods Sold,,,CAD
+,Depreciation Expense,Other Expense,Depreciation,,,CAD
+,Discounts given,Income,Discounts/Refunds Given,,,CAD
+,Dues and Subscriptions,Expenses,Dues and Subscriptions,,,CAD
+,Entertainment Booking Fees paid on behalf of clients,Cost of Goods Sold,Cost of Goods Sold,,,CAD
+,Equipment rental,Expenses,Equipment rental,,,CAD
+,Exchange Gain or Loss,Other Expense,Exchange Gain or Loss,,,CAD
+,Fees Billed,Income,Other Primary Income,,,CAD
+,Furniture and Equipment,"Property, plant and equipment",Furniture and Fixtures,,"2,750.00  ",CAD
+,GST/HST Payable,Other Current Liabilities,GST/HST Payable,,23.23  ,CAD
+,GST/HST Suspense,Other Current Liabilities,GST/HST Suspense,,-340.69  ,CAD
+,Insurance,Expenses,Insurance,,,CAD
+,Insurance Expense,Expenses,Insurance,,,CAD
+,Insurance Expense-General Liability Insurance,Expenses,Insurance,,,CAD
+,Insurance Expense-Health Insurance,Expenses,Insurance,,,CAD
+,Insurance Expense-Life and Disability Insurance,Expenses,Insurance,,,CAD
+,Interest earned,Other Income,Interest earned,,,CAD
+,Interest expense,Expenses,Interest paid,,,CAD
+,Inventory Asset,Current assets,Inventory,,"7,781.91  ",CAD
+,Inventory Shrinkage,Cost of Goods Sold,Supplies and materials - COS,,,CAD
+,Janitorial Expense,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Leasehold Improvements,"Property, plant and equipment",Leasehold Improvements,,0.00  ,CAD
+,Legal and professional fees,Expenses,Legal and professional fees,,,CAD
+,Markup,Income,Service/Fee Income,,,CAD
+,Meals and entertainment,Expenses,Meals and entertainment,,,CAD
+,Merchant Account Fees,Cost of Goods Sold,Cost of Goods Sold,,,CAD
+,Miscellaneous,Other Expense,Other Miscellaneous Expense,,,CAD
+,Note Payable,Long-term Liabilities,Notes Payable,,"-20,101.86  ",CAD
+,Office expenses,Expenses,Supplies,,,CAD
+,Opening Balance Equity,Equity,Opening Balance Equity,,0.00  ,CAD
+,Other Portfolio Income,Other Income,Other Investment Income,,,CAD
+,Owner's Equity,Equity,Owner's Equity,,0.00  ,CAD
+,Owner's Equity - Contributions,Equity,Owner's Equity,,"-12,750.00  ",CAD
+,Owner's Equity - Draws,Equity,Owner's Equity,,"2,000.00  ",CAD
+,Penalties and settlements,Other Expense,Penalties and settlements,,,CAD
+,Prepaid expenses,Current assets,Prepaid Expenses,,0.00  ,CAD
+,Printed Materials purchased for clients,Cost of Goods Sold,Cost of Goods Sold,,,CAD
+,Printing and Reproduction,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Professional Fees,Expenses,Legal and professional fees,,,CAD
+,Promotional,Expenses,Promotional Meals,,,CAD
+,Purchases,Expenses,Supplies,,,CAD
+,Refunds-Allowances,Income,Discounts/Refunds Given,,,CAD
+,Rent Expense,Expenses,Rent or Lease of Buildings,,,CAD
+,Rent or lease payments,Expenses,Rent or Lease of Buildings,,,CAD
+,Repair and maintenance,Expenses,Repair and maintenance,,,CAD
+,Retained Earnings,Equity,Retained Earnings,,0.00  ,CAD
+,Sales,Income,Other Primary Income,,,CAD
+,Sales Discounts,Income,Discounts/Refunds Given,,,CAD
+,Sales of Product Income,Income,Sales of Product Income,,,CAD
+,Services,Income,Service/Fee Income,,,CAD
+,Stationery and printing,Expenses,Supplies,,,CAD
+,Subcontracted Services,Expenses,Cost of Labour,,,CAD
+,Supplies,Expenses,Supplies,,,CAD
+,Taxes - Property,Expenses,Taxes Paid,,,CAD
+,Taxes and Licenses,Expenses,Taxes Paid,,,CAD
+,Telephone Expense,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Travel,Expenses,Travel meals,,,CAD
+,Travel Expense,Expenses,Travel meals,,,CAD
+,Travel meals,Expenses,Travel meals,,,CAD
+,Unapplied Cash Bill Payment Expense,Expenses,Unapplied Cash Bill Payment Expense,,,CAD
+,Unapplied Cash Payment Income,Income,Unapplied Cash Payment Income,,,CAD
+,Uncategorised Asset,Current assets,Other current assets,,0.00  ,CAD
+,Uncategorised Expense,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Uncategorised Income,Income,Other Primary Income,,,CAD
+,Uncategorized Asset,Current assets,Other current assets,,0.00  ,CAD
+,Uncategorized Expense,Expenses,Other Miscellaneous Service Cost,,,CAD
+,Uncategorized Income,Income,Service/Fee Income,,,CAD
+,Undeposited Funds,Current assets,Undeposited Funds,,0.00  ,CAD
+,Utilities,Expenses,Utilities,,,CAD
+,Utilities - Electric & Gas,Expenses,Utilities,,,CAD
+,Utilities - Water,Expenses,Utilities,,,CAD
+,Vehicles,"Property, plant and equipment",Vehicles,,0.00  ,CAD
+,Venue Fees paid on behalf of clients,Cost of Goods Sold,Cost of Goods Sold,,,CAD
+,Visa Credit Card,Credit Card,Credit Card,,"-2,077.60  ",CAD

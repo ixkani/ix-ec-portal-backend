@@ -1,0 +1,136 @@
+class DelimitedFlatFile {
+    column_count = 9
+    
+    skip_lines [1, 2, 5] #  "... Three, Sir!"
+    
+    source_system_name = 'Sage, Salesforce, etc'
+    
+    file_type = 'coa, trialbalance, etc'
+    
+    column_delimiter = ','
+    
+    db_handle = ''
+    
+    file_data = ''
+    
+    file_name = ''
+    
+    validate_before_save = true
+    
+    constructor(filename, file, file_type, source_system, db_handle)
+        ffc = FlatFileConfig.objects.filter(company=pk, file_type=file_type, source_system=source_system)
+        if ffc:
+           
+    
+    validate_column_data(column_name, column_data)
+    
+    translate_column_data(column_name, column_data):
+        rule = column_desc[column_name].data_translation_rule
+        translation_statement = 'if '+column_name+' '+rule['condition']+' '+rule['comparison']+': '+column_name+' = '+rule['value']
+        
+    # enter columns in header order
+    column_desc = [
+        'Account Type': {
+            name = 'Account Type'
+            data_validation_re = '[A-Za-z0-9]+'
+            data_translation_rule = ''
+        },
+        'Credit': {
+            name = 'Credit'
+            data_validation_re = '[0-9-.,$]+'
+            # if string is comparison value, add quotes
+            data_translation_rules = {condition: '==', comparison: '"-"', to_value: '0.00'} # will get executed as if column == '-': column = 0.00
+        },
+        {...}
+    ]
+    
+    # for file meta data line dates, and other 1 to 1 pieces of info in the file
+    # this is configured by the extended class to contain known varables that it expects to use
+    process_special_lines:
+        dict = 
+        
+    meta_data_lines [
+        {
+            line_number: '9',
+            variable = 'period_ending'     
+            data_capture_re = 'Trial Balance As at ([0-9]{2}.[0-9]{2}.[0-9]{4})'
+                capture_group_var_assignment = {
+                'period_ending' = group(3)+'-'group(2)+'-'+group(1)
+            }
+        },
+        {
+            line_number: '11',
+            variable = 'whatever_else'     
+            data_capture_re = 'Trial Balance As at ([0-9]{2}.[0-9]{2}.[0-9]{4})'
+                capture_group_var_assignment = {
+                'period_ending' = group(3)+'-'group(2)+'-'+group(1)
+            }
+        },
+       
+    ]
+    
+    db_table_data_mappings [
+        {
+            table_name = 'coa'
+            file_column = 1
+            
+            
+            column_map = {
+                'account_type' = 1, # data base column account_type maps to flat file column 1
+                'credit' = 3, # data base column credit maps to flat file column 3
+                etc
+            }
+        },
+        {
+            table_name = 'whatever'
+            column_map = {
+                'othercol' = 4, # data base column account_type maps to flat file column 1
+                'andanothercol' = 5, # data base column credit maps to flat file column 3
+                etc
+            }  
+        },
+        ...
+    ]
+    
+    # functions #
+    set/get for every member needed.
+    
+    read_file_data(file_data):
+        variable_dict = {}
+        read_meta_data_into_variables():
+            for item in meta_data_lines:
+                match_groups = re.match(line[item.line_number], item.data_capture_re)
+                variable_dict[item.variable] = 
+                
+        for line in file_data:
+            # short circuting will prevent call to validate_line if validate == false
+            if validate and validate_line(line):
+                
+            else
+                write bad data line to error file, and keep going
+                
+                
+
+populate the database with file configuration data and then use the ecsv library to process items
+
+extend base class for accounting files, etc
+TrialbalanceDelimitedFile
+    add member vars:
+        period ending
+    
+
+usage
+Create API end point to handle files of a specific type from a specific system (ie /trialbalance/qbd, /coa/sage', /crm/salesforce, etc)
+    first look to see if the company has a configuration for this file type and system type(
+    if it does, load the configuration data and read the file
+       
+    open the file
+    get meta data lines to set variables we'll need later
+    
+    for entry in meta_data:        
+        parse meta_data lines into dict
+    
+    for line in filedata:
+        
+    
+    

@@ -1,0 +1,36 @@
+delete from trialbalance where company_id = 11;
+delete from coa where company_id = 11;
+delete from coamap where company_id = 11;
+delete from financialstatemententry where company_id = 11;
+-- due to constraings, answers need to delete before monthly reports
+delete from answer where company_id = 11;
+delete from monthlyreport where company_id = 11;
+
+-- reset everything to scratch for a particular company account
+do $$
+DECLARE coID integer;
+BEGIN
+-- csvqb = 52, csvsage = 53, qbd = 54, manual = 55, qbo = 11,
+select 11 into coID;
+delete from financialstatemententry where company_id = coID;
+delete from trialbalance where company_id = coID;
+delete from coa where company_id = coID;
+delete from coamap where company_id = coID;
+delete from answer where company_id = coID;
+delete from monthlyreport where company_id = coID;
+
+update companymeta set
+monthly_reporting_sync_method = null,
+qb_connect_desktop_version = '1.0.0',
+last_page = '/intro',
+accounting_setup_status = 'NOT_STARTED',
+monthly_reporting_current_period = '2016-01-31',
+monthly_reporting_current_period_status = null,
+monthly_reporting_next_period = '2016-02-29',
+is_initial_setup = true,
+setup_completed = false,
+qb_desktop_installed = false,
+chartofaccounts_last_refresh_date = null,
+trialbalance_last_refresh_date = null
+where company_id = coID;
+END $$;

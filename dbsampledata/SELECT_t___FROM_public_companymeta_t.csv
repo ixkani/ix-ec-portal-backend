@@ -1,0 +1,2 @@
+id,monthly_reporting_sync_method,qb_connect_desktop_version,monthly_reporting_last_step,company_id,last_page,accounting_setup_status,monthly_reporting_current_period,monthly_reporting_last_period_status,monthly_reporting_next_period,is_initial_setup,setup_completed
+2,Quickbooks Desktop,11.3,3,6,,,,,,true,false

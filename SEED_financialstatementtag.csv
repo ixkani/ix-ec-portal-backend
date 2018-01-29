@@ -1,0 +1,44 @@
+id,tag_id,short_label,description,tag_category,abstract,formula,name,sort_order,generated_id,is_total_row,all_sight_name,tag_group
+103,6200,R&D (Gross - excluding SRED),R&D (Gross - excluding SR&ED),expense,false,null,exp_randd,7,,false,RDGrossMinusExcludingSRED,expense
+104,6300,General & Administrative Expenses,General & Administrative Expenses,expense,false,null,exp_ganda,8,,false,GA,expense
+126,2199,Total Current Liabilities,Total Current Liabilities,current_liabilities,true,liab_ap + liab_bank_debt + liab_deferred_rev + liab_other_cur,liab_tot_cur,30,,true,TotalCurrentLiabilities,abstract
+107,6700,Interest Income (Expense),Interest Income (Expense),expense,false,null,exp_interest,11,,false,InterestIncomeExpense,expense
+102,6100,Sales and Marketing Expenses,Sales and Marketing Expenses,expense,false,null,exp_sales,6,,false,SalesAndMarketingExpenses,expense
+100,5000,Cost of Goods Sold,Cost of Goods Sold,expense,false,null,exp_cogs,4,,false,CostOfGoodsSold,expense
+127,2500,Espresso Debt Outstanding,Espresso Debt Outstanding,long_term_liabilities,false,null,liab_espresso,31,,false,EspressoDebtOutstanding,liability
+124,2100,Deferred Revenue,Deferred Revenue,current_liabilities,false,null,liab_deferred_rev,28,,false,DeferredRevenue,liability
+125,2150,Other Current Liabilities,Other Current Liabilities,current_liabilities,false,null,liab_other_cur,29,,false,OtherCurrentLiabilities,liability
+122,2000,Accounts Payable and Accrued Liabilities,Accounts Payable and Accrued Liabilities,current_liabilities,false,null,liab_ap,26,,false,AccountsPayableAndAccruedLiabilities,liability
+106,6699,EBITDA,EBITDA,income,true,gross_profit - exp_operating_expenses,ebitda,10,,true,Ebitda,abstract
+112,6900,Net Income,Net Income,income,true,ebitda - exp_interest - exp_sred - exp_grants - exp_dep_amort - exp_other,net_income,16,,true,NetIncome,abstract
+101,5999,Gross Profit,Gross Profit,income,true,rev_total - exp_cogs,gross_profit,5,,true,GrossProfit,abstract
+99,4900,Total Revenues,Total Revenues,revenue,true,rev_nonrecurring + rev_recurring,rev_total,3,,true,TotalRevenue,abstract
+121,1999,Total Assets,Total Assets,total_assets,true,asset_tot_cur + asset_fixed + asset_intangible + asset_other_lt,asset_total,25,,true,TotalAssets,abstract
+105,6400,Total Operating Expenses,Total Operating Expenses,expense,true,exp_sales + exp_randd + exp_ganda,exp_operating_expenses,9,,true,TotalOperatingExpenses,abstract
+136,3900,Retained Earnings (Loss),Retained Earnings (Loss),equity,false,null,equity_retained_earnings,40,,false,RetainedEarningsLoss,equity
+134,3100,Minority Equity Position,Minority Equity Position,equity,false,null,equity_minority_position,38,,false,MinorityEquityPosition,equity
+135,3200,Equity Portion of LT Debt,Equity Portion of LT Debt,equity,false,null,equity_liab_portion,39,,false,EquityPositionOfLTDebt,equity
+133,3000,Share Capital and Contributed Capital,Share Capital and Contributed Capital,equity,false,null,equity_share_capital,37,,false,ShareAndContributedCapital,equity
+130,2800,Shareholder Loans,Shareholder Loans,long_term_liabilities,false,null,liab_shareholder_loans,34,,false,ShareholderLoans,liability
+131,2900,Other Liabilities,Other Liabilities,long_term_liabilities,false,null,liab_other_lt,35,,false,OtherLiabilities,liability
+128,2600,Senior Secured Debt,Senior Secured Debt (to Espresso),long_term_liabilities,false,null,liab_senior,32,,false,SeniorSecuredDebt,liability
+129,2700,Subordinated Debt,Subordinated Debt (to Espresso),long_term_liabilities,false,null,liab_subordinate,33,,false,SubordinatedDebt,liability
+110,6730,Depreciation & Amortization,Depreciation & Amortization,expense,false,null,exp_dep_amort,14,,false,DepreciationAndAmortization,expense
+111,6740,Other Income (Expenses),Other Income (Expenses),expense,false,null,exp_other,15,,false,OtherIncomeExpenses,expense
+98,4500,Recurring Revenues,Recurring Revenues,revenue,false,null,rev_recurring,2,,false,RecurringRevenues,income
+97,4000,Non-Recurring Revenues,Non-Recurring Revenues,revenue,false,null,rev_nonrecurring,1,,false,NonRecurringRevenues,income
+123,2050,Bank Debt,Bank Debt,current_liabilities,false,null,liab_bank_debt,27,,false,BankDebt,liability
+120,1700,Other Assets,Other Assets,long_term_asset,false,null,asset_other_lt,24,,false,OtherAssets,asset
+118,1500,Fixed Assets,Fixed Assets,long_term_asset,false,null,asset_fixed,22,,false,FixedAssets,asset
+119,1600,Patents & Intangible Assets,Patents & Intangible Assets,long_term_asset,false,null,asset_intangible,23,,false,PatentsAndIntangibleAssets,asset
+116,1200,Other Current Assets,Other Current Assets,current_asset,false,null,asset_other_cur,20,,false,OtherCurrentAssets,asset
+114,1100,Accounts Receivables,Accounts Receivables,current_asset,false,null,asset_ar,18,,false,AccountReceivables,asset
+113,1000,Cash,Cash,cash,false,null,asset_cash,17,,false,Cash,asset
+115,1150,Tax Credit Receivable,Tax Credit Receivable,current_asset,false,null,asset_itc,19,,false,SREDReceivable,asset
+108,6710,SR&ED,SR&ED,expense,false,null,exp_sred,12,,false,SREDAccrual,expense
+109,6720,IRAP/Grants Received,IRAP/Grants Received,expense,false,null,exp_grants,13,,false,IRAPGrantsReceived,expense
+137,3998,Total Equity,Total Equity,equity,true,equity_share_capital + equity_minority_position + equity_liab_portion + equity_retained_earnings,equity_total,42,,true,TotalEquity,abstract
+117,1499,Total Current Assets,Total Current Assets,current_asset,true,asset_cash + asset_ar + asset_itc + asset_other_cur,asset_tot_cur,21,,true,TotalCurrentAssets,abstract
+138,3999,Total L&E,Total L&E,total_liabilities_equity,true,equity_total + liab_total,equity_liab_total,43,,true,TotalLiabilityAndEquity,abstract
+139,3997,Net Income YTD,Net Income Year to Date,income,true,,net_income_ytd,41,,false,NetIncomeYTD,abstract
+132,2999,Total Liabilities,Total Liabilities,liabilities,true,liab_tot_cur + liab_espresso + liab_senior + liab_subordinate + liab_shareholder_loans + liab_other_lt,liab_total,36,,true,TotalLiabilities,abstract

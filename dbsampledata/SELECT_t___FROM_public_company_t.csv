@@ -1,0 +1,6 @@
+id,name,external_id,default_currency,website,employee_count,accounting_type
+1,Developers,X002SKSKD,CAD,http://ec-portal-backend.herokuapp.com/,13,Quickbooks
+3,Espresso Capital,XPRESSO,CAD,http://www.espressocapital.com,20,Quickbooks
+2,Test Comp,SI3OIJKEKJ2E,CAD,http://ec-portal-backend.com/,5,Quickbooks
+4,Extreme Innovations,1123581321,CAD,http://extremeinnovations.com/,50,Quickbooks
+6,New Name Company,ABC123,CAD,https://en.wikipedia.org/wiki/Unit_testing,1,Quickbooks

@@ -1,0 +1,95 @@
+id,cust_account_id,cust_account_name,espresso_account_id,espresso_account_name,company_id
+140,33,Accumulated Depreciation,1500,Fixed Assets,1
+141,3,Advertising,6300,G&A,1
+144,30,Billable Expense Income,4000,Non-Recurring Revenues,1
+145,35,Billable Expenses Income,4000,Non-Recurring Revenues,1
+146,36,Business Licenses and Permits,6300,G&A,1
+147,37,Charitable Contributions,6300,G&A,1
+148,38,Chequing,1000,Cash,1
+149,39,Commission Income,4000,Non-Recurring Revenues,1
+150,5,Commissions and fees,6300,G&A,1
+151,40,Commissions Paid,5000,Cost of Goods Sold,1
+152,41,Computer and Internet Expenses,6300,G&A,1
+180,11,Meals and entertainment,6300,G&A,1
+181,56,Merchant Account Fees,5000,Cost of Goods Sold,1
+182,12,Miscellaneous,6740,Other Income (Expenses),1
+184,13,Office expenses,6300,G&A,1
+185,58,Opening Balance Equity,3000,Share Capital and Contributed Capital,1
+188,80,Owner's Equity - Contributions,3000,Share Capital and Contributed Capital,1
+189,81,Owner's Equity - Draws,3000,Share Capital and Contributed Capital,1
+190,15,Penalties and settlements,6740,Other Income (Expenses),1
+191,16,Prepaid expenses,1200,Other Current Assets,1
+193,61,Printing and Reproduction,6300,G&A,1
+199,19,Rent or lease payments,6300,G&A,1
+202,65,Sales,4000,Non-Recurring Revenues,1
+203,66,Sales Discounts,4000,Non-Recurring Revenues,1
+204,67,Sales of Product Income,4000,Non-Recurring Revenues,1
+207,68,Subcontracted Services,6300,G&A,1
+208,22,Supplies,6300,G&A,1
+210,23,Taxes and Licenses,6300,G&A,1
+153,42,Continuing Education,6300,G&A,1
+154,84,Cost of Goods Sold,5000,Cost of Goods Sold,1
+171,53,Insurance Expense-Life and Disability Insurance,6300,G&A,1
+172,9,Interest earned,6740,Other Income (Expenses),1
+173,89,Interest expense,6300,G&A,1
+178,10,Legal and professional fees,6300,G&A,1
+179,29,Markup,4000,Non-Recurring Revenues,1
+209,69,Taxes - Property,6300,G&A,1
+211,70,Telephone Expense,6300,G&A,1
+212,24,Travel,6300,G&A,1
+213,71,Travel Expense,6300,G&A,1
+214,25,Travel meals,6300,G&A,1
+186,14,Other Portfolio Income,6740,Other Income (Expenses),1
+187,59,Owner's Equity,3000,Share Capital and Contributed Capital,1
+200,20,Repair and maintenance,6300,G&A,1
+201,2,Retained Earnings,3000,Share Capital and Contributed Capital,1
+205,1,Services,4000,Non-Recurring Revenues,1
+206,21,Stationery and printing,6300,G&A,1
+136,31,Accounts Payable,2000,Accounts Payable and Accrued Liabilities,1
+137,90,Accounts Payable (A/P) - HKD,2000,Accounts Payable and Accrued Liabilities,1
+138,32,Accounts Receivable,1100,Accounts Receivables,1
+139,92,Accounts Receivable (A/R) - USD,1100,Accounts Receivables,1
+142,34,Ask My Accountant,6740,Other Income (Expenses),1
+143,4,Bank charges,6300,G&A,1
+183,57,Note Payable,2900,Other Liabilities,1
+215,72,Unapplied Cash Bill Payment Expense,6300,G&A,1
+216,73,Unapplied Cash Payment Income,4000,Non-Recurring Revenues,1
+217,74,Uncategorised Asset,1200,Other Current Assets,1
+218,75,Uncategorised Expense,6300,G&A,1
+219,76,Uncategorised Income,4000,Non-Recurring Revenues,1
+220,93,Uncategorized Asset,1200,Other Current Assets,1
+221,95,Uncategorized Expense,6300,G&A,1
+222,94,Uncategorized Income,4000,Non-Recurring Revenues,1
+223,26,Undeposited Funds,1200,Other Current Assets,1
+224,27,Utilities,6300,G&A,1
+225,82,Utilities - Electric & Gas,6300,G&A,1
+226,83,Utilities - Water,6300,G&A,1
+227,77,Vehicles,1500,Fixed Assets,1
+192,60,Printed Materials purchased for clients,5000,Cost of Goods Sold,1
+194,62,Professional Fees,6300,G&A,1
+195,17,Promotional,6300,G&A,1
+196,63,Purchases,6300,G&A,1
+197,18,Refunds-Allowances,4000,Non-Recurring Revenues,1
+198,64,Rent Expense,6300,G&A,1
+155,43,Cost of sales,5000,Cost of Goods Sold,1
+156,44,Cost of Sales - billable expenses,5000,Cost of Goods Sold,1
+157,45,Depreciation Expense,6740,Other Income (Expenses),1
+158,28,Discounts given,4000,Non-Recurring Revenues,1
+159,6,Dues and Subscriptions,6300,G&A,1
+160,46,Entertainment Booking Fees paid on behalf of clients,5000,Cost of Goods Sold,1
+161,47,Equipment rental,6300,G&A,1
+162,48,Exchange Gain or Loss,6740,Other Income (Expenses),1
+163,7,Fees Billed,4000,Non-Recurring Revenues,1
+164,49,Furniture and Equipment,1500,Fixed Assets,1
+165,86,GST/HST Payable,2150,Other Current Liabilities,1
+166,87,GST/HST Suspense,2150,Other Current Liabilities,1
+167,8,Insurance,6300,G&A,1
+168,50,Insurance Expense,6300,G&A,1
+169,51,Insurance Expense-General Liability Insurance,6300,G&A,1
+170,52,Insurance Expense-Health Insurance,6300,G&A,1
+174,85,Inventory Asset,1200,Other Current Assets,1
+175,88,Inventory Shrinkage,5000,Cost of Goods Sold,1
+176,91,Janitorial Expense,6300,G&A,1
+177,55,Leasehold Improvements,1500,Fixed Assets,1
+228,78,Venue Fees paid on behalf of clients,5000,Cost of Goods Sold,1
+229,79,Visa Credit Card,2000,Accounts Payable and Accrued Liabilities,1

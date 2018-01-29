@@ -1,0 +1,3 @@
+Django-filters
+http://django-filter.readthedocs.io/en/develop/guide/rest_framework.html
+

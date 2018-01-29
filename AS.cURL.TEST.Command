@@ -1,0 +1,1 @@
+curl -i -X POST -H "Content-Type: application/json" -H "Authorization: user1:Password@1" -H "Accept: application/json" --data-binary "@AS.Request.Sample.json" --proxy http://fixie:40NHGHaz4KQBNC0@velodrome.usefixie.com:80 --insecure https://35.182.97.52:7889/EspressoAPI/espressoSAVE

@@ -1,0 +1,43 @@
+tag_id,name,short_label,description,tag_category,abstract,formula,sort_order
+4000,rev_nonrecurring,Non-Recurring Revenues,Non-Recurring Revenues,revenue,FALSE,#N/A,1
+4500,rev_recurring,Recurring Revenues,Recurring Revenues,revenue,FALSE,#N/A,2
+0,rev_total,Total Revenues,Total Revenues,revenue,TRUE,rev_nonrecurring + rev_recurring,3
+5000,exp_cogs,Cost of Goods Sold,Cost of Goods Sold,expense,FALSE,#N/A,4
+0,gross_profit,Gross Profit,Gross Profit,income,TRUE,rev_total - exp_cogs,5
+6100,exp_sales,Sales and Marketing Expenses,Sales and Marketing Expenses,expense,FALSE,#N/A,6
+6200,exp_randd,R&D (Gross - excluding SRED),R&D (Gross - excluding SRED),expense,FALSE,#N/A,7
+6300,exp_ganda,G&A,G&A,expense,FALSE,#N/A,8
+6400,exp_operating_expenses,Total Operating Expenses,Total Operating Expenses,expense,TRUE,exp_sales + exp_randd + exp_ganda,9
+0,ebitda,EBITDA,EBITDA,income,TRUE,gross_profit - exp_operating_expenses,10
+6700,exp_interest,Interest Income (Expense),Interest Income (Expense),expense,FALSE,#N/A,11
+6710,exp_sred,SRED,SRED,expense,FALSE,#N/A,12
+6720,exp_grants,IRAP/Grants Received,IRAP/Grants Received,expense,FALSE,#N/A,13
+6730,exp_dep_amort,Depreciation & Amortization,Depreciation & Amortization,expense,FALSE,#N/A,14
+6740,exp_other,Other Income (Expenses),Other Income (Expenses),expense,FALSE,#N/A,15
+0,net_income,Net Income,Net Income,income,TRUE,ebitda - exp_interest - exp_sred - exp_grants - exp_dep_amort - exp_other,16
+1000,asset_cash,Cash,Cash,cash,FALSE,#N/A,17
+1100,asset_ar,Accounts Receivables,Accounts Receivables,current_asset,FALSE,#N/A,18
+1150,asset_itc,SRED/ITC Receivable,SRED/ITC Receivable,current_asset,FALSE,#N/A,19
+1200,asset_other_cur,Other Current Assets,Other Current Assets,current_asset,FALSE,#N/A,20
+0,asset_tot_cur,Total Current Assets,Total Current Assets,current_asset,TRUE,asset_cash + asset_ar + asset_itc + asset_other_cur,21
+1500,asset_fixed,Fixed Assets,Fixed Assets,long_term_asset,FALSE,#N/A,22
+1600,asset_intangible,Patents & Intangible Assets,Patents & Intangible Assets,long_term_asset,FALSE,#N/A,23
+1700,asset_other_lt,Other Assets,Other Assets,long_term_asset,FALSE,#N/A,24
+0,asset_total,Total Assets,Total Assets,total_assets,TRUE,asset_tot_cur + asset_fixed + asset_intangible + asset_other_lt,25
+2000,liab_ap,Accounts Payable and Accrued Liabilities,Accounts Payable and Accrued Liabilities,current_liabilities,FALSE,#N/A,26
+2050,liab_bank_debt,Bank Debt,Bank Debt,current_liabilities,FALSE,#N/A,27
+2100,liab_deferred_rev,Deferred Revenue,Deferred Revenue,current_liabilities,FALSE,#N/A,28
+2150,liab_other_cur,Other Current Liabilities,Other Current Liabilities,current_liabilities,FALSE,#N/A,29
+0,liab_tot_cur,Total Current Liabilities,Total Current Liabilities,current_liabilities,TRUE,liab_ap + liab_bank_debt + liab_deferred_rev + liab_other_cur,30
+2500,liab_espresso,Espresso Debt Outstanding,Espresso Debt Outstanding,long_term_liabilities,FALSE,#N/A,31
+2600,liab_senior,Senior Secured Debt,Senior Secured Debt (to Espresso),long_term_liabilities,FALSE,#N/A,32
+2700,liab_subordinate,Subordinated Debt,Subordinated Debt (to Espresso),long_term_liabilities,FALSE,#N/A,33
+2800,liab_shareholder_loans,Shareholder Loans,Shareholder Loans,long_term_liabilities,FALSE,#N/A,34
+2900,liab_other_lt,Other Liabilities,Other Liabilities,long_term_liabilities,FALSE,#N/A,35
+0,liab_total,Total Liabilities,Total Liabilities,liabilities,TRUE,liab_tot_cur + liab_espresso + liab_senior + liab_subordinate + liab_shareholder_loans + liab_other_lt,36
+3000,equity_share_capital,Share Capital and Contributed Capital,Share Capital and Contributed Capital,equity,FALSE,#N/A,37
+3100,equity_minority_position,Minority Equity Position,Minority Equity Position,equity,FALSE,#N/A,38
+3200,equity_liab_portion,Equity Portion of LT Debt,Equity Portion of LT Debt,equity,FALSE,#N/A,39
+3900,equity_retained_earnings,Retained Earnings (Loss),Retained Earnings (Loss),equity,FALSE,#N/A,40
+0,equity_total,Total Equity,Total Equity,equity,TRUE,equity_share_capital + equity_minority_position + equity_liab_portion + equity_retained_earnings,41
+0,equity_liab_total,Total L&E,Total L&E,total_liabilities_equity,TRUE,equity_total + liab_total,42

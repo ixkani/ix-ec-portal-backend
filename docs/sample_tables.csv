@@ -1,0 +1,16 @@
+software,account_category,default_map_id,default_map_name
+quickbooks,Bank,1000,Cash
+quickbooks,Accounts Receivable,1100,Accounts Receivables
+quickbooks,Other Current Asset,1200,Other Current Assets
+quickbooks,Fixed Asset,1500,Fixed Assets
+quickbooks,Other Asset,1700,Other Assets
+quickbooks,Accounts Payable,2000,Accounts Payable and Accrued Liabilities
+quickbooks,Credit Card,2000,Accounts Payable and Accrued Liabilities
+quickbooks,Other Current Liability,2150,Other Current Liabilities
+quickbooks,Long Term Liability,2900,Other Liabilities
+quickbooks,Equity,3000,Share Capital and Contributed Capital
+quickbooks,Income,4000,Non-Recurring Revenues
+quickbooks,Cost of Goods Sold,5000,Cost of Goods Sold
+quickbooks,Expense,6300,G&A
+quickbooks,Other Income,6740,Other Income (Expenses)
+quickbooks,Other Expense,6740,Other Income (Expenses)

@@ -1,0 +1,20 @@
+#!/usr/bin/python3.6
+import os, base64, json, requests, time
+auth_header = 'Basic ' + base64.b64encode(bytes('user1:Password@1', 'utf-8')).decode()
+headers = {'Accept': 'application/json', 'content-type': 'application/json', 'Authorization': auth_header}
+proxydict = {"http": 'http://fixie:40NHGHaz4KQBNC0@velodrome.usefixie.com:80', "https": 'http://fixie:40NHGHaz4KQBNC0@velodrome.usefixie.com:80'}
+endpoint = 'https://35.182.97.52:7889/EspressoAPI/espressoSAVE'
+
+data = ''
+
+with open('AS.SAVE.Request.Sample') as json_data:
+   data = json.load(json_data)
+
+st = time.time()
+r = requests.post(endpoint, data=json.dumps(data), headers=headers, proxies=proxydict, verify=False)
+print('{:.2f}s WITH Proxy '.format(time.time()-st))
+
+st = time.time()
+r = requests.post(endpoint, data=json.dumps(data), headers=headers, verify=False)
+print('{:.2f}s NO Proxy'.format(time.time()-st))
+

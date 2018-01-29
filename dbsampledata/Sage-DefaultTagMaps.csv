@@ -1,0 +1,32 @@
+software,account_category,default_map_id,default_map_name
+Sage,Bank,1000,Cash
+Sage,Accounts Receivable,1100,Accounts Receivables
+Sage,Allowance for Bad Debts,1100,Accounts Receivables
+Sage,Inventory,1200,Other Current Assets
+Sage,Other Current Asset,1200,Other Current Assets
+Sage,Other Non-Current Asset,1700,Other Assets
+Sage,Capital Asset,1500,Fixed Assets
+Sage,Accum. Amort. & Depreciation,1500,Fixed Assets
+Sage,Accounts Payable,2000,Accounts Payable and Accrued Liabilities
+Sage,Payroll Tax Payable,2000,Accounts Payable and Accrued Liabilities
+Sage,Employee Deductions Payable,2000,Accounts Payable and Accrued Liabilities
+Sage,Other Payable,2150,Other Current Liabilities
+Sage,Sales Tax Payable,2000,Accounts Payable and Accrued Liabilities
+Sage,Other Current Liability,2150,Other Current Liabilities
+Sage,Short Term Debt,2150,Other Current Liabilities
+Sage,Debt,2900,Other Liabilities
+Sage,Income Tax Payable,2900,Other Liabilities
+Sage,Long Term Debt,2900,Other Liabilities
+Sage,Long Term Liability,2900,Other Liabilities
+Sage,Share Capital,3000,Share Capital and Contributed Capital
+Sage,Equity,3000,Share Capital and Contributed Capital
+Sage,Retained Earnings,3000,Share Capital and Contributed Capital
+Sage,Current Earnings,3000,Share Capital and Contributed Capital
+Sage,Revenue,4000,Non-Recurring Revenues
+Sage,Cost of Goods Sold,5000,Cost of Goods Sold
+Sage,Payroll Expense,6300,G&A
+Sage,General & Admin. Expense,6300,G&A
+Sage,Operating Expense,6300,G&A
+Sage,Amort./Depreciation Expense,6740,Other Income (Expenses)
+Sage,Interest Expense,6740,Other Income (Expenses)
+Sage,Non-Operating Expense,6740,Other Income (Expenses)

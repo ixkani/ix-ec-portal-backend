@@ -1,0 +1,6 @@
+id,status,period_ending,due_date,submitted_on,lookup_period,company_id
+2,Complete,2017-08-31,2017-08-31,2017-08-31,2017-08,6
+3,Over Due,2017-07-30,2017-07-30,,2017-07,6
+4,In Progress,2017-06-30,2017-06-30,,2017-06,6
+1,Complete,2017-09-30,2017-09-30,2017-08-31,2017-09,6
+5,In Progress,2017-08-31,2017-08-31,,2017-08,1

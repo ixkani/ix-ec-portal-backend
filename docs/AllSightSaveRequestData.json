@@ -1,0 +1,44 @@
+{
+    "SourceName": "CustomerProfile",
+    "SourceKey": "Prabhu3",
+    "Model": {
+        "Financials": {
+
+            "CustomerTrialBalance": [{
+                    "Period": "2016-01",
+                    "RecordedTimestamp": "2017-07-21 10:44:20.468000",
+                    "Version": "1",
+                    "CustomerTrialBalanceItem": [{
+                            "AccountId": "123456",
+                            "AccountName": "Accounts Receivables",
+                            "CreditAmount": "310",
+                            "DebitAmount": "123"
+                        },
+                        {
+                            "AccountId": "9565341",
+                            "AccountName": "Accounts Receivables",
+                            "CreditAmount": "200",
+                            "DebitAmount": "180"
+                        }
+                    ]
+                }
+            ],
+
+            "CustomerAccount": [
+            {
+              "AccountId": "1001",
+              "AccountName": "Chequing",
+              "AccountCategory": "Current Asset"
+            }],
+
+            "CustomerAccountMapping": [{
+                    "FromAccountId": "123456",
+                    "FromAccountName": "Accounts Receivable",
+                    "ToAccountId": "1000",
+                    "ToAccountName": "Cash"
+                }
+            ]
+
+        }
+    }
+}

@@ -1,0 +1,11 @@
+# PRODUCTION QBO
+DISCOVERY_DOCUMENT = 'https://developer.api.intuit.com/.well-known/openid_configuration'
+CLIENT_ID = 'Q0QFtj1sObYh7cTRfjfTKPNZWvRxpfatpFfmBcVXgtGJqgYat5'
+CLIENT_SECRET = 'BIVsJw6GDLzXjTrtlZ1ojLruR4Q2uWKSJWzblLP7'
+QBO_BASEURL = 'https://quickbooks.api.intuit.com'
+
+# SANDBOX QBO
+DISCOVERY_DOCUMENT = 'https://developer.api.intuit.com/.well-known/openid_sandbox_configuration/'
+CLIENT_ID = 'Q0UiG1tR7U0AKACCX6hdsusfO3jESCD7I48GO3afqK3yXFO43I'
+CLIENT_SECRET = 'R30D0n8KCJjmXFoCX6e33SjZl927LbFcsNhpleOW'
+QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'

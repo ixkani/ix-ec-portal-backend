@@ -1,0 +1,16 @@
+id	gl_account_name	debit	credit	company_id	period	currency	gl_account_id
+2	Chequing	21095.57	0.00	1	2017-08-31	CAD	38
+3	Accounts Receivable	18402.04	0.00	1	2017-08-31	CAD	32
+4	Inventory Asset	7781.91	0.00	1	2017-08-31	CAD	85
+5	Accumulated Depreciation	0.00	0.00	1	2017-08-31	CAD	33
+6	Furniture and Equipment	2750.00	0.00	1	2017-08-31	CAD	49
+7	Accounts Payable	0.00	0.00	1	2017-08-31	CAD	31
+8	Accounts Payable (A/P) - HKD	0.00	0.00	1	2017-08-31	CAD	90
+9	Visa Credit Card	0.00	0.00	1	2017-08-31	CAD	79
+10	GST/HST Payable	23.23	0.00	1	2017-08-31	CAD	86
+11	GST/HST Suspense	0.00	0.00	1	2017-08-31	CAD	87
+12	Note Payable	0.00	0.00	1	2017-08-31	CAD	57
+13	Opening Balance Equity	0.00	0.00	1	2017-08-31	CAD	58
+14	Owner's Equity - Contributions	0.00	0.00	1	2017-08-31	CAD	80
+15	Owner's Equity - Draws	2000.00	0.00	1	2017-08-31	CAD	81
+16	Retained Earnings	0.00	0.00	1	2017-08-31	CAD	2

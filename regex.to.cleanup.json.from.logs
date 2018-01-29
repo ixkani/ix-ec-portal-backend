@@ -1,0 +1,4 @@
+# replace the date with current date
+2017-12-14.*app.web.1.: 
+
+'(.[^'"]*)'

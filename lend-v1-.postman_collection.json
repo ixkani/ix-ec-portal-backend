@@ -1,0 +1,1961 @@
+{
+	"info": {
+		"name": "/lend/v1/",
+		"_postman_id": "984ae802-0071-4724-212b-abbc48caaedb",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"description": "",
+			"item": [
+				{
+					"name": "user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/user/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						},
+						"description": "Lists all users"
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"cxclename\",\r\n  \"first_name\": \"firstname\",\r\n  \"last_name\": \"lastname\",\r\n  \"email\": \"email@email.com\",\r\n  \"company\": 24,\r\n  \"password\": \"password\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/user/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						},
+						"description": "Creates a new user"
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"newuser\",\r\n    \"company\": 19,\r\n    \"first_name\": \"New\",\r\n    \"last_name\": \"User\",\r\n    \"email\": \"newuser@espressocapital.com\",\r\n    \"password\": \"password123\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/user/{{user_id}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_id}}",
+								""
+							]
+						},
+						"description": "Gets a user instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Pille\",\r\n    \"last_name\": \"Dheeraj\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/user/{{user_id}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_id}}",
+								""
+							]
+						},
+						"description": "Updates a user instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"updated_first\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/user/{{user_id}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_id}}",
+								""
+							]
+						},
+						"description": "Deletes a user instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "user/me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/user/me/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"me",
+								""
+							]
+						},
+						"description": "Returns data of user making request"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "company",
+			"description": "",
+			"item": [
+				{
+					"name": "company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								""
+							]
+						},
+						"description": "Lists all companies"
+					},
+					"response": []
+				},
+				{
+					"name": "company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Billy\",\r\n  \"external_id\": \"Joel\",\r\n  \"default_currency\": \"USD\",\r\n  \"website\": \"www.pianoman.com\",\r\n  \"employee_count\": 123,\r\n  \"accounting_type\": \"Quickbooks\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								""
+							]
+						},
+						"description": "Creates a new company"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								""
+							]
+						},
+						"description": "Gets a company instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Disney\",\n  \"external_id\": 121\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								""
+							]
+						},
+						"description": "Updates a company instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								""
+							]
+						},
+						"description": "Deletes a company instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/companymeta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/companymeta/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"companymeta",
+								""
+							]
+						},
+						"description": "Gets a company metadata instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/companymeta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reporting_connection_type\": \"Quickbooks Online\",\r\n  \"last_reporting_period\": \"2017-08-31\",\r\n  \"qb_connect_desktop_version\": \"11.3\",\r\n  \"monthly_reporting_last_step\": 3,\r\n  \"qbo_auth_token\": \"123145731980132\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/companymeta/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"companymeta",
+								""
+							]
+						},
+						"description": "Creates a company metadata instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/companymeta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"monthly_reporting_sync_method\": null,\n    \"monthly_reporting_current_period\": \"2016-01-31\",\n    \"monthly_reporting_next_period\": \"2016-02-29\",\n    \"monthly_reporting_current_period_status\": null,\n    \"qb_connect_desktop_version\": null,\n    \"monthly_reporting_last_step\": null,\n    \"accounting_setup_status\": \"NOT_STARTED\",\n    \"last_page\": \"/intro\",\n    \"is_initial_setup\": true,\n    \"trialbalance_dl_complete\": true,\n    \"qb_desktop_installed\": false,\n    \"chartofaccounts_last_refresh_date\": null,\n    \"trialbalance_last_refresh_date\": null\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/companymeta/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"companymeta",
+								""
+							]
+						},
+						"description": "Updates a company metadata instance by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								""
+							]
+						},
+						"description": "Lists all monthly reports for a specified company"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"In Progress\",\r\n    \"period_ending\": \"2017-06-30\",\r\n    \"due_date\": \"2017-06-30\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								""
+							]
+						},
+						"description": "Creates a monthly report for a specified company"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/{{date}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"{{date}}",
+								""
+							]
+						},
+						"description": "Creates a company's monthly report instance, monthly report period, or monthly report ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Complete\",\n  \"period_ending\": \"2017-09-30\",\n  \"due_date\": \"2017-10-31\",\n  \"company_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/{{date}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"{{date}}",
+								""
+							]
+						},
+						"description": "Updates a company's monthly report instance, monthly report period, or monthly report ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/{{date}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"{{date}}",
+								""
+							]
+						},
+						"description": "Deletes a company's monthly report instance, monthly report period, or monthly report ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}/signoff",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"Complete\",\r\n    \"period_ending\": \"2015-10-31\",\r\n    \"due_date\": \"2015-10-31\",\r\n    \"submitted_on\": null,\r\n    \"lookup_period\": \"2015-10\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/2015-10/signoff/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"2015-10",
+								"signoff",
+								""
+							]
+						},
+						"description": "Signs the status of the monthly report off"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}/status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/{{date}}/status/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"{{date}}",
+								"status",
+								""
+							]
+						},
+						"description": "Gets a company's monthly report status by company ID, monthy report period, or monthly report ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}/questionnaire",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/{{date}}/questionnaire/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"{{date}}",
+								"questionnaire",
+								""
+							]
+						},
+						"description": "Gets a company's questionnaire for the period"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/monthlyreport/{YYYY-MM}/questionnaire",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\r\n    \"question\": 1,\r\n    \"answer\": \"No\"\r\n  },\r\n  {\r\n    \"question\": 2,\r\n    \"answer\": \"Yes\"\r\n  }, {\r\n    \"question\": 3,\r\n    \"answer\": \"We had to relieve our CFO of his duties and hire a new one\"\r\n  }, {\r\n    \"question\": 4,\r\n    \"answer\": \"No\"\r\n  }, {\r\n    \"question\": 5,\r\n    \"answer\": \"We are behind a month with our obligations\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/monthlyreport/{{date}}/questionnaire/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"monthlyreport",
+								"{{date}}",
+								"questionnaire",
+								""
+							]
+						},
+						"description": "Creates a company's questionnaire for a given period"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/trialbalance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/trialbalance/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"trialbalance",
+								""
+							]
+						},
+						"description": "Gets trial balance from QuickBooks and writes to database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/trialbalance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Header\": {\r\n    \"Time\": \"2016-03-14T10:11:07-07:00\",\r\n    \"ReportName\": \"TrialBalance\",\r\n    \"DateMacro\": \"this month-to-date\",\r\n    \"ReportBasis\": \"Accrual\",\r\n    \"StartPeriod\": \"2016-03-01\",\r\n    \"EndPeriod\": \"2016-03-14\",\r\n    \"Currency\": \"USD\",\r\n    \"Option\": [\r\n      {\r\n        \"Name\": \"NoReportData\",\r\n        \"Value\": \"false\"\r\n      }\r\n    ]\r\n  },\r\n  \"Columns\": {\r\n    \"Column\": [\r\n      {\r\n        \"ColTitle\": \"\",\r\n        \"ColType\": \"Account\"\r\n      },\r\n      {\r\n        \"ColTitle\": \"Debit\",\r\n        \"ColType\": \"Money\"\r\n      },\r\n      {\r\n        \"ColTitle\": \"Credit\",\r\n        \"ColType\": \"Money\"\r\n      }\r\n    ]\r\n  },\r\n  \"Rows\": {\r\n    \"Row\": [\r\n      {\r\n        \"ColData\": [\r\n          {\r\n            \"value\": \"Checking\",\r\n            \"id\": \"35\"\r\n          },\r\n          {\r\n            \"value\": \"4151.74\"\r\n          },\r\n          {\r\n            \"value\": \"\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"ColData\": [\r\n          {\r\n            \"value\": \"Meals and Entertainment\",\r\n            \"id\": \"13\"\r\n          },\r\n          {\r\n            \"value\": \"\"\r\n          },\r\n          {\r\n            \"value\": \"46.00\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"ColData\": [\r\n          {\r\n            \"value\": \"QuickBooks Payments Fees\",\r\n            \"id\": \"93\"\r\n          },\r\n          {\r\n            \"value\": \"0.44\"\r\n          },\r\n          {\r\n            \"value\": \"\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"Summary\": {\r\n          \"ColData\": [\r\n            {\r\n              \"value\": \"TOTAL\"\r\n            },\r\n            {\r\n              \"value\": \"36587.47\"\r\n            },\r\n            {\r\n              \"value\": \"36587.47\"\r\n            }\r\n          ]\r\n        },\r\n        \"type\": \"Section\",\r\n        \"group\": \"GrandTotal\"\r\n      }\r\n    ]\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/trialbalance/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"trialbalance",
+								""
+							]
+						},
+						"description": "Creates trial balance from appropriate JSON request"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/trialbalance",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/trialbalance/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"trialbalance",
+								""
+							]
+						},
+						"description": "Deletes trial balance by company ID"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/balancesheet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/balancesheet/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"balancesheet",
+								""
+							]
+						},
+						"description": "Gets balance sheet entries from database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/balancesheet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"BalanceSheet\": [{\r\n        \"Period\": \"2017-08\",\r\n        \"TotalCurrentAssets\": 47279.52,\r\n        \"TotalAssets\": 50029.52,\r\n        \"TotalCurrentLiabilities\": -23.23,\r\n        \"TotalLiabilities\": -23.23,\r\n        \"TotalEquity\": -2000.0,\r\n        \"TotalLiabilityAndEquity\": -2023.23,\r\n        \"Cash\": 21095.57,\r\n        \"AccountReceivables\": 18402.04,\r\n        \"SREDReceivable\": 0.0,\r\n        \"OtherCurrentAssets\": 7781.91,\r\n        \"FixedAssets\": 2750.0,\r\n        \"PatentsAndIntangibleAssets\": 0.0,\r\n        \"OtherAssets\": 0.0,\r\n        \"AccountsPayableAndAccruedLiabilities\": 0.0,\r\n        \"BankDebt\": 0.0,\r\n        \"OtherCurrentLiabilities\": -23.23,\r\n        \"EspressoDebtOutstanding\": 0.0,\r\n        \"SeniorSecuredDebt\": 0.0,\r\n        \"SubordinatedDebt\": 0.0,\r\n        \"ShareholderLoans\": 0.0,\r\n        \"DeferredRevenue\": 0.0,\r\n        \"OtherLiabilities\": 0.0,\r\n        \"ShareAndContributedCapital\": -2000.0,\r\n        \"MinorityEquityPosition\": 0.0,\r\n        \"EquityPositionOfLTDebt\": 0.0,\r\n        \"RetainedEarningsLoss\": 0.0,\r\n        \"NetIncomeYTD\": 0.0,\r\n        \"CreatedTimestamp\": \"2017-08-29 18:07:03.659000\",\r\n        \"LastUpdatedTimestamp\": \"2017-08-31 18:09:30.284000\",\r\n        \"SourceName\": \"CustomerProfile\",\r\n        \"SourceKey\": \"Prabhu5\"\r\n      }]\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/balancesheet/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"balancesheet",
+								""
+							]
+						},
+						"description": "Parses balance sheet request to database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/balancesheet",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/balancesheet/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"balancesheet",
+								""
+							]
+						},
+						"description": "Deletes company's balance sheet from database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/chartofaccounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/chartofaccounts/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"chartofaccounts",
+								""
+							]
+						},
+						"description": "Gets chart of accounts from QuickBooks and writes to database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/chartofaccounts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"QueryResponse\": {\r\n    \"Account\": [{\r\n      \"Name\": \"Accounts Payable\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Accounts Payable\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Liability\",\r\n      \"AccountType\": \"Accounts Payable\",\r\n      \"AccountSubType\": \"AccountsPayable\",\r\n      \"CurrentBalance\": -734.51,\r\n      \"CurrentBalanceWithSubAccounts\": -734.51,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"31\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:10-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T00:10:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Accounts Payable (A/P) - HKD\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Accounts Payable (A/P) - HKD\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Liability\",\r\n      \"AccountType\": \"Accounts Payable\",\r\n      \"AccountSubType\": \"AccountsPayable\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"HKD\",\r\n        \"name\": \"Hong Kong Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"90\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T23:11:00-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T23:25:02-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Accounts Receivable\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Accounts Receivable\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Accounts Receivable\",\r\n      \"AccountSubType\": \"AccountsReceivable\",\r\n      \"CurrentBalance\": 18402.04,\r\n      \"CurrentBalanceWithSubAccounts\": 18402.04,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"32\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:10-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-24T09:12:10-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Accounts Receivable (A/R) - USD\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Accounts Receivable (A/R) - USD\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Accounts Receivable\",\r\n      \"AccountSubType\": \"AccountsReceivable\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"USD\",\r\n        \"name\": \"United States Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"92\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-23T01:15:09-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T01:15:09-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Accumulated Depreciation\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Accumulated Depreciation\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Fixed Asset\",\r\n      \"AccountSubType\": \"AccumulatedDepreciation\",\r\n      \"CurrentBalance\": -366.63,\r\n      \"CurrentBalanceWithSubAccounts\": -366.63,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"33\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:10-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-30T00:19:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Advertising\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Advertising\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"AdvertisingPromotional\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"3\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:21-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:21-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Ask My Accountant\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Ask My Accountant\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Other Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousExpense\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"34\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:10-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:10-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Bank charges\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Bank charges\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"BankCharges\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"4\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Billable Expense Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Billable Expense Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"ServiceFeeIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"30\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:17:25-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:17:25-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Billable Expenses Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Billable Expenses Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"OtherPrimaryIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"35\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Business Licenses and Permits\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Business Licenses and Permits\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"36\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Charitable Contributions\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Charitable Contributions\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"CharitableContributions\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"37\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Chequing\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Chequing\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Bank\",\r\n      \"AccountSubType\": \"Checking\",\r\n      \"CurrentBalance\": 21095.57,\r\n      \"CurrentBalanceWithSubAccounts\": 21095.57,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"38\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-24T09:12:10-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Commission Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Commission Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"OtherPrimaryIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"39\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Commissions and fees\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Commissions and fees\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"5\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Commissions Paid\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Commissions Paid\",\r\n      \"Active\": true,\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"40\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Computer and Internet Expenses\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Computer and Internet Expenses\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"41\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Continuing Education\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Continuing Education\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"42\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:11-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:11-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Cost of Goods Sold\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Cost of Goods Sold\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"AccountSubType\": \"SuppliesMaterialsCogs\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"84\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:50:26-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:50:26-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Cost of sales\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Cost of sales\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"AccountSubType\": \"SuppliesMaterialsCogs\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"43\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:12-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:12-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Cost of Sales - billable expenses\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Cost of Sales - billable expenses\",\r\n      \"Active\": true,\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"44\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:12-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:12-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Depreciation Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Depreciation Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Other Expense\",\r\n      \"AccountSubType\": \"Depreciation\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"45\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:12-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:12-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Discounts given\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Discounts given\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"DiscountsRefundsGiven\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"28\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:12:02-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:12:02-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Dues and Subscriptions\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Dues and Subscriptions\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"DuesSubscriptions\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"6\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Entertainment Booking Fees paid on behalf of clients\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Entertainment Booking Fees paid on behalf of clients\",\r\n      \"Active\": true,\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"46\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:12-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:12-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Equipment rental\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Equipment rental\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"EquipmentRental\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"47\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:12-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:12-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Exchange Gain or Loss\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Exchange Gain or Loss\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Other Expense\",\r\n      \"AccountSubType\": \"ExchangeGainOrLoss\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"48\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Fees Billed\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Fees Billed\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"OtherPrimaryIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"7\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Furniture and Equipment\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Furniture and Equipment\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Fixed Asset\",\r\n      \"AccountSubType\": \"FurnitureAndFixtures\",\r\n      \"CurrentBalance\": 2750.0,\r\n      \"CurrentBalanceWithSubAccounts\": 2750.0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"49\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T10:46:01-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"GST/HST Payable\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"GST/HST Payable\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Liability\",\r\n      \"AccountType\": \"Other Current Liability\",\r\n      \"AccountSubType\": \"GlobalTaxPayable\",\r\n      \"CurrentBalance\": 23.23,\r\n      \"CurrentBalanceWithSubAccounts\": 23.23,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"86\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:58:44-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-24T09:08:02-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"GST/HST Suspense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"GST/HST Suspense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Liability\",\r\n      \"AccountType\": \"Other Current Liability\",\r\n      \"AccountSubType\": \"GlobalTaxSuspense\",\r\n      \"CurrentBalance\": -340.69,\r\n      \"CurrentBalanceWithSubAccounts\": -340.69,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"87\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:58:44-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-21T15:13:50-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Insurance\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Insurance\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Insurance\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"8\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Insurance Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Insurance Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Insurance\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"50\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Insurance Expense-General Liability Insurance\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Insurance Expense-General Liability Insurance\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Insurance\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"51\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Insurance Expense-Health Insurance\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Insurance Expense-Health Insurance\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Insurance\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"52\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Insurance Expense-Life and Disability Insurance\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Insurance Expense-Life and Disability Insurance\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Insurance\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"53\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Interest earned\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Interest earned\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Other Income\",\r\n      \"AccountSubType\": \"InterestEarned\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"9\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Interest expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Interest expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"InterestPaid\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"89\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T23:09:01-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T23:09:01-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Inventory Asset\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Inventory Asset\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Other Current Asset\",\r\n      \"AccountSubType\": \"Inventory\",\r\n      \"CurrentBalance\": 7781.91,\r\n      \"CurrentBalanceWithSubAccounts\": 7781.91,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"85\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:50:27-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-24T09:08:02-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Inventory Shrinkage\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Inventory Shrinkage\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"AccountSubType\": \"SuppliesMaterialsCogs\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"88\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T23:02:00-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T23:02:00-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Janitorial Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Janitorial Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"91\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T23:58:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T23:58:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Leasehold Improvements\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Leasehold Improvements\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Fixed Asset\",\r\n      \"AccountSubType\": \"LeaseholdImprovements\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"55\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Legal and professional fees\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Legal and professional fees\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"LegalProfessionalFees\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"10\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Markup\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Markup\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"ServiceFeeIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"29\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:17:13-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:17:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Meals and entertainment\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Meals and entertainment\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"EntertainmentMeals\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"11\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Merchant Account Fees\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Merchant Account Fees\",\r\n      \"Active\": true,\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"56\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Miscellaneous\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Miscellaneous\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Other Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousExpense\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"12\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:22-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:22-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Note Payable\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Note Payable\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Liability\",\r\n      \"AccountType\": \"Long Term Liability\",\r\n      \"AccountSubType\": \"NotesPayable\",\r\n      \"CurrentBalance\": -20101.86,\r\n      \"CurrentBalanceWithSubAccounts\": -20101.86,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"57\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-24T08:58:13-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Office expenses\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Office expenses\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"SuppliesMaterials\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"13\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Opening Balance Equity\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Opening Balance Equity\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Equity\",\r\n      \"AccountType\": \"Equity\",\r\n      \"AccountSubType\": \"OpeningBalanceEquity\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"58\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-21T15:11:44-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Other Portfolio Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Other Portfolio Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Other Income\",\r\n      \"AccountSubType\": \"OtherInvestmentIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"14\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Owner's Equity \",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName \": \"Owner's Equity\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Equity\",\r\n      \"AccountType\": \"Equity\",\r\n      \"AccountSubType\": \"OwnersEquity\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"59\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Owner's Equity - Contributions \",\r\n      \"SubAccount \": false,\r\n      \"FullyQualifiedName \": \"Owner's Equity - Contributions\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Equity\",\r\n      \"AccountType\": \"Equity\",\r\n      \"AccountSubType\": \"OwnersEquity\",\r\n      \"CurrentBalance\": -12750.0,\r\n      \"CurrentBalanceWithSubAccounts\": -12750.0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"80\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:50:04-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T10:46:01-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Owner's Equity - Draws \",\r\n      \"SubAccount \": false,\r\n      \"FullyQualifiedName \": \"Owner's Equity - Draws\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Equity\",\r\n      \"AccountType\": \"Equity\",\r\n      \"AccountSubType\": \"OwnersEquity\",\r\n      \"CurrentBalance\": 2000.0,\r\n      \"CurrentBalanceWithSubAccounts\": 2000.0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"81\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:50:04-08:00\",\r\n        \"LastUpdatedTime\": \"2016-02-24T08:58:20-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Penalties and settlements\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Penalties and settlements\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Other Expense\",\r\n      \"AccountSubType\": \"PenaltiesSettlements\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"15\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Prepaid expenses\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Prepaid expenses\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Other Current Asset\",\r\n      \"AccountSubType\": \"PrepaidExpenses\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"16\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Printed Materials purchased for clients\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Printed Materials purchased for clients\",\r\n      \"Active\": true,\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"60\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Printing and Reproduction\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Printing and Reproduction\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"61\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Professional Fees\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Professional Fees\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"LegalProfessionalFees\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"62\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Promotional\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Promotional\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"PromotionalMeals\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"17\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Purchases\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Purchases\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"SuppliesMaterials\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"63\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Refunds-Allowances\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Refunds-Allowances\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"DiscountsRefundsGiven\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"18\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Rent Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Rent Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"RentOrLeaseOfBuildings\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"64\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:14-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:14-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Rent or lease payments\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Rent or lease payments\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"RentOrLeaseOfBuildings\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"19\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Repair and maintenance\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Repair and maintenance\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"RepairMaintenance\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"20\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:23-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:23-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Retained Earnings\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Retained Earnings\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Equity\",\r\n      \"AccountType\": \"Equity\",\r\n      \"AccountSubType\": \"RetainedEarnings\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"2\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T10:27:10-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T10:27:10-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Sales\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Sales\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"OtherPrimaryIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"65\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:15-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:15-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Sales Discounts\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Sales Discounts\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"DiscountsRefundsGiven\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"66\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:15-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:15-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Sales of Product Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Sales of Product Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"SalesOfProductIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"67\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:15-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:15-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Services\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Services\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"ServiceFeeIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"1\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T10:27:10-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T10:27:10-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Stationery and printing\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Stationery and printing\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"SuppliesMaterials\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"21\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Subcontracted Services\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Subcontracted Services\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"CostOfLabor\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"68\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:15-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:15-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Supplies\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Supplies\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"SuppliesMaterials\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"22\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Taxes - Property\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Taxes - Property\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"TaxesPaid\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"69\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:15-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:15-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Taxes and Licenses\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Taxes and Licenses\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"TaxesPaid\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"23\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Telephone Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Telephone Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"70\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:15-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:15-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Travel\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Travel\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"TravelMeals\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"24\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Travel Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Travel Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"TravelMeals\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"71\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Travel meals\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Travel meals\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"TravelMeals\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"25\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Unapplied Cash Bill Payment Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Unapplied Cash Bill Payment Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"UnappliedCashBillPaymentExpense\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"72\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Unapplied Cash Payment Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Unapplied Cash Payment Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"UnappliedCashPaymentIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"73\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Uncategorised Asset\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Uncategorised Asset\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Other Current Asset\",\r\n      \"AccountSubType\": \"OtherCurrentAssets\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"74\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Uncategorised Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Uncategorised Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"75\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Uncategorised Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Uncategorised Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"OtherPrimaryIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"76\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Uncategorized Asset\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Uncategorized Asset\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Other Current Asset\",\r\n      \"AccountSubType\": \"OtherCurrentAssets\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"93\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-23T12:04:25-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T12:04:26-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Uncategorized Expense\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Uncategorized Expense\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"OtherMiscellaneousServiceCost\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"95\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-23T12:27:54-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T12:27:54-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Uncategorized Income\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Uncategorized Income\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Revenue\",\r\n      \"AccountType\": \"Income\",\r\n      \"AccountSubType\": \"ServiceFeeIncome\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"94\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-23T12:27:53-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T12:27:53-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Undeposited Funds\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Undeposited Funds\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Other Current Asset\",\r\n      \"AccountSubType\": \"UndepositedFunds\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"26\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Utilities\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Utilities\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Utilities\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"27\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2015-12-18T11:22:24-08:00\",\r\n        \"LastUpdatedTime\": \"2015-12-18T11:22:24-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Utilities - Electric & Gas\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Utilities - Electric & Gas\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Utilities\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"82\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:50:04-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:50:04-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Utilities - Water\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Utilities - Water\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Expense\",\r\n      \"AccountType\": \"Expense\",\r\n      \"AccountSubType\": \"Utilities\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"83\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:50:04-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:50:04-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Vehicles\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Vehicles\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Asset\",\r\n      \"AccountType\": \"Fixed Asset\",\r\n      \"AccountSubType\": \"Vehicles\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"77\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Venue Fees paid on behalf of clients\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Venue Fees paid on behalf of clients\",\r\n      \"Active\": true,\r\n      \"AccountType\": \"Cost of Goods Sold\",\r\n      \"CurrentBalance\": 0,\r\n      \"CurrentBalanceWithSubAccounts\": 0,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"78\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-22T21:48:16-08:00\"\r\n      }\r\n    }, {\r\n      \"Name\": \"Visa Credit Card\",\r\n      \"SubAccount\": false,\r\n      \"FullyQualifiedName\": \"Visa Credit Card\",\r\n      \"Active\": true,\r\n      \"Classification\": \"Liability\",\r\n      \"AccountType\": \"Credit Card\",\r\n      \"AccountSubType\": \"CreditCard\",\r\n      \"CurrentBalance\": -2077.6,\r\n      \"CurrentBalanceWithSubAccounts\": -2077.6,\r\n      \"CurrencyRef\": {\r\n        \"value\": \"CAD\",\r\n        \"name\": \"Canadian Dollar\"\r\n      },\r\n      \"domain\": \"QBO\",\r\n      \"sparse\": false,\r\n      \"Id\": \"79\",\r\n      \"SyncToken\": \"0\",\r\n      \"MetaData\": {\r\n        \"CreateTime\": \"2016-01-22T21:48:16-08:00\",\r\n        \"LastUpdatedTime\": \"2016-01-23T11:58:50-08:00\"\r\n      }\r\n    }],\r\n    \"startPosition\": 1,\r\n    \"maxResults\": 94\r\n  },\r\n  \"time\": \"2017-08-31T10:12:00.555-07:00\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/chartofaccounts/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"chartofaccounts",
+								""
+							]
+						},
+						"description": "Parses chart of accounts request to database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/chartofaccounts",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/chartofaccounts/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"chartofaccounts",
+								""
+							]
+						},
+						"description": "Deletes chart of accounts from database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/incomestatement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/incomestatement/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"incomestatement",
+								""
+							]
+						},
+						"description": "Gets company's income statement from database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/incomestatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"IncomeStatement\": [{\r\n        \"Ebitda\": 0.0,\r\n        \"NetIncome\": 0.0,\r\n        \"Period\": \"2017-08\",\r\n        \"TotalRevenue\": 0.0,\r\n        \"GrossProfit\": 0.0,\r\n        \"NonRecurringRevenues\": 0.0,\r\n        \"RecurringRevenues\": 0.0,\r\n        \"CostOfGoodsSold\": 0.0,\r\n        \"SalesAndMarketingExpenses\": 0.0,\r\n        \"RDGrossMinusExcludingSRED\": 0.0,\r\n        \"GA\": 0.0,\r\n        \"InterestIncomeExpense\": 0.0,\r\n        \"SREDAccrual\": 0.0,\r\n        \"IRAPGrantsReceived\": 0.0,\r\n        \"DepreciationAndAmortization\": 0.0,\r\n        \"OtherIncomeExpenses\": 0.0,\r\n        \"CreatedTimestamp\": \"2017-08-29 18:07:03.659000\",\r\n        \"LastUpdatedTimestamp\": \"2017-08-31 18:09:30.284000\",\r\n        \"SourceName\": \"CustomerProfile\",\r\n        \"SourceKey\": \"Prabhu5\"\r\n      }]\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/incomestatement/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"incomestatement",
+								""
+							]
+						},
+						"description": "Parses income statement request to databse"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/incomestatement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/incomestatement/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"incomestatement",
+								""
+							]
+						},
+						"description": "Deletes company's income statement from database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/generatestatements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/generatestatements/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"generatestatements",
+								""
+							]
+						},
+						"description": "Generates financial statements based on user's CoA, map, and trial balance"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/coamap",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/coamap/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"coamap",
+								""
+							]
+						},
+						"description": "Gets CoA map from QuickBooks and writes to database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/coamap",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\r\n  \"company\": 1,\r\n  \"cust_account_id\": 9,\r\n  \"cust_account_name\": \"Interest earned\",\r\n  \"espresso_account_id\": 6740,\r\n  \"espresso_account_name\": \"Other Income (Expenses)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 89,\r\n  \"cust_account_name\": \"Interest expense\",\r\n  \"espresso_account_id\": 6730,\r\n  \"espresso_account_name\": \"Depreciation & Amortization\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 85,\r\n  \"cust_account_name\": \"Inventory Asset\",\r\n  \"espresso_account_id\": 1200,\r\n  \"espresso_account_name\": \"Other Current Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 88,\r\n  \"cust_account_name\": \"Inventory Shrinkage\",\r\n  \"espresso_account_id\": 6730,\r\n  \"espresso_account_name\": \"Depreciation & Amortization\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 91,\r\n  \"cust_account_name\": \"Janitorial Expense\",\r\n  \"espresso_account_id\": 6400,\r\n  \"espresso_account_name\": \"Total Operating Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 55,\r\n  \"cust_account_name\": \"Leasehold Improvements\",\r\n  \"espresso_account_id\": 1500,\r\n  \"espresso_account_name\": \"Fixed Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 10,\r\n  \"cust_account_name\": \"Legal and professional fees\",\r\n  \"espresso_account_id\": 6710,\r\n  \"espresso_account_name\": \"SRED\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 29,\r\n  \"cust_account_name\": \"Markup\",\r\n  \"espresso_account_id\": 4500,\r\n  \"espresso_account_name\": \"Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 11,\r\n  \"cust_account_name\": \"Meals and entertainment\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 56,\r\n  \"cust_account_name\": \"Merchant Account Fees\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 12,\r\n  \"cust_account_name\": \"Miscellaneous\",\r\n  \"espresso_account_id\": 6300,\r\n  \"espresso_account_name\": \"G&A\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 57,\r\n  \"cust_account_name\": \"Note Payable\",\r\n  \"espresso_account_id\": 2900,\r\n  \"espresso_account_name\": \"Other Liabilities\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 13,\r\n  \"cust_account_name\": \"Office expenses\",\r\n  \"espresso_account_id\": 6720,\r\n  \"espresso_account_name\": \"IRAP/Grants Received\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 60,\r\n  \"cust_account_name\": \"Printed Materials purchased for clients\",\r\n  \"espresso_account_id\": 6720,\r\n  \"espresso_account_name\": \"IRAP/Grants Received\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 62,\r\n  \"cust_account_name\": \"Professional Fees\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 17,\r\n  \"cust_account_name\": \"Promotional\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 63,\r\n  \"cust_account_name\": \"Purchases\",\r\n  \"espresso_account_id\": 6720,\r\n  \"espresso_account_name\": \"IRAP/Grants Received\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 18,\r\n  \"cust_account_name\": \"Refunds-Allowances\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 64,\r\n  \"cust_account_name\": \"Rent Expense\",\r\n  \"espresso_account_id\": 6400,\r\n  \"espresso_account_name\": \"Total Operating Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 72,\r\n  \"cust_account_name\": \"Unapplied Cash Bill Payment Expense\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 73,\r\n  \"cust_account_name\": \"Unapplied Cash Payment Income\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 74,\r\n  \"cust_account_name\": \"Uncategorised Asset\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Current Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 75,\r\n  \"cust_account_name\": \"Uncategorised Expense\",\r\n  \"espresso_account_id\": 6300,\r\n  \"espresso_account_name\": \"G&A\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 93,\r\n  \"cust_account_name\": \"Uncategorized Asset\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Current Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 95,\r\n  \"cust_account_name\": \"Uncategorized Expense\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 94,\r\n  \"cust_account_name\": \"Uncategorized Income\",\r\n  \"espresso_account_id\": 4000,\r\n  \"espresso_account_name\": \"Non-Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 26,\r\n  \"cust_account_name\": \"Undeposited Funds\",\r\n  \"espresso_account_id\": 1200,\r\n  \"espresso_account_name\": \"Other Current Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 27,\r\n  \"cust_account_name\": \"Utilities\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 82,\r\n  \"cust_account_name\": \"Utilities - Electric & Gas\",\r\n  \"espresso_account_id\": 6300,\r\n  \"espresso_account_name\": \"G&A\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 83,\r\n  \"cust_account_name\": \"Utilities - Water\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 77,\r\n  \"cust_account_name\": \"Vehicles\",\r\n  \"espresso_account_id\": 1600,\r\n  \"espresso_account_name\": \"Patents & Intangible Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 78,\r\n  \"cust_account_name\": \"Venue Fees paid on behalf of clients\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 79,\r\n  \"cust_account_name\": \"Visa Credit Card\",\r\n  \"espresso_account_id\": 2100,\r\n  \"espresso_account_name\": \"Deferred Revenue\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 44,\r\n  \"cust_account_name\": \"Cost of Sales - billable expenses\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 45,\r\n  \"cust_account_name\": \"Depreciation Expense\",\r\n  \"espresso_account_id\": 6300,\r\n  \"espresso_account_name\": \"G&A\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 28,\r\n  \"cust_account_name\": \"Discounts given\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 6,\r\n  \"cust_account_name\": \"Dues and Subscriptions\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 46,\r\n  \"cust_account_name\": \"Entertainment Booking Fees paid on behalf of clients\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 8,\r\n  \"cust_account_name\": \"Insurance\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 50,\r\n  \"cust_account_name\": \"Insurance Expense\",\r\n  \"espresso_account_id\": 6730,\r\n  \"espresso_account_name\": \"Depreciation & Amortization\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 51,\r\n  \"cust_account_name\": \"Insurance Expense-General Liability Insurance\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 52,\r\n  \"cust_account_name\": \"Insurance Expense-Health Insurance\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 53,\r\n  \"cust_account_name\": \"Insurance Expense-Life and Disability Insurance\",\r\n  \"espresso_account_id\": 6710,\r\n  \"espresso_account_name\": \"SRED\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 30,\r\n  \"cust_account_name\": \"Billable Expense Income\",\r\n  \"espresso_account_id\": 4500,\r\n  \"espresso_account_name\": \"Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 35,\r\n  \"cust_account_name\": \"Billable Expenses Income\",\r\n  \"espresso_account_id\": 4500,\r\n  \"espresso_account_name\": \"Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 36,\r\n  \"cust_account_name\": \"Business Licenses and Permits\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 37,\r\n  \"cust_account_name\": \"Charitable Contributions\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 47,\r\n  \"cust_account_name\": \"Equipment rental\",\r\n  \"espresso_account_id\": 6740,\r\n  \"espresso_account_name\": \"Other Income (Expenses)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 48,\r\n  \"cust_account_name\": \"Exchange Gain or Loss\",\r\n  \"espresso_account_id\": 6710,\r\n  \"espresso_account_name\": \"SRED\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 58,\r\n  \"cust_account_name\": \"Opening Balance Equity\",\r\n  \"espresso_account_id\": 3900,\r\n  \"espresso_account_name\": \"Retained Earnings (Loss)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 14,\r\n  \"cust_account_name\": \"Other Portfolio Income\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 59,\r\n  \"cust_account_name\": \"Owner's Equity\",\r\n  \"espresso_account_id\": 3900,\r\n  \"espresso_account_name\": \"Retained Earnings (Loss)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 80,\r\n  \"cust_account_name\": \"Owner's Equity - Contributions\",\r\n  \"espresso_account_id\": 3100,\r\n  \"espresso_account_name\": \"Minority Equity Position\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 81,\r\n  \"cust_account_name\": \"Owner's Equity - Draws\",\r\n  \"espresso_account_id\": 3900,\r\n  \"espresso_account_name\": \"Retained Earnings (Loss)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 16,\r\n  \"cust_account_name\": \"Prepaid expenses\",\r\n  \"espresso_account_id\": 1100,\r\n  \"espresso_account_name\": \"Accounts Receivables\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 61,\r\n  \"cust_account_name\": \"Printing and Reproduction\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 19,\r\n  \"cust_account_name\": \"Rent or lease payments\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 20,\r\n  \"cust_account_name\": \"Repair and maintenance\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 2,\r\n  \"cust_account_name\": \"Retained Earnings\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Equity\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 65,\r\n  \"cust_account_name\": \"Sales\",\r\n  \"espresso_account_id\": 4000,\r\n  \"espresso_account_name\": \"Non-Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 23,\r\n  \"cust_account_name\": \"Taxes and Licenses\",\r\n  \"espresso_account_id\": 6740,\r\n  \"espresso_account_name\": \"Other Income (Expenses)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 70,\r\n  \"cust_account_name\": \"Telephone Expense\",\r\n  \"espresso_account_id\": 6730,\r\n  \"espresso_account_name\": \"Depreciation & Amortization\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 24,\r\n  \"cust_account_name\": \"Travel\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 71,\r\n  \"cust_account_name\": \"Travel Expense\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 25,\r\n  \"cust_account_name\": \"Travel meals\",\r\n  \"espresso_account_id\": 6730,\r\n  \"espresso_account_name\": \"Depreciation & Amortization\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 31,\r\n  \"cust_account_name\": \"Accounts Payable\",\r\n  \"espresso_account_id\": 2100,\r\n  \"espresso_account_name\": \"Deferred Revenue\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 90,\r\n  \"cust_account_name\": \"Accounts Payable (A/P) - HKD\",\r\n  \"espresso_account_id\": 2050,\r\n  \"espresso_account_name\": \"Bank Debt\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 32,\r\n  \"cust_account_name\": \"Accounts Receivable\",\r\n  \"espresso_account_id\": 1150,\r\n  \"espresso_account_name\": \"SRED/ITC Receivable\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 92,\r\n  \"cust_account_name\": \"Accounts Receivable (A/R) - USD\",\r\n  \"espresso_account_id\": 1150,\r\n  \"espresso_account_name\": \"SRED/ITC Receivable\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 33,\r\n  \"cust_account_name\": \"Accumulated Depreciation\",\r\n  \"espresso_account_id\": 1600,\r\n  \"espresso_account_name\": \"Patents & Intangible Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 3,\r\n  \"cust_account_name\": \"Advertising\",\r\n  \"espresso_account_id\": 6730,\r\n  \"espresso_account_name\": \"Depreciation & Amortization\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 34,\r\n  \"cust_account_name\": \"Ask My Accountant\",\r\n  \"espresso_account_id\": 6300,\r\n  \"espresso_account_name\": \"G&A\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 4,\r\n  \"cust_account_name\": \"Bank charges\",\r\n  \"espresso_account_id\": 6700,\r\n  \"espresso_account_name\": \"Interest Income (Expense)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 38,\r\n  \"cust_account_name\": \"Chequing\",\r\n  \"espresso_account_id\": 1000,\r\n  \"espresso_account_name\": \"Cash\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 39,\r\n  \"cust_account_name\": \"Commission Income\",\r\n  \"espresso_account_id\": 4000,\r\n  \"espresso_account_name\": \"Non-Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 5,\r\n  \"cust_account_name\": \"Commissions and fees\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 40,\r\n  \"cust_account_name\": \"Commissions Paid\",\r\n  \"espresso_account_id\": 6720,\r\n  \"espresso_account_name\": \"IRAP/Grants Received\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 41,\r\n  \"cust_account_name\": \"Computer and Internet Expenses\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 42,\r\n  \"cust_account_name\": \"Continuing Education\",\r\n  \"espresso_account_id\": 6740,\r\n  \"espresso_account_name\": \"Other Income (Expenses)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 84,\r\n  \"cust_account_name\": \"Cost of Goods Sold\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 7,\r\n  \"cust_account_name\": \"Fees Billed\",\r\n  \"espresso_account_id\": 0,\r\n  \"espresso_account_name\": \"Total Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 49,\r\n  \"cust_account_name\": \"Furniture and Equipment\",\r\n  \"espresso_account_id\": 1500,\r\n  \"espresso_account_name\": \"Fixed Assets\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 86,\r\n  \"cust_account_name\": \"GST/HST Payable\",\r\n  \"espresso_account_id\": 2050,\r\n  \"espresso_account_name\": \"Bank Debt\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 87,\r\n  \"cust_account_name\": \"GST/HST Suspense\",\r\n  \"espresso_account_id\": 2150,\r\n  \"espresso_account_name\": \"Other Current Liabilities\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 15,\r\n  \"cust_account_name\": \"Penalties and settlements\",\r\n  \"espresso_account_id\": 6720,\r\n  \"espresso_account_name\": \"IRAP/Grants Received\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 43,\r\n  \"cust_account_name\": \"Cost of sales\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 66,\r\n  \"cust_account_name\": \"Sales Discounts\",\r\n  \"espresso_account_id\": 4000,\r\n  \"espresso_account_name\": \"Non-Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 67,\r\n  \"cust_account_name\": \"Sales of Product Income\",\r\n  \"espresso_account_id\": 4500,\r\n  \"espresso_account_name\": \"Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 1,\r\n  \"cust_account_name\": \"Services\",\r\n  \"espresso_account_id\": 4000,\r\n  \"espresso_account_name\": \"Non-Recurring Revenues\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 21,\r\n  \"cust_account_name\": \"Stationery and printing\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 68,\r\n  \"cust_account_name\": \"Subcontracted Services\",\r\n  \"espresso_account_id\": 5000,\r\n  \"espresso_account_name\": \"Cost of Goods Sold\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 22,\r\n  \"cust_account_name\": \"Supplies\",\r\n  \"espresso_account_id\": 6100,\r\n  \"espresso_account_name\": \"Sales and Marketing Expenses\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 69,\r\n  \"cust_account_name\": \"Taxes - Property\",\r\n  \"espresso_account_id\": 6200,\r\n  \"espresso_account_name\": \"R&D (Gross - excluding SRED)\"\r\n}, {\r\n  \"company\": 1,\r\n  \"cust_account_id\": 76,\r\n  \"cust_account_name\": \"Uncategorised Income\",\r\n  \"espresso_account_id\": 4500,\r\n  \"espresso_account_name\": \"Recurring Revenues\"\r\n}]"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/coamap/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"coamap",
+								""
+							]
+						},
+						"description": "Creates a CoA map from CoA in database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/coamap",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/coamap/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"coamap",
+								""
+							]
+						},
+						"description": "Deletes CoA map from database"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/espressocontact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/espressocontact/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"espressocontact",
+								""
+							]
+						},
+						"description": "Lists Espresso Capital contacts relating to company"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/espressocontact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"first_name\": \"string\",\r\n  \"last_name\": \"string\",\r\n  \"email\": \"dheeraj@espressocapital.com\",\r\n  \"title\": \"Coolio\",\r\n  \"phone\": \"+9999999912\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/espressocontact/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"espressocontact",
+								""
+							]
+						},
+						"description": "Creates Espresso Capital contacts relating to company"
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/qbo/isvalid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/qbo/isvalid/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"qbo",
+								"isvalid",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/qbo/loginstatus",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/qbo/loginstatus/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"qbo",
+								"loginstatus",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/qbo/refresh",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/qbo/refresh/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"qbo",
+								"refresh",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/qbo/disconnect",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token_type}} {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/qbo/disconnect/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"qbo",
+								"disconnect",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/chartofaccounts QB CSV",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "attachement; filename=somefilename.csv"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "filename",
+									"description": "",
+									"type": "file",
+									"src": "QB-sampleCOAcsv.CSV"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/chartofaccounts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"chartofaccounts"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "company/{id}/accounting/trialbalance QB CSV copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Disposition",
+								"value": "attachement; filename=somefilename.xlsx"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "",
+									"type": "file",
+									"src": "QB-sampleTBcsv.CSV"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/company/{{company_id}}/accounting/trialbalance",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"company",
+								"{{company_id}}",
+								"accounting",
+								"trialbalance"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"company_id\", data.company.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YnJhZDpEdGYyQ0JOQ2p3alZzbTNNaXB4UQ=="
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "brad",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Dtf2CBNCjwjVsm3MipxQ",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				},
+				"description": "Logs user in with POST request"
+			},
+			"response": []
+		},
+		{
+			"name": "o/token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"token_type\", data.token_type);",
+							"postman.setEnvironmentVariable(\"access_token\", data.access_token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{token_url}}/o/token/",
+					"host": [
+						"{{token_url}}"
+					],
+					"path": [
+						"o",
+						"token",
+						""
+					]
+				},
+				"description": "Creates OAuth 2.0 token"
+			},
+			"response": []
+		},
+		{
+			"name": "qbo auth url",
+			"request": {
+				"method": "LINK",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer QbX49uBXfJ8CFokWIySMakRsRpz1UR"
+					},
+					{
+						"key": "Content-Disposition",
+						"value": "attachement; filename=somefilename.xlsx"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"description": "",
+							"type": "file"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://ec-portal-backend.herokuapp.com/lend/v1/qbo/connectToQuickbooks/?company=9",
+					"protocol": "https",
+					"host": [
+						"ec-portal-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"lend",
+						"v1",
+						"qbo",
+						"connectToQuickbooks",
+						""
+					],
+					"query": [
+						{
+							"key": "company",
+							"value": "9",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "all sight save request url",
+			"request": {
+				"method": "LINK",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer QbX49uBXfJ8CFokWIySMakRsRpz1UR"
+					},
+					{
+						"key": "Content-Disposition",
+						"value": "attachement; filename=somefilename.xlsx"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"description": "",
+							"type": "file"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://35.182.97.52:17443/EspressoAPI/espressoSAVE",
+					"protocol": "https",
+					"host": [
+						"35",
+						"182",
+						"97",
+						"52"
+					],
+					"port": "17443",
+					"path": [
+						"EspressoAPI",
+						"espressoSAVE"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
