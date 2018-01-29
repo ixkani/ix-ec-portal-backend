@@ -285,7 +285,7 @@ if environment == ENVIRONMENT_DEVELOPMENT:
 
 elif environment == ENVIRONMENT_STAGING:
 
-    DEBUG = True
+    DEBUG = False
 
     # QUICKBOOKS
     # TODO: Only for identity,need to remove once confirmed, CLIENT_ID & CLIENT_SECRET
