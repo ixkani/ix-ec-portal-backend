@@ -12,6 +12,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
+            migrations.AddField(
+                model_name='company',
+                name='is_tag_error_notified',
+                field=models.BooleanField(default=False, help_text='No Need to Change. Auto Updation Field'),
+            ),
             model_name='companymeta',
             name='accounting_setup_status',
             field=models.CharField(blank=True, choices=[('NOT_STARTED', 'NOT_STARTED'),
