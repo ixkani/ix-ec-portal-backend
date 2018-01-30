@@ -342,9 +342,9 @@ elif environment == ENVIRONMENT_PRODUCTION:
     # Add all the variables in this list to ignore from prevalidation the environment
     environment_variable_uncheck = ['ALLSIGHT_URL']
     for environment in environment_variable_check:
-        env_value = os.environ.get(environment)
-        if env_value in environment_variable_uncheck:
+        if environment in environment_variable_uncheck:
             break
+        env_value = os.environ.get(environment)
         if env_value == "" or env_value is None:
             print("This should match the variables defined in Heroku.Env.Vars list.")
             print("\nVariable " + environment + " need to be filled and cannot be empty\n")
