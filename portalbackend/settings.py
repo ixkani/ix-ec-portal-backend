@@ -343,7 +343,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
     environment_variable_uncheck = ['ALLSIGHT_URL']
     for environment in environment_variable_check:
         if environment in environment_variable_uncheck:
-            break
+            continue
         env_value = os.environ.get(environment)
         if env_value == "" or env_value is None:
             print("This should match the variables defined in Heroku.Env.Vars list.")
