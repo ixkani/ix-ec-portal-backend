@@ -280,12 +280,12 @@ if environment == ENVIRONMENT_DEVELOPMENT:
     EMAIL_ENABLED = False
     EMAIL_HOST_USER = 'vivek.tamilarasan@ionixxtech.com'
     EMAIL_HOST_PASSWORD = 'lifeissimple'
-    DEFAULT_FROM_EMAIL ='vivek.tamilarasan@ionixxtech.com'
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
     ADMIN_EMAIL = 'vivek.tamilarasan@ionixxtech.com'
 
 elif environment == ENVIRONMENT_STAGING:
 
-    DEBUG = False
+    DEBUG = True
 
     # QUICKBOOKS
     # TODO: Only for identity,need to remove once confirmed, CLIENT_ID & CLIENT_SECRET
@@ -312,10 +312,10 @@ elif environment == ENVIRONMENT_STAGING:
 
     # EMAIL CONFIGURATION
     EMAIL_ENABLED = True
-    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER','vivek.tamilarasan@ionixxtech.com')
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','lifeissimple')
-    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL','vivek.tamilarasan@ionixxtech.com')
-    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL','vivek.tamilarasan@ionixxtech.com')
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vivek.tamilarasan@ionixxtech.com')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'lifeissimple')
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'vivek.tamilarasan@ionixxtech.com')
 
 elif environment == ENVIRONMENT_PRODUCTION:
 
@@ -333,13 +333,14 @@ elif environment == ENVIRONMENT_PRODUCTION:
 
     # Environment Check
     # Add all the variables in this list to prevalidate the environment
-    environment_variable_check = [ 'DATABASE_URL', 'DISABLE_COLLECTSTATIC', 'FIXIE_URL',
+    environment_variable_check = ['DATABASE_URL', 'DISABLE_COLLECTSTATIC', 'FIXIE_URL',
                                   'FORGOT_PASSWORD_EMAIL_URL', 'MAKE_SAVE_CALL_TO_ALL_SIGHT',
-                                  'MONITORING_REDIRECT_PAGE', 'PAPERTRAIL_API_TOKEN', 'PROXY_REQUIRED',
-                                  'QBO_AUTH_CANCEL_URL', 'QBO_AUTH_REDIRECT_URL', 'QBO_BASEURL', 'QBO_CLIENT_ID',
-                                  'QBO_CLIENT_SECRET', 'QBO_DISCOVERY_DOCUMENT', 'QBO_PROFILE_URL', 'QBO_REDIRECT_URI',
-                                  'QUICKBOOKS_DESKTOP_APP_FILE_NAME', 'QUICKBOOKS_DESKTOP_APP_VERSION', 'REDIS_URL',
-                                  'SECRET_KEY']
+                                  'MONITORING_REDIRECT_PAGE', 'ALLSIGHT_URL', 'PAPERTRAIL_API_TOKEN', 'PROXY_REQUIRED',
+                                  'QBO_AUTH_CANCEL_URL', 'QBO_AUTH_REDIRECT_URL', 'QBO_BASEURL',
+                                  'QBO_CLIENT_ID', 'QBO_CLIENT_SECRET', 'QBO_DISCOVERY_DOCUMENT', 'QBO_PROFILE_URL',
+                                  'QBO_REDIRECT_URI', 'QUICKBOOKS_DESKTOP_APP_FILE_NAME',
+                                  'QUICKBOOKS_DESKTOP_APP_VERSION', 'REDIS_URL', 'SECRET_KEY',
+                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL']
     for environment in environment_variable_check:
         if os.environ.get(environment) == "" or os.environ.get(environment) is None:
             print("This should match the variables defined in Heroku.Env.Vars list.")
@@ -364,10 +365,10 @@ elif environment == ENVIRONMENT_PRODUCTION:
 
     # EMAIL CONFIGURATION
     EMAIL_ENABLED = True
-    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER','vivek.tamilarasan@ionixxtech.com')
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','lifeissimple')
-    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL','vivek.tamilarasan@ionixxtech.com')
-    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL','vivek.tamilarasan@ionixxtech.com')
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vivek.tamilarasan@ionixxtech.com')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'lifeissimple')
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'vivek.tamilarasan@ionixxtech.com')
 
 # Celery configuration
 # task queue? some kinda queue
