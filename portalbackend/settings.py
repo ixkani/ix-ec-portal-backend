@@ -347,7 +347,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
         env_value = os.environ.get(environment)
         if env_value == "" or env_value is None:
             if env_value in environment_variable_uncheck:
-                continue
+                break
             print("This should match the variables defined in Heroku.Env.Vars list.")
             print("\nVariable " + environment + " need to be filled and cannot be empty\n")
             raise EnvironmentError
