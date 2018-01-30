@@ -341,8 +341,13 @@ elif environment == ENVIRONMENT_PRODUCTION:
                                   'QBO_REDIRECT_URI', 'QUICKBOOKS_DESKTOP_APP_FILE_NAME',
                                   'QUICKBOOKS_DESKTOP_APP_VERSION', 'REDIS_URL', 'SECRET_KEY',
                                   'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL']
+    # Add all the variables in this list to ignore from prevalidation the environment
+    environment_variable_uncheck = ['ALLSIGHT_URL']
     for environment in environment_variable_check:
-        if os.environ.get(environment) == "" or os.environ.get(environment) is None:
+        env_value = os.environ.get(environment)
+        if env_value == "" or env_value is None:
+            if env_value in environment_variable_uncheck:
+                continue
             print("This should match the variables defined in Heroku.Env.Vars list.")
             print("\nVariable " + environment + " need to be filled and cannot be empty\n")
             raise EnvironmentError
