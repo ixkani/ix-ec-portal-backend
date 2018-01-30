@@ -35,7 +35,7 @@ ENVIRONMENT_STAGING = "STAGING"
 ENVIRONMENT_PRODUCTION = "PRODUCTION"
 
 # todo: replace this based on environment of the application, Should replace with above variables
-environment = ENVIRONMENT_STAGING
+environment = ENVIRONMENT_PRODUCTION
 
 # Application definition
 

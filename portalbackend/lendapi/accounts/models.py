@@ -136,9 +136,11 @@ class CompanyMeta(models.Model):
     NOT_STARTED = "NOT_STARTED"
     IN_PROGRESS = "IN_PROGRESS"
     COMPLETE = "COMPLETE"
+    ACCOUNTING_TYPE_CHOSEN = "ACCOUNTING_TYPE_CHOSEN"
 
     ACCOUNTING_STEPS = (
         (NOT_STARTED, "NOT_STARTED"),
+        (ACCOUNTING_TYPE_CHOSEN, "ACCOUNTING_TYPE_CHOSEN"),
         (IN_PROGRESS, "IN_PROGRESS"),
         (COMPLETE, "COMPLETE")
     )
@@ -165,7 +167,7 @@ class CompanyMeta(models.Model):
                                                       validators=[MinValueValidator(0)])
 
     # todo: rename this to setup_status so that it applies for Manual Form Entry type as well.
-    accounting_setup_status = models.CharField(max_length=20, null=True, blank=True,
+    accounting_setup_status = models.CharField(max_length=50, null=True, blank=True,
                                                default=NOT_STARTED, choices=ACCOUNTING_STEPS)
 
     qb_desktop_installed = models.BooleanField(default=False)

@@ -132,7 +132,8 @@ class QuickBooks(object):
             if refresh_token is None:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
             bearer = Utils.get_bearer_token_from_refresh_token(refresh_token)
-
+            if bearer is "failure":
+                return Utils.dispatch_failure(request,"NO_TOKEN_AUTHENTICATION")
             if isinstance(bearer, str):
                 return Utils.dispatch_success(request, bearer)
             else:
@@ -243,6 +244,9 @@ class QuickBooks(object):
             if status_code >= 400:
                 print("First Failure")
                 bearer = Utils.get_bearer_token_from_refresh_token(credentials.refreshToken)
+
+                if bearer is "failure":
+                    return Utils.dispatch_failure(request, "NO_TOKEN_AUTHENTICATION")
 
                 new_credentials = AccountingUtils.updateAccountingSession(company, bearer.accessToken,
                                                                           bearer.refreshToken, credentials.realmId)

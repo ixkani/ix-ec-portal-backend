@@ -427,8 +427,8 @@ class Utils(object):
             idToken = bearer_raw['id_token']
         else:
             idToken = None
-        print(idToken)
-        print(bearer_raw)
+        if 'error' in bearer_raw:
+            return "failure"
         return Bearer(bearer_raw['x_refresh_token_expires_in'], bearer_raw['access_token'], bearer_raw['token_type'],
                       bearer_raw['refresh_token'], bearer_raw['expires_in'], idToken=idToken)
 
