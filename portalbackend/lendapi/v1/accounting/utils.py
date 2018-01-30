@@ -668,7 +668,7 @@ class Utils(object):
         try:
             if EMAIL_ENABLED:
                 send_mail(
-                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    from_email=settings.EMAIL_HOST_USER,
                     subject=subject,
                     message=body,
                     recipient_list=email,

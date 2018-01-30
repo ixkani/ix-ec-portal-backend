@@ -124,7 +124,7 @@ CORS_ALLOW_HEADERS = default_headers + (
 
 # disable in production
 # todo: disable before production release
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 
 # add the portal frontend url
 CORS_ORIGIN_WHITELIST = (
@@ -280,7 +280,6 @@ if environment == ENVIRONMENT_DEVELOPMENT:
     EMAIL_ENABLED = False
     EMAIL_HOST_USER = 'vivek.tamilarasan@ionixxtech.com'
     EMAIL_HOST_PASSWORD = 'lifeissimple'
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
     ADMIN_EMAIL = 'vivek.tamilarasan@ionixxtech.com'
 
 elif environment == ENVIRONMENT_STAGING:
@@ -314,7 +313,6 @@ elif environment == ENVIRONMENT_STAGING:
     EMAIL_ENABLED = True
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vivek.tamilarasan@ionixxtech.com')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'lifeissimple')
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'vivek.tamilarasan@ionixxtech.com')
 
 elif environment == ENVIRONMENT_PRODUCTION:
@@ -346,7 +344,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
     for environment in environment_variable_check:
         env_value = os.environ.get(environment)
         if env_value in environment_variable_uncheck:
-            continue
+            break
         if env_value == "" or env_value is None:
             print("This should match the variables defined in Heroku.Env.Vars list.")
             print("\nVariable " + environment + " need to be filled and cannot be empty\n")
@@ -372,7 +370,6 @@ elif environment == ENVIRONMENT_PRODUCTION:
     EMAIL_ENABLED = True
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vivek.tamilarasan@ionixxtech.com')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'lifeissimple')
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'vivek.tamilarasan@ionixxtech.com')
 
 # Celery configuration

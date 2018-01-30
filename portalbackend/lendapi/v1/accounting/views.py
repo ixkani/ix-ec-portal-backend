@@ -1,8 +1,10 @@
+import base64
 import contextlib
 import json
 import os
 import time
 
+import requests
 from django.shortcuts import redirect
 from rest_framework import views
 from rest_framework.parsers import FileUploadParser, JSONParser
@@ -62,8 +64,10 @@ class Statement(views.APIView):
                 proxydict = {"http": 'http://fixie:40NHGHaz4KQBNC0@velodrome.usefixie.com:80',
                              "https": 'http://fixie:40NHGHaz4KQBNC0@velodrome.usefixie.com:80'}
 
-            endpoint = os.environ.get('ALLSIGHT_URL', 'localhost:8443/EspressoAPI/espressoSAVE/')
-            # endpoint = os.environ.get('ALLSIGHT_URL', 'https://esprts.allsight.com:7889/EspressoAPI/espressoSAVE/')
+            url_configured = True
+            endpoint = os.environ.get('ALLSIGHT_URL', '')
+            if endpoint == '' or endpoint is None:
+                url_configured = False
 
             # TODO: FISCAL YEAR CHANGE
             try:
@@ -73,15 +77,19 @@ class Statement(views.APIView):
 
                 for data in slitted_data:
                     st = time.time()
-                    # if proxy_dict_required:
+                    if url_configured:
+                        if proxy_dict_required:
+                            r = requests.post(endpoint, data=json.dumps(data), headers=headers, verify=True,
+                                              proxies=proxydict)
+                        else:
+                            r = requests.post(endpoint, data=json.dumps(data), headers=headers, verify=True)
 
-                        # r = requests.post(endpoint, data=json.dumps(data), headers=headers, verify=True,
-                        #                   proxies=proxydict)
-                    # else:
-                        # r = requests.post(endpoint, data=json.dumps(data), headers=headers, verify=True)
-                    json_response = AllSightMock.initiate_allsight(input_data=data)
+                        response = json.loads(r.text)
+                    else:
+                        json_response = AllSightMock.initiate_allsight(input_data=data)
+                        response = json.loads(json_response)
                     print('{:.2f}s AS - SAVE Request'.format(time.time() - st))
-                    response = json.loads(json_response.text)
+
                     print('########## AS RESPONSE', response)
                     for entry in response["Model"]["Financials"]["BalanceSheet"]:
                         balance_sheet_data.append(entry)
@@ -90,12 +98,7 @@ class Statement(views.APIView):
                     response["Model"]["Financials"]["BalanceSheet"] = balance_sheet_data
                     response["Model"]["Financials"]["IncomeStatement"] = income_statement_data
 
-                    # json_response=AllSightMock.initiate_allsight(input_data=data)
-                    # response = json.loads(json_response)
-                    # print(response)
-
-
-            except Exception as e:
+            except Exception:
                 return Utils.dispatch_failure(request, 'ALL_SIGHT_CONNECTION')
 
             # Save to Database
