@@ -16,7 +16,7 @@ class AllSightMock:
         :param input_data:Json [Model][Financials]
         :return: json of [Model][Financials] with Balancesheet and Income Statement
         """
-        flag_verbose_output = True
+        flag_verbose_output = False
         # from chart of accounts figure out the class: Asset, Liability, Equity, Income
 
 
@@ -24,16 +24,19 @@ class AllSightMock:
         for coa_account in input_data['Model']['Financials']['CustomerAccount']:
             account_category = coa_account['AccountCategory']
             base_account_id = coa_account['AccountId']
-            if account_category in ['Fixed Asset', 'Bank', 'Other Current Asset', 'Accounts Receivable']:
+            if account_category in ['NONCURRENT','BANK','CURRENT','FIXED','INVENTORY','Fixed Asset', 'Bank', 'Other Current Asset', 'Accounts Receivable']:
                 coa_base_list[base_account_id] = 'Asset'
-            elif account_category in ['Other Current Liability', 'Long Term Liability', 'Credit Card',
+            elif account_category in ['DIRECTCOSTS','SALES','CURRLIAB','LIABILITY','Other Current Liability', 'Long Term Liability', 'Credit Card',
                                       'Accounts Payable']:
                 coa_base_list[base_account_id] = 'Liability'
-            elif account_category in ['Equity']:
+            elif account_category in ['Equity','EQUITY']:
                 coa_base_list[base_account_id] = 'Equity'
             else:
                 coa_base_list[base_account_id] = 'Income'
 
+        print("COA_BASE_LIST")
+        print(coa_base_list)
+        print("END_OF_COA_BASE_LIST")
         # sanity check - are all the trial balances 'in balance'?
         # that is, the sum of debits and credits should be equal
         print("\nChecking trial balances on the input file for errors")
@@ -70,7 +73,8 @@ class AllSightMock:
                 'Equity': total_equity,
                 'Net Income (YTD)': net_income_ytd
             }
-            print("Here i come")
+
+            # print("Here i come")
             if flag_verbose_output:
                 print('\tPeriod: {}\tAssets {:0.2f}, Liabilities {:0.2f}, Equity {:0.2f}, YTD NI {:0.2f}'.format(
                     period, total_assets, total_liabilities, total_equity, net_income_ytd))
@@ -193,6 +197,7 @@ class AllSightMock:
                                         abstract=True, is_ytd_account=False)
 
             # Step 3: process the input
+            print("GOING_INSIDE_PROCESS_REQUEST")
             res = mapaccounts.process_request(input_data)
 
             ##################################################################################

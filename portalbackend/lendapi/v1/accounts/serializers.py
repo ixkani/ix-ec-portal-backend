@@ -174,7 +174,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ('first_name', 'last_name', 'email', 'title', 'phone','external_id','company')
+        fields = ('id', 'first_name', 'last_name', 'email', 'title', 'phone','external_id','company')
         extra_kwargs = init_validator_rules(fields)
 
 class EspressoContactSerializer(serializers.ModelSerializer):

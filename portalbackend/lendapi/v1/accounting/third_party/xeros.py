@@ -1,14 +1,18 @@
 import os
+import time
+
+import re
+from celery import group
 from django.utils import timezone
 from rest_framework import status
 from django.shortcuts import redirect
 from xero import Xero
-from xero.auth import PublicCredentials
-from xero.exceptions import XeroException
+from xero.auth import PublicCredentials,PartnerCredentials,PrivateCredentials
+from xero.exceptions import XeroException, XeroBadRequest
 
 from portalbackend import settings
 from portalbackend.lendapi.accounting.models import LoginInfo, AccountingOauth2, TrialBalance, CoA
-from portalbackend.lendapi.accounts.models import Company
+from portalbackend.lendapi.accounts.models import Company,CompanyMeta
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.v1.accounting.utils import Utils
 from portalbackend.lendapi.accounting.utils import AccountingUtils
@@ -40,13 +44,20 @@ class XeroAccountings(object):
                 call_back_uri = settings.XERO_CALL_BACK_URI + "/" + company
 
                 # call_back_url = 'http://localhost/oauth'
-                credentials = PublicCredentials(consumer_key, consumer_secret, callback_uri=call_back_uri)
+                if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
 
-                # Save generated credentials details to persistent storage
-                for key, value in credentials.state.items():
-                    OAUTH_PERSISTENT_SERVER_STORAGE.update({key: value})
+                    with open("/home/muthukumar/Desktop/espresso_capital/ec-portal-backend/portalbackend/lendapi/v1/accounting/third_party/privatekey.pem") as keyfile:rsa_key = keyfile.read()
+                    credentials = PrivateCredentials(consumer_key=consumer_key,rsa_key=rsa_key)
+                    OAUTH_PERSISTENT_SERVER_STORAGE.update({'consumer_key':credentials.consumer_key})
+                    OAUTH_PERSISTENT_SERVER_STORAGE.update({'rsa_key':credentials.rsa_key})
+                else:
+                    credentials = PublicCredentials(consumer_key, consumer_secret, callback_uri=call_back_uri)
+                    # Save generated credentials details to persistent storage
+                    for key, value in credentials.state.items():
+                        OAUTH_PERSISTENT_SERVER_STORAGE.update({key: value})
 
-                LoginInfo.objects.create(company_id=company, status=LoginInfo.IN_PROGRESS, created=timezone.now())
+                    LoginInfo.objects.create(company_id=company, status=LoginInfo.IN_PROGRESS, created=timezone.now())
+                    url = credentials.url
 
             except Exception as e:
                 error = ["%s" % e]
@@ -55,7 +66,7 @@ class XeroAccountings(object):
         except Exception as e:
             error = ["%s" % e]
             return Utils.dispatch_failure(request, 'XERO_CONNECTION_FAILED', error)
-        return Utils.redirect_response(credentials.url)
+        return Utils.redirect_response(url)
 
     def auth_code_handler(self, request, pk=None):
         """
@@ -65,15 +76,24 @@ class XeroAccountings(object):
         :return: Response
         """
         try:
-            auth_verifier_uri = settings.XERO_AUTH_VERIFIER_URI
-            oauth_verifier = request.GET.get('oauth_verifier')
             # Get xero auth access information form xero connection
             stored_values = OAUTH_PERSISTENT_SERVER_STORAGE
+            print(stored_values)
 
             if len(stored_values) == 0:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
 
-            credentials = PublicCredentials(consumer_key=stored_values['consumer_key'],
+            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+                exists = AccountingOauth2.objects.filter(company=pk).first()
+                if not exists:
+                    auth = AccountingOauth2(accessToken=stored_values['consumer_key'],
+                                        refreshToken=stored_values['rsa_key'],
+                                        company_id=pk)
+                    auth.save()
+            else:
+                auth_verifier_uri = settings.XERO_AUTH_VERIFIER_URI
+                oauth_verifier = request.GET.get('oauth_verifier')
+                credentials = PublicCredentials(consumer_key=stored_values['consumer_key'],
                                             consumer_secret=stored_values['consumer_secret'],
                                             callback_uri=stored_values['callback_uri'],
                                             verified=stored_values['verified'],
@@ -83,72 +103,66 @@ class XeroAccountings(object):
                                             oauth_authorization_expires_at=stored_values[
                                                 'oauth_authorization_expires_at'],
                                             )
-            if credentials.expired():
-                return Utils.dispatch_failure(request, 'XERO_CONNECTION_EXPIRED')
 
-                # Verify the auth verifier for establish the connection
-            credentials.verify(oauth_verifier)
-            # Resave our verified credentials
-            for key, value in credentials.state.items():
-                OAUTH_PERSISTENT_SERVER_STORAGE.update({key: value})
+                if credentials.expired():
+                    return Utils.dispatch_failure(request, 'XERO_CONNECTION_EXPIRED')
 
-            stored_values = OAUTH_PERSISTENT_SERVER_STORAGE
+                    # Verify the auth verifier for establish the connection
 
-            exists = AccountingOauth2.objects.filter(company=pk).first()
-            if exists:
-                exists.accessToken = stored_values['oauth_token']
-                exists.realmId = oauth_verifier
-                exists.accessSecretKey = stored_values['oauth_token_secret']
-                exists.tokenAcitvatedOn = stored_values['oauth_expires_at']
-                exists.tokenExpiryON = stored_values['oauth_authorization_expires_at']
-                exists.save()
-            else:
-                auth = AccountingOauth2(accessToken=stored_values['oauth_token'],
-                                        refreshToken='',
-                                        realmId=oauth_verifier,
-                                        accessSecretKey=stored_values['oauth_token_secret'],
-                                        tokenAcitvatedOn=stored_values['oauth_expires_at'],
-                                        tokenExpiryON=stored_values['oauth_authorization_expires_at'],
-                                        company_id=pk)
-                auth.save()
-            # auth_redirect_url = os.environ.get ('QBO_AUTH_REDIRECT_URL',
-            #                                        'http://localhost:4200/coa-match/quickbooks')
+                credentials.verify(oauth_verifier)
+                # Resave our verified credentials
+                for key, value in credentials.state.items():
+                    OAUTH_PERSISTENT_SERVER_STORAGE.update({key: value})
 
-            # auth_redirect_url = os.environ.get ('QBO_AUTH_REDIRECT_URL','http://ec2-52-207-28-114.compute-1.amazonaws.com/ix/coa-match/quickbooks')
+                stored_values = OAUTH_PERSISTENT_SERVER_STORAGE
+                exists = AccountingOauth2.objects.filter(company=pk).first()
 
-            # return redirect(auth_redirect_url)
+                if exists:
+                    exists.accessToken = stored_values['oauth_token']
+                    exists.realmId = oauth_verifier
+                    exists.accessSecretKey = stored_values['oauth_token_secret']
+                    exists.tokenAcitvatedOn = stored_values['oauth_expires_at']
+                    exists.tokenExpiryON = stored_values['oauth_authorization_expires_at']
+                    exists.save()
+                else:
+                    auth = AccountingOauth2(accessToken=stored_values['oauth_token'],
+                                            refreshToken='',
+                                            realmId=oauth_verifier,
+                                            accessSecretKey=stored_values['oauth_token_secret'],
+                                            tokenAcitvatedOn=stored_values['oauth_expires_at'],
+                                            tokenExpiryON=stored_values['oauth_authorization_expires_at'],
+                                            company_id=pk)
+                    auth.save()
+                # auth_redirect_url = os.environ.get ('QBO_AUTH_REDIRECT_URL',
+                #                                        'http://localhost:4200/coa-match/quickbooks')
+
+                # auth_redirect_url = os.environ.get ('QBO_AUTH_REDIRECT_URL','http://ec2-52-207-28-114.compute-1.amazonaws.com/ix/coa-match/quickbooks')
+
+                # return redirect(auth_redirect_url)
+
         except Exception as e:
+            print(e)
             return Utils.dispatch_success(request, 'TOKEN_ALREADY_VALIDATED')
 
-        auth_redirect_url = settings.QBO_AUTH_REDIRECT_URL
+        auth_redirect_url = settings.XERO_AUTH_REDIRECT_URL
         return redirect(auth_redirect_url)
         # return Utils.dispatch_success(request, stored_values)
 
-    def trail_balance(self, id, request):
+    def trail_balance(self, pk, request):
         """
         Get Trail Balance From online
         :param company: Company Id
         :return: Response
         """
         try:
-            company = AccountsUtils.get_company(id)
-            # Get xero auth access information form xero connection
-
-            auth = {}
-            auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'accessSecretKey',
+            # Checking Token Authentication available
+            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+                auth_info = AccountingOauth2.objects.filter(company_id=pk).values('accessToken', 'refreshToken')
+            else:
+                auth_info = AccountingOauth2.objects.filter(company_id=pk).values('accessToken', 'accessSecretKey',
                                                                               'tokenAcitvatedOn', 'tokenExpiryON')
             if len(auth_info) == 0:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
-
-            auth['oauth_token'] = auth_info[0]['accessToken']
-            auth['oauth_token_secret'] = auth_info[0]['accessSecretKey']
-            auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info[0]['tokenAcitvatedOn'])
-            auth['oauth_expires_at'] = Utils.format_expiry_duration(auth_info[0]['tokenExpiryON'])
-            access_key = Utils.get_access_keys(id)
-            auth['consumer_key'] = access_key['auth_key']
-            auth['consumer_secret'] = access_key['secret_key']
-            auth['verified'] = True
-            auth['callback_uri'] = 'http://localhost:8000/lend/v1/xero/authCodeHandler/'
 
             for key, value in auth_info[0].items():
                 OAUTH_PERSISTENT_SERVER_STORAGE.update({key: value})
@@ -157,65 +171,82 @@ class XeroAccountings(object):
             if len(stored_values) == 0:
                 return Utils.dispatch_failure(request, "NO_TOKEN_AUTHENTICATION")
 
-            credentials = PublicCredentials(**auth)
 
-            if credentials.expired():
-                return Utils.dispatch_failure(request, "XERO_CONNECTION_EXPIRED")
+            # Checking Xero Connection Authentication available
+            auth = Utils.get_xero_auth(pk)
+            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+                credentials = PrivateCredentials(**auth)
+            else:
+                credentials = PublicCredentials(**auth)
 
-            if credentials is None:
-                return Utils.dispatch_failure(request, "REFRESH_TOKEN_NOT_FOUND")
+                if credentials.expired():
+                    return Utils.dispatch_failure(request, "NO_TOKEN_AUTHENTICATION")
 
-
-            # Enable the access for accessing the reports from xero logged in account.
-            xero = Xero(credentials)
-            # cm = CompanyMeta.objects.filter(company_id=pk).first()
-            trialbalance = xero.reports.get('TrialBalance', params={})
-
+                if credentials is None:
+                    return Utils.dispatch_failure(request, "REFRESH_TOKEN_NOT_FOUND")
 
             try:
-                XeroAccountings.save_trial_balance(company, trialbalance[0])
-                return Utils.dispatch_success(request, "TRIAL_BALANCE_RECEIVED_SUCCESS")
+                xero = Xero(credentials)
+                xer=xero.reports.get('TrialBalance')
+                print(xer)
+
+            except XeroException:
+                    return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
+            try:
+                meta = CompanyMeta.objects.filter(company_id=pk).first()
+                if meta.monthly_reporting_current_period:
+                    st = time.time()
+                    from portalbackend.lendapi.v1.accounting.tasks import trial_balance_for_period
+                    job = group(trial_balance_for_period.s(pk, i) for i in range(0, 23))
+                    result = job.apply_async()
+                else:
+                    return Utils.dispatch_failure(request, 'MISSING_MONTHLY_REPORTING_CURRENT_PERIOD')
+
+                while not result.ready():
+                    continue
+                print("Finally")
+                return Utils.dispatch_success(request, 'TRIAL_BALANCE_RECEIVED_SUCCESS')
             except Exception as e:
                 error = ["%s" % e]
                 return Utils.dispatch_failure(request, 'DATA_PARSING_ISSUE', error)
-
         except Exception as e:
             return Utils.dispatch_failure(request, "INTERNAL_SERVER_ERROR")
 
     def save_trial_balance(company, response):
 
-        period=response["ReportDate"]
-        if " " in period:
-            period = period.split(" ")
-        else:
-            period = period.split("-")
-
+        period = response["ReportTitles"][2]
+        months = dict(January=1, February=2, March=3, April=4, May=5, June=6, July=7, August=8, September=9, October=10,
+                      November=11, December=12)
+        period = period.split(' ')
+        period = period[2:]
+        period[1] = str(months[period[1]])
         temp = period[0]
         period[0] = period[2]
         period[2] = temp
-        months = dict(January=1, February=2, March=3, April=4, May=5, June=6, July=7, August=8, September=9, October=10,
-                      November=11, December=12)
-        period[1] = str(months[period[1]])
+        print(period)
         period = Utils.format_period(' '.join(period))
 
 
         currency = 'CAD'  # TODO: need to get currency from any where in xero
+        gl_account_id = 0
         for row in response["Rows"]:
             if row["RowType"] == "Header":
                 headers = [column for column in row["Cells"]]
 
             if row["RowType"] == "Section":
-                i = 0
                 for child_row in row["Rows"]:
                     d = {}
-                    i = i + 1
-                    d['Id'] = i
                     d[headers[0]["Value"]] = child_row["Cells"][0]["Value"]
                     d[headers[1]["Value"]] = float(child_row["Cells"][1]["Value"]) if child_row["Cells"][1][
                                                                                           "Value"] != "" else 0
                     d[headers[2]["Value"]] = float(child_row["Cells"][2]["Value"]) if child_row["Cells"][2][
-                                                                                          "Value"] != "" else 0
-                    print(d)
+                                                                                   "Value"] != "" else 0
+                    try:
+                        id = re.search(r"\(([0-9]+)\)", d["Account"])
+                        d['Id'] = id.group(1)
+                    except Exception:
+                        continue
+
                     exists = TrialBalance.objects.filter(company=company, gl_account_id=d["Id"],
                                                          period=period).first()
 
@@ -244,22 +275,13 @@ class XeroAccountings(object):
             #     return Utils.dispatch_failure(request,message)
             company = AccountsUtils.get_company(id)
             # Get xero auth access information form xero connection
-            auth = {}
-            auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'accessSecretKey',
-                                                                              'tokenAcitvatedOn', 'tokenExpiryON')
+            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+                auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'refreshToken')
+            else:
+                auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'accessSecretKey',
+                                                                                  'tokenAcitvatedOn', 'tokenExpiryON')
             if len(auth_info) == 0:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
-
-            auth['oauth_token'] = auth_info[0]['accessToken']
-            auth['oauth_token_secret'] = auth_info[0]['accessSecretKey']
-            auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info[0]['tokenAcitvatedOn'])
-            auth['oauth_expires_at'] = Utils.format_expiry_duration(auth_info[0]['tokenExpiryON'])
-
-            access_key = Utils.get_access_keys(id)
-            auth['consumer_key'] = access_key['auth_key']
-            auth['consumer_secret'] = access_key['secret_key']
-            auth['verified'] = True
-            auth['callback_uri'] = 'http://localhost:8000/lend/v1/xero/authCodeHandler/'
 
             for key, value in auth_info[0].items():
                 OAUTH_PERSISTENT_SERVER_STORAGE.update({key: value})
@@ -268,10 +290,14 @@ class XeroAccountings(object):
             if len(stored_values) == 0:
                 return Utils.dispatch_failure(request, "NO_TOKEN_AUTHENTICATION")
 
+            auth = Utils.get_xero_auth(id)
+            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+                credentials = PrivateCredentials(**auth)
+            else:
+                credentials = PublicCredentials(**auth)
 
-            credentials = PublicCredentials(**auth)
-            if credentials.expired():
-                return Utils.dispatch_failure(request, 'XERO_CONNECTION_EXPIRED')
+                if credentials.expired():
+                    return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
 
             # Enable the access for accessing the reports from xero logged in account.
             xero = Xero(credentials)
@@ -284,17 +310,18 @@ class XeroAccountings(object):
             chartofaccounts = xero.accounts.all()
             XeroAccountings.save_chart_of_accounts(company, chartofaccounts)
             return Utils.dispatch_success(request,"COA_FETECHED_SUCCESSFULLY")
+        except XeroException:
+            return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
         except Exception as e:
             error = ["%s" % e]
             return Utils.dispatch_failure(request, 'DATA_PARSING_ISSUE', error)
 
     def save_chart_of_accounts(company, response):
-
         coas = []
         currency = 'CAD'
-        account_type = response[0]["BankAccountType"]
+        #account_type = response[0]["BankAccountType"]
         for account in response:
-
+            account_type = account["Type"]
             account_code = account["Code"]
             account_name = account["Name"]
             exists = CoA.objects.filter(company=company, gl_account_id=account_code).first()
@@ -338,5 +365,5 @@ class XeroAccountings(object):
         :param pk: Company ID
         :return: Response
         """
-        # TODO Token validation need to be created
+
         pass

@@ -119,7 +119,7 @@ admin.site.register(ForgotPasswordRequest)
 
 class FiscalYearEndAdmin(admin.ModelAdmin):
     form = FiscalYearEndForm
-
+    list_display = [field.name for field in FiscalYearEnd._meta.fields]
 
 admin.site.register(UserSession)
 admin.site.register(FiscalYearEnd,FiscalYearEndAdmin)

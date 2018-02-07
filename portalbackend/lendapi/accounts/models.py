@@ -224,7 +224,7 @@ class CompanyNotification(models.Model):
 class EspressoContact(models.Model):
     company = models.ForeignKey(Company)
     # To list contacts only from Espresso Company
-    contact = models.ForeignKey(Contact,limit_choices_to=Q(company=settings.ESPRESSO_COMAPANY_ID))
+    contact = models.ForeignKey(Contact,limit_choices_to=Q(company=settings.ESPRESSO_COMPANY_ID))
 
     class Meta:
         db_table = "espressocontact"

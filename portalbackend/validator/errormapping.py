@@ -6,7 +6,7 @@ class ErrorMessage:
     MISSING_PARAMETERS = "Missing required parameter."
     INVALID_PARAMETERS = "Invalid Paramerters"
     DATA_PARSING_ISSUE = "Data parsing error."
-    MULTIPLE_EMAIL_FOUND = "Multiple Email Configured.Please contact your admin for support"
+    MULTIPLE_EMAIL_FOUND = "Multiple Email Configured.Please contact admin for support"
 
     MINIMUM_LENGTH_3 = "Atleast 3 characters required"
     MINIMUM_LENGTH_4 = "Atleast 4 characters required"

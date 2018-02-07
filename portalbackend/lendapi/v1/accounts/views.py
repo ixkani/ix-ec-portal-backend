@@ -288,11 +288,13 @@ class LoginView(views.APIView):
                 user.last_login = timezone.now()
                 user.save()
                 serializer = UserLoginSerializer(user, context={'request': request})
+                data = serializer.data
                 if UserSession.objects.filter(user=user).count():
                     UserSession.objects.filter(user=user).delete()
+                if data["company"] is None:
+                    return Utils.dispatch_failure(request, "USER_NOT_CONNECTED")
                 now = datetime.datetime.utcnow().replace(tzinfo=utc)
                 UserSession.objects.create(user = user,start_time = now,end_time = now + datetime.timedelta(minutes=SESSION_EXPIRE_MINUTES))
-                data = serializer.data
                 data ['session_expiry_timeout'] = SESSION_EXPIRE_MINUTES
                 return Utils.dispatch_success(request,data)
             else:

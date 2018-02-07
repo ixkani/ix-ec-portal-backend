@@ -338,7 +338,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
                                   'QBO_CLIENT_ID', 'QBO_CLIENT_SECRET', 'QBO_DISCOVERY_DOCUMENT', 'QBO_PROFILE_URL',
                                   'QBO_REDIRECT_URI', 'QUICKBOOKS_DESKTOP_APP_FILE_NAME',
                                   'QUICKBOOKS_DESKTOP_APP_VERSION', 'REDIS_URL', 'SECRET_KEY',
-                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL']
+                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL', 'ESPRESSO_COMPANY_ID']
     # Add all the variables in this list to ignore from prevalidation the environment
     environment_variable_uncheck = ['ALLSIGHT_URL']
     for environment in environment_variable_check:
@@ -420,4 +420,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
 
 DEVELOPMENT_TESTING_IP = "210.18.176.194"
-ESPRESSO_COMAPANY_ID = os.environ.get('ESPRESSO_COMAPANY_ID', 1)
+ESPRESSO_COMPANY_ID = os.environ.get('ESPRESSO_COMPANY_ID', 1)
+CELERY_IMPORTS = ('portalbackend.lendapi.v1.accounting.tasks',)

@@ -48,8 +48,10 @@ class Statement(views.APIView):
 
             # TODO: FISCAL YEAR CHANGE
             # Company's Current Fiscal Year End date
-            fiscal_year_end = Utils.get_fiscal_year_end(company)
-            slitted_data = Utils.spilt_input_to_chunk(data, fiscal_year_end)
+            print('setting fye dict')
+            fye_dict = Utils.get_curr_prior_fiscal_year_end(company)
+            print('splitting data into chuncks')
+            slitted_data = Utils.spilt_input_to_chunk(data, fye_dict)
 
             error_tags = []
             # todo: this needs to be updated for production user and pass
@@ -76,6 +78,9 @@ class Statement(views.APIView):
                 income_statement_data = []
 
                 for data in slitted_data:
+                    print('^^^^^^^^^^^^^^^ processing tb data ')
+                    # print(data)
+                    print('^^^^^^^^^^^^^^^^^ tb data end')
                     st = time.time()
                     if url_configured:
                         if proxy_dict_required:
@@ -90,7 +95,7 @@ class Statement(views.APIView):
                         response = json.loads(json_response)
                     print('{:.2f}s AS - SAVE Request'.format(time.time() - st))
 
-                    print('########## AS RESPONSE', response)
+                    # print('########## AS RESPONSE', response)
                     for entry in response["Model"]["Financials"]["BalanceSheet"]:
                         balance_sheet_data.append(entry)
                     for entry in response["Model"]["Financials"]["IncomeStatement"]:
@@ -574,6 +579,7 @@ class TrialBalanceView(views.APIView):
         try:
             return Accounting().get_instance_by_id(pk).trail_balance(pk, request)
         except Exception as e:
+
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
     def post(self, request, pk, *args, **kwargs):

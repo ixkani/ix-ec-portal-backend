@@ -23,7 +23,7 @@ from portalbackend.lendapi.accounts.models import CompanyMeta
 from portalbackend.lendapi.v1.accounting import getDiscoveryDocument
 from portalbackend.lendapi.accounting.models import  LoginInfo, AccountingOauth2, TrialBalance, CoA
 from portalbackend.lendapi.v1.accounting.serializers import CoASerializer
-from portalbackend.lendapi.v1.accounting.tasks import qbo_trial_balance_for_period
+from portalbackend.lendapi.v1.accounting.tasks import trial_balance_for_period
 
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.accounting.utils import AccountingUtils
@@ -159,7 +159,7 @@ class QuickBooks(object):
 
                 # this will grab the trial balance for the companymeta.monthly_reporting_current_period
                 # plus 23 more months worth of history.
-                job = group(qbo_trial_balance_for_period.s(pk, i) for i in range(0, 23))
+                job = group(trial_balance_for_period.s(pk, i) for i in range(0, 23))
                 result = job.apply_async()
             else:
                 return Utils.dispatch_failure(request,'MISSING_MONTHLY_REPORTING_CURRENT_PERIOD')

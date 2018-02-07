@@ -1,3 +1,5 @@
+import copy
+
 class MappedAccountList:
     """
     A class to manage account mappings. Collapses a trial balance from
@@ -88,7 +90,7 @@ class MappedAccountList:
             raise ValueError("Invalid period '" + period + "'")
         self.__period_values[period][map_account_id] += value
 
-    def process_values(self, presort_names=True):
+    def process_values(self, presort_names=False):
         # make sure there is something to process
         if len(self.__period_names) < 2:
             return  # nothing to do if there are 0 or 1 periods.
@@ -100,11 +102,22 @@ class MappedAccountList:
         # updates the YTD values to per period values
         prev_period = None
         prev_tb_map = None
-        period_names_list = self.__period_names.copy()
+        period_names_list = copy.deepcopy(self.__period_names)
         if presort_names:
             period_names_list.sort()
+            print(period_names_list)
+        else:
+            print("Test of sort list")
+            tmp = period_names_list.copy()
+            print("Before: " , tmp)
+            tmp.sort()
+            print("After: ", tmp)
+            print(period_names_list)
+            print('^^^^^^^^^^^^^^^^^^^^^^^')
+
         for period in period_names_list:
             tb_map = self.__period_values[period]
+            print("Processing period {period} - prev period: {prev_period}")
 
             # step A: make sure the amounts are complete (i.e. sum(map_account_values) = 0)
             # this is purely a sanity check to make sure the initial values are correct.
@@ -115,7 +128,7 @@ class MappedAccountList:
                 raise Exception("Trial balance not balanced: net = {:0.3f}".format(total))
 
             # step B: diff all non-balance sheet accounts -- skip the first period
-            prev_tb_map_storage = tb_map.copy()  # make a copy of the old tb before we modify it
+            prev_tb_map_storage = copy.deepcopy(tb_map)  # make a copy of the old tb before we modify it
             ytd_value = 0.0  # store the ytd values for income statement accounts
             for account_id in tb_map.keys():
                 tb_map[account_id] = round(tb_map[account_id], 2)
@@ -124,6 +137,7 @@ class MappedAccountList:
                     if prev_period is not None:
                         tb_map[account_id] -= prev_tb_map[account_id]
             tb_map[self.YEAR_TO_DATE_INCOME_ACCOUNT_ID] = ytd_value  # update YTD account
+            print("\tNRev value period {period}: value = {tb_map['4000']}")
 
             # step C: flip the signs of the various accounts if normally credit balances
             total_assets = 0.0
@@ -227,7 +241,7 @@ class MappedAccountList:
     def get_periods(self):
         return self.__period_names
 
-    def process_request(self, input_data, presort_names=True):
+    def process_request(self, input_data, presort_names=False):
         """
         Maps trial balance data to output
 
@@ -241,6 +255,9 @@ class MappedAccountList:
         :param presort_names: Should period names be sorted prior to processing?
         :return:
         """
+        print('^^^^^^^^^^^^^^^^^ INPUT DATA')
+        print(input_data)
+        print('^^^^^^^^^^^^^^^^ END OF INPUT DATA')
 
         # Step 1: make sure the mapped accounts have been set up
         coa_map = input_data['Model']['Financials']['CustomerAccountMapping']

@@ -14,6 +14,7 @@ class ErrorCode:
     RESOURCE_NOT_FOUND = 1011
     MULTIPLE_EMAIL_FOUND = 1012
     EMAIL_NOT_FOUND = 1013
+    USER_NOT_CONNECTED = 1014
 
 
     # Reports
@@ -34,3 +35,4 @@ class ErrorCode:
 
     # Company Error Messages
     COMPANY_META_NOT_AVAILABLE = 1300
+

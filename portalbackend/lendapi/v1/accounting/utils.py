@@ -1,5 +1,6 @@
 import base64
 import calendar
+import copy
 import datetime
 import json
 import logging
@@ -7,37 +8,37 @@ import os
 import random
 import re
 import uuid
-import time
-import copy
+from datetime import timedelta
 
 import requests
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.http import HttpResponse
+from django.utils.timezone import utc
 from rest_framework import status
 from rest_framework.response import Response
-from django.utils.timezone import utc
-from datetime import timedelta
 
-from portalbackend.settings import BASE_DIR,EMAIL_ENABLED
-from portalbackend.validator.errorcodemapping import ErrorCode
-from portalbackend.validator.errormapping import ErrorMessage
-from portalbackend.validator.headercodemapping import HeaderErrorCode
-
-from portalbackend.lendapi.constants import MONTHLY_REPORT_KEY_ERROR_EMAIL_SUBJECT, \
-    COMAPANY_META_EMAIL_BODY, COMAPANY_META_EMAIL_SUBJECT, MONTHLY_REPORT_KEY_ERROR_ADMIN_EMAIL_BODY, \
-    MONTHLY_REPORT_KEY_ERROR_USER_EMAIL_BODY, COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT, \
-    COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_BODY
 from portalbackend import settings
 from portalbackend.lendapi.accounting.models import Bearer, LoginInfo
 # token can either be an accessToken or a refreshToken
 from portalbackend.lendapi.accounting.utils import AccountingUtils
-from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact , CompanyMeta,UserSession,FiscalYearEnd
+from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact, CompanyMeta, FiscalYearEnd
 from portalbackend.lendapi.accounts.utils import AccountsUtils
+from portalbackend.lendapi.constants import MONTHLY_REPORT_KEY_ERROR_EMAIL_SUBJECT, \
+    COMAPANY_META_EMAIL_BODY, COMAPANY_META_EMAIL_SUBJECT, MONTHLY_REPORT_KEY_ERROR_ADMIN_EMAIL_BODY, \
+    MONTHLY_REPORT_KEY_ERROR_USER_EMAIL_BODY, COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT, \
+    COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_BODY, ERROR_TAG_EMAIL_ADMIN_BODY, \
+    ERROR_TAG_EMAIL_USER_BODY, COMPANY_META_NOT_FOUND_EMAIL_ADMIN, \
+    COMPANY_PERIOD_NOT_FOUND_EMAIL_ADMIN
 from portalbackend.lendapi.v1.accounting import getDiscoveryDocument
 from portalbackend.lendapi.v1.accounting.serializers import CompanyDetailSerializer, LoginInfoSerializer
 from portalbackend.lendapi.v1.accounts.serializers import CompanySerializer
+from portalbackend.settings import BASE_DIR, EMAIL_ENABLED
+from portalbackend.validator.errorcodemapping import ErrorCode
+from portalbackend.validator.errormapping import ErrorMessage
+from portalbackend.validator.headercodemapping import HeaderErrorCode
+from xero.auth import PublicCredentials
 
 
 class Utils(object):
@@ -517,42 +518,86 @@ class Utils(object):
         # print(response)
         return response, status_code
 
+    @staticmethod
+    def get_xero_auth(pk):
+        auth_info = AccountingUtils.get_credentials_by_company(pk)
+        auth={}
+        if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+            auth['consumer_key']= auth_info.accessToken
+            auth['rsa_key'] = auth_info.refreshToken
+        else:
+            auth['oauth_token'] = auth_info.accessToken
+            auth['oauth_token_secret'] = auth_info.accessSecretKey
+            auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info.tokenAcitvatedOn)
+            auth['oauth_expires_at'] = Utils.format_expiry_duration(auth_info.tokenExpiryON)
+            access_key = Utils.get_access_keys(pk)
+            auth['consumer_key'] = access_key['auth_key']
+            auth['consumer_secret'] = access_key['secret_key']
+            auth['verified'] = True
+            auth['callback_uri'] = settings.XERO_CALL_BACK_URI
+
+        return auth
+
+    @staticmethod
+    def refresh_xero_auth_token(pk):
+        secret_keys = Utils.get_access_keys(pk)
+        consumer_key = secret_keys['auth_key']
+        consumer_secret = secret_keys['secret_key']
+        credentials = PublicCredentials(consumer_key, consumer_secret)
+
+        return
+
+
+
+        # TODO: FISCAL YEAR CHANGE
+    @staticmethod
+    def get_curr_prior_fiscal_year_end(company):
+        """
+        Returns the current, and previous fiscal year end entries for the company. This info will be used to break
+        up the trial balance into fiscal year blocks for the call to generate statements
+
+        :param company:
+        :return: dictionary of fiscal year end entries key'd as current and prior
+        """
+
+        current_and_prior_fye = {}
+        # reverse sort, so the prior fiscal year end always comes next, after the current
+        fiscal_year_end_list = FiscalYearEnd.objects.filter(company=company).order_by('-fye_start_date')
+
+        print('^^^^^^^^^ got fye list')
+        for index, fye in enumerate(fiscal_year_end_list):
+            print('^^^^^^^^^^^^ index is ', index)
+            if fye.is_active:
+                print('^^^^^^^^^^^^^ setting current and prior when index is ', index)
+                current_and_prior_fye["current"] = fye
+                current_and_prior_fye["prior"] = fiscal_year_end_list[index + 1]
+                break
+
+        print("^^^^^^^^^ current is ", current_and_prior_fye["current"].fye_start_date, " to ",
+              current_and_prior_fye["current"].fye_end_date)
+
+        print("^^^^^^^^^ previous is ", current_and_prior_fye["prior"].fye_start_date, " to ",
+              current_and_prior_fye["prior"].fye_end_date)
+
+        return current_and_prior_fye
+
     # TODO: FISCAL YEAR CHANGE
     @staticmethod
-    def get_fiscal_year_end(company):
-        fiscal_year_end = []
-        fiscal_year_end_objects = FiscalYearEnd.objects.filter(company=company, is_active=True)
-        for obj in fiscal_year_end_objects:
-            fiscal_year_end.append(obj.fye_end_date)
-
-        if not len(fiscal_year_end):
-            meta = CompanyMeta.objects.filter(company_id=company.id).first()
-            fiscal_year_end.append(meta.monthly_reporting_current_period)
-        return fiscal_year_end
-
-    # TODO: FISCAL YEAR CHANGE
-    @staticmethod
-    def spilt_input_to_chunk(data, current_fiscal_year_end):
-
+    def spilt_input_to_chunk(data, fye_dict):
+        print('^^^^^^^^^ splitting the data WHAT!')
         current_fiscal_year_tb = []
         previous_fiscal_year_tb = []
 
-        # only one fiscal year is active . So list contain only one value
-        current_fiscal_year_end = current_fiscal_year_end[0]
-
-        now = datetime.datetime.now()
-        current = datetime.date(now.year, now.month, calendar.monthrange(int(now.year), int(now.month))[1])
-
-        delta = current_fiscal_year_end.replace(year=current_fiscal_year_end.year - 1)
-        year_start = delta.replace(year=delta.year - 1)
-
         for tb in data["Model"]["Financials"]["CustomerTrialBalance"]:
-
             year, month = tb["Period"].split('-')
-            dt = datetime.date(year=int(year), month=int(month), day=calendar.monthrange(int(year), int(month))[1])
-            if delta < dt <= current:
+            tbperiod = datetime.date(year=int(year), month=int(month), day=calendar.monthrange(int(year), int(month))[1])
+
+            if tbperiod >= fye_dict["current"].fye_start_date and tbperiod <= fye_dict["current"].fye_end_date:
+                print('### Current ### Adding ', tbperiod)
                 current_fiscal_year_tb.append(tb)
-            if year_start < dt <= delta:
+
+            if tbperiod >= fye_dict["prior"].fye_start_date and tbperiod <= fye_dict["prior"].fye_end_date:
+                print('### Previous ### Adding ', tbperiod)
                 previous_fiscal_year_tb.append(tb)
 
         current_fiscal_year_data = copy.deepcopy(data)
@@ -560,7 +605,6 @@ class Utils(object):
 
         current_fiscal_year_data["Model"]["Financials"]["CustomerTrialBalance"] = current_fiscal_year_tb
         previous_fiscal_year_data["Model"]["Financials"]["CustomerTrialBalance"] = previous_fiscal_year_tb
-
         return [current_fiscal_year_data, previous_fiscal_year_data]
 
     # for decoding ID Token
@@ -699,29 +743,13 @@ class Utils(object):
         for tags in error_tags:
             error_tags_table += "<br>%s" % tags
 
-        admin_html_body = "Admin,<br><p>%s</p><br><b>Company Details</b><br><br>" \
-                          "<table border='1' style='border-collapse:collapse'" \
-                          "<tr><td>Company Name</td> <td>%s</td>" \
-                          "<tr><td>Company Id</td> <td>%s</td>" \
-                          "<tr><td>Accounting Type</td> <td>%s</td>" \
-                          "<tr><td>Monthly reporting current period</td> <td>%s</td>" \
-                          "<tr><td>Monthly reporting next period</td> <td>%s</td></table><br><br>" \
-                          "<b>Errors</b><br><p>" \
-                          "The following financial statement entry tag map are not found%s" \
-                          "<br><b> Actual JSON Response </b> <pre>%s</pre>" % (
+        admin_html_body = ERROR_TAG_EMAIL_ADMIN_BODY % (
                           MONTHLY_REPORT_KEY_ERROR_ADMIN_EMAIL_BODY,
                           company_data.name, company_data.id, company_data.accounting_type,
                           meta.monthly_reporting_current_period, meta.monthly_reporting_next_period, error_tags_table,
                           json_body)
 
-        user_html_body = "Hi %s,<br><p>%s</p><br><b>Company Details</b><br><br>" \
-                         "<table border='1' style='border-collapse:collapse'" \
-                         "<tr><td>Company Name</td> <td>%s</td>" \
-                         "<tr><td>Accounting Type</td> <td>%s</td>" \
-                         "<tr><td>Monthly reporting current period</td> <td>%s</td>" \
-                         "<tr><td>Monthly reporting next period</td> <td>%s</td></table><br><br>" \
-                         "<b>Errors</b><br><p>" \
-                         "The following financial statement entry tag map are not found%s" % (
+        user_html_body = ERROR_TAG_EMAIL_USER_BODY % (
                              user.username.title(),MONTHLY_REPORT_KEY_ERROR_USER_EMAIL_BODY,
                              company_data.name, company_data.accounting_type,
                              meta.monthly_reporting_current_period, meta.monthly_reporting_next_period,
@@ -743,22 +771,14 @@ class Utils(object):
         company_data = Company.objects.get(pk=company)
 
         if choice is "META":
-            html_body = "Admin,<br><p>%s</p><br><b>Company Details</b><br><br>" \
-                        "<table border='1' style='border-collapse:collapse'>" \
-                        "<tr><td>Company Name</td> <td>%s</td>" \
-                        "<tr><td>Company Id</td> <td>%s</td>" \
-                        "<tr><td>Accounting Type</td> <td>%s</td>" % (
+            html_body = COMPANY_META_NOT_FOUND_EMAIL_ADMIN % (
                             COMAPANY_META_EMAIL_BODY, company_data.name, company_data.id,
                             company_data.accounting_type)
             subject = COMAPANY_META_EMAIL_SUBJECT + company_data.name
             Utils.send_mail(email=[admin_mail, ], body='', subject=subject, html_message=html_body)
 
         elif choice is "PERIOD":
-            html_body = "Admin,<br><p>%s</p><br><b>Company Details</b><br><br>" \
-                        "<table border='1' style='border-collapse:collapse'>" \
-                        "<tr><td>Company Name</td> <td>%s</td>" \
-                        "<tr><td>Company Id</td> <td>%s</td>" \
-                        "<tr><td>Accounting Type</td> <td>%s</td>" % (
+            html_body = COMPANY_PERIOD_NOT_FOUND_EMAIL_ADMIN % (
                             COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_BODY, company_data.name, company_data.id,
                             company_data.accounting_type)
             subject = COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT + company_data.name

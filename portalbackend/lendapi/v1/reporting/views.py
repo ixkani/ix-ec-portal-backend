@@ -209,9 +209,9 @@ class MonthlyReportSignoff(views.APIView):
         try:
             coamap = CoAMap.objects.filter(company_id=pk)
             for entry in coamap:
-                print('############# verified by = true')
+                # print('############# verified by = true')
                 entry.verified_by_user = True
-                print('################ entry.verified_by_user ', entry.verified_by_user)
+                # print('################ entry.verified_by_user ', entry.verified_by_user)
                 entry.save()
         except Exception as e:
             return Utils.dispatch_failure (request,'INTERNAL_SERVER_ERROR')
