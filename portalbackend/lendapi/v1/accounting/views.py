@@ -49,7 +49,11 @@ class Statement(views.APIView):
             # TODO: FISCAL YEAR CHANGE
             # Company's Current Fiscal Year End date
             print('setting fye dict')
-            fye_dict = Utils.get_curr_prior_fiscal_year_end(company)
+            try:
+                fye_dict = Utils.get_curr_prior_fiscal_year_end(company)
+            except Exception as e:
+                error = ["%s" % e]
+                return Utils.dispatch_failure(request, 'DATA_PARSING_ISSUE', error)
             print('splitting data into chuncks')
             slitted_data = Utils.spilt_input_to_chunk(data, fye_dict)
 

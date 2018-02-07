@@ -43,6 +43,7 @@ class CompanyMetaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CompanyMetaForm, self).__init__(*args, **kwargs)
 
+
         for field in self.fields.values():
             field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA}
 

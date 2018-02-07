@@ -3,6 +3,7 @@ from rest_framework import status
 from portalbackend.lendapi.accounts.models import Company
 from portalbackend.lendapi.v1.accounting.third_party.quickbooks import QuickBooks
 from portalbackend.lendapi.v1.accounting.third_party.xeros import XeroAccountings
+from portalbackend.lendapi.v1.accounting.third_party.sage import SageAccountings
 from portalbackend.lendapi.v1.accounting.utils import Utils
 
 
@@ -18,6 +19,7 @@ class Accounting:
             return QuickBooks()
         elif accounting_type == Company.XERO:
             return XeroAccountings()
-
+        elif accounting_type == Company.SAGE:
+            return SageAccountings()
 
 

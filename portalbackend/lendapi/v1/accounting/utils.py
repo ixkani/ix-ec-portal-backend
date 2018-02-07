@@ -38,7 +38,7 @@ from portalbackend.settings import BASE_DIR, EMAIL_ENABLED
 from portalbackend.validator.errorcodemapping import ErrorCode
 from portalbackend.validator.errormapping import ErrorMessage
 from portalbackend.validator.headercodemapping import HeaderErrorCode
-from xero.auth import PublicCredentials
+from xero.auth import PublicCredentials,PrivateCredentials
 
 
 class Utils(object):
@@ -522,10 +522,13 @@ class Utils(object):
     def get_xero_auth(pk):
         auth_info = AccountingUtils.get_credentials_by_company(pk)
         auth={}
-        if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+        cm = CompanyMeta.objects.filter(company_id=pk).first()
+        print(cm.last_page)
+        if cm.last_page == "PRIVATE":
+            print("IM here")
             auth['consumer_key']= auth_info.accessToken
-            auth['rsa_key'] = auth_info.refreshToken
-        else:
+            auth['rsa_key'] = auth_info.accessSecretKey
+        if cm.last_page == "PUBLIC":
             auth['oauth_token'] = auth_info.accessToken
             auth['oauth_token_secret'] = auth_info.accessSecretKey
             auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info.tokenAcitvatedOn)
@@ -785,3 +788,24 @@ class Utils(object):
             Utils.send_mail(email=[admin_mail, ], body='', subject=subject, html_message=html_body)
 
         return
+
+    @staticmethod
+    def get_xero_public_credentials(stored_values):
+        return PublicCredentials(consumer_key=stored_values['consumer_key'],
+                      consumer_secret=stored_values['consumer_secret'],
+                      callback_uri=stored_values['callback_uri'],
+                      verified=stored_values['verified'],
+                      oauth_token=stored_values['oauth_token'],
+                      oauth_token_secret=stored_values['oauth_token_secret'],
+                      oauth_expires_at=stored_values['oauth_expires_at'],
+                      oauth_authorization_expires_at=stored_values[
+                          'oauth_authorization_expires_at'],
+                      )
+    @staticmethod
+    def get_xero_credentials(company,**auth):
+        cm = CompanyMeta.objects.filter(company=company).first()
+        print(cm.last_page)
+        if cm.last_page == "PRIVATE":
+            return PrivateCredentials(**auth)
+        if cm.last_page == "PUBLIC":
+            return PublicCredentials(**auth)

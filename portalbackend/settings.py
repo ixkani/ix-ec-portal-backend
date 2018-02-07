@@ -362,6 +362,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
     XERO_CONSUMER_SECRET = os.environ.get('XERO_CONSUMER_SECRET')
     XERO_CALL_BACK_URI = os.environ.get('XERO_CALL_BACK_URI')
     XERO_AUTH_VERIFIER_URI = os.environ.get('XERO_AUTH_VERIFIER_URI')
+	XERO_ACCOUNT_TYPE = os.environ.get('XERO_ACCOUNT_TYPE')
 
     # FORGOT PASSWORD EMAIL
     FORGOT_PASSWORD_EMAIL_URL = os.environ.get('FORGOT_PASSWORD_EMAIL_URL')
@@ -371,7 +372,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vivek.tamilarasan@ionixxtech.com')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'lifeissimple')
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'vivek.tamilarasan@ionixxtech.com')
-
+	
 # Celery configuration
 # task queue? some kinda queue
 BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')

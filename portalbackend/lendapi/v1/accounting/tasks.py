@@ -56,11 +56,7 @@ def trial_balance_for_period(pk, period_offset):
         # params = {'fromDate': str(period.strftime('%Y-%m-01')), 'toDate': str(period.strftime('%Y-%m-%d'))}
         params = {'date': str(period.strftime('%Y-%m-%d'))}
         auth = Utils.get_xero_auth(pk)
-
-        if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
-            credentials = PrivateCredentials(**auth)
-        else:
-            credentials = PublicCredentials(**auth)
+        credentials =  Utils.get_xero_credentials(company,**auth)
         xero = Xero(credentials)
         trialbalance = xero.reports.get('TrialBalance',
                                         params=params)

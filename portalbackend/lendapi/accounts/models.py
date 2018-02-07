@@ -50,9 +50,10 @@ class Company(models.Model):
     auth_key = models.CharField(max_length=500, default="", validators=[
         MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
     ])
-    secret_key = models.CharField(max_length=500, default="", validators=[
-        MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
-    ])
+    secret_key = models.TextField(default="", help_text="Copy and paste your private key for Xero Private company",
+                                  verbose_name="Secret key / RSA key",
+                                  validators=[MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10, )
+                                              ])
     current_fiscal_year_end = models.DateField(null=True, blank=True)
     is_tag_error_notified = models.BooleanField(default=False,blank=True,help_text="No Need to Change. Auto Updation Field")
 

@@ -45,11 +45,10 @@ class XeroAccountings(object):
 
                 # call_back_url = 'http://localhost/oauth'
                 if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
-
-                    with open("/home/muthukumar/Desktop/espresso_capital/ec-portal-backend/portalbackend/lendapi/v1/accounting/third_party/privatekey.pem") as keyfile:rsa_key = keyfile.read()
-                    credentials = PrivateCredentials(consumer_key=consumer_key,rsa_key=rsa_key)
+                    credentials = PrivateCredentials(consumer_key=consumer_key,rsa_key=consumer_secret)
                     OAUTH_PERSISTENT_SERVER_STORAGE.update({'consumer_key':credentials.consumer_key})
                     OAUTH_PERSISTENT_SERVER_STORAGE.update({'rsa_key':credentials.rsa_key})
+                    url = call_back_uri
                 else:
                     credentials = PublicCredentials(consumer_key, consumer_secret, callback_uri=call_back_uri)
                     # Save generated credentials details to persistent storage
@@ -87,27 +86,22 @@ class XeroAccountings(object):
                 exists = AccountingOauth2.objects.filter(company=pk).first()
                 if not exists:
                     auth = AccountingOauth2(accessToken=stored_values['consumer_key'],
-                                        refreshToken=stored_values['rsa_key'],
+                                            accessSecretKey=stored_values['rsa_key'],
                                         company_id=pk)
                     auth.save()
+                else:
+                    exists.accessToken = stored_values['consumer_key']
+                    exists.accessSecretKey = stored_values['rsa_key']
+                    exists.save()
             else:
                 auth_verifier_uri = settings.XERO_AUTH_VERIFIER_URI
                 oauth_verifier = request.GET.get('oauth_verifier')
-                credentials = PublicCredentials(consumer_key=stored_values['consumer_key'],
-                                            consumer_secret=stored_values['consumer_secret'],
-                                            callback_uri=stored_values['callback_uri'],
-                                            verified=stored_values['verified'],
-                                            oauth_token=stored_values['oauth_token'],
-                                            oauth_token_secret=stored_values['oauth_token_secret'],
-                                            oauth_expires_at=stored_values['oauth_expires_at'],
-                                            oauth_authorization_expires_at=stored_values[
-                                                'oauth_authorization_expires_at'],
-                                            )
+                credentials = Utils.get_xero_public_credentials(stored_values)
 
                 if credentials.expired():
                     return Utils.dispatch_failure(request, 'XERO_CONNECTION_EXPIRED')
 
-                    # Verify the auth verifier for establish the connection
+                # Verify the auth verifier for establish the connection
 
                 credentials.verify(oauth_verifier)
                 # Resave our verified credentials
@@ -156,10 +150,7 @@ class XeroAccountings(object):
         """
         try:
             # Checking Token Authentication available
-            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
-                auth_info = AccountingOauth2.objects.filter(company_id=pk).values('accessToken', 'refreshToken')
-            else:
-                auth_info = AccountingOauth2.objects.filter(company_id=pk).values('accessToken', 'accessSecretKey',
+            auth_info = AccountingOauth2.objects.filter(company_id=pk).values('accessToken', 'accessSecretKey',
                                                                               'tokenAcitvatedOn', 'tokenExpiryON')
             if len(auth_info) == 0:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
@@ -174,9 +165,11 @@ class XeroAccountings(object):
 
             # Checking Xero Connection Authentication available
             auth = Utils.get_xero_auth(pk)
-            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+            cm = CompanyMeta.objects.filter(company_id=pk).first()
+            print(cm.last_page)
+            if cm.last_page == "PRIVATE":
                 credentials = PrivateCredentials(**auth)
-            else:
+            if cm.last_page == "PUBLIC":
                 credentials = PublicCredentials(**auth)
 
                 if credentials.expired():
@@ -187,8 +180,7 @@ class XeroAccountings(object):
 
             try:
                 xero = Xero(credentials)
-                xer=xero.reports.get('TrialBalance')
-                print(xer)
+                xero.reports.get('TrialBalance')
 
             except XeroException:
                     return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
@@ -204,12 +196,12 @@ class XeroAccountings(object):
 
                 while not result.ready():
                     continue
-                print("Finally")
                 return Utils.dispatch_success(request, 'TRIAL_BALANCE_RECEIVED_SUCCESS')
             except Exception as e:
                 error = ["%s" % e]
                 return Utils.dispatch_failure(request, 'DATA_PARSING_ISSUE', error)
         except Exception as e:
+            print(e)
             return Utils.dispatch_failure(request, "INTERNAL_SERVER_ERROR")
 
     def save_trial_balance(company, response):
@@ -275,10 +267,7 @@ class XeroAccountings(object):
             #     return Utils.dispatch_failure(request,message)
             company = AccountsUtils.get_company(id)
             # Get xero auth access information form xero connection
-            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
-                auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'refreshToken')
-            else:
-                auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'accessSecretKey',
+            auth_info = AccountingOauth2.objects.filter(company_id=id).values('accessToken', 'accessSecretKey',
                                                                                   'tokenAcitvatedOn', 'tokenExpiryON')
             if len(auth_info) == 0:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
