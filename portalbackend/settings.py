@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_json_widget',
-    'djangosecure',
+
     # handles cors headers, self explanatory
     'corsheaders',
 ]
@@ -103,7 +103,6 @@ MIDDLEWARE = [
 
     # Default
     'django.middleware.security.SecurityMiddleware',
-    'djangosecure.middleware.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
 
@@ -115,7 +114,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'portalbackend.lendapi.v1.accounts.permissions.SessionValidator',
+    #'portalbackend.lendapi.v1.accounts.permissions.SessionValidator',
 
 ]
 
@@ -125,7 +124,7 @@ CORS_ALLOW_HEADERS = default_headers + (
 
 # disable in production
 # todo: disable before production release
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 
 # add the portal frontend url
 CORS_ORIGIN_WHITELIST = (
@@ -265,7 +264,7 @@ if environment == ENVIRONMENT_DEVELOPMENT:
     QBO_AUTH_CANCEL_URL = "http://localhost:4200/sync"
     CLIENT_ID = 'Q0W1osEOriGM0rwlt7ZBE2ArpDAuczZyDxUmQyx6neVBbU4lkI'
     CLIENT_SECRET = 'RPHtn6oWjCsQuwYyi5j0Jh2M8hl93LsYk934pR81'
-    REDIRECT_URI = 'http://localhost:8000/lend/v1/qbo/authCodeHandler'
+    REDIRECT_URI = 'http://localhost:8000/lend/v1/authCodeHandler'
 
     # Xero accounting access configuration
     # TODO: Only for identity,need to remove once confirmed, XERO_CONSUMER_KEY & XERO_CONSUMER_SECRET
@@ -339,7 +338,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
                                   'QBO_CLIENT_ID', 'QBO_CLIENT_SECRET', 'QBO_DISCOVERY_DOCUMENT', 'QBO_PROFILE_URL',
                                   'QBO_REDIRECT_URI', 'QUICKBOOKS_DESKTOP_APP_FILE_NAME',
                                   'QUICKBOOKS_DESKTOP_APP_VERSION', 'REDIS_URL', 'SECRET_KEY',
-                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL', 'ESPRESSO_COMPANY_ID','XERO_AUTH_REDIRECT_URL']
+                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL','ESPRESSO_COMPANY_ID']
     # Add all the variables in this list to ignore from prevalidation the environment
     environment_variable_uncheck = ['ALLSIGHT_URL']
     for environment in environment_variable_check:
@@ -363,8 +362,6 @@ elif environment == ENVIRONMENT_PRODUCTION:
     XERO_CONSUMER_SECRET = os.environ.get('XERO_CONSUMER_SECRET')
     XERO_CALL_BACK_URI = os.environ.get('XERO_CALL_BACK_URI')
     XERO_AUTH_VERIFIER_URI = os.environ.get('XERO_AUTH_VERIFIER_URI')
-    XERO_ACCOUNT_TYPE = os.environ.get('XERO_ACCOUNT_TYPE')
-    XERO_AUTH_REDIRECT_URL = os.environ.get('XERO_AUTH_REDIRECT_URL')
 
     # FORGOT PASSWORD EMAIL
     FORGOT_PASSWORD_EMAIL_URL = os.environ.get('FORGOT_PASSWORD_EMAIL_URL')
@@ -424,4 +421,3 @@ OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
 
 DEVELOPMENT_TESTING_IP = "210.18.176.194"
 ESPRESSO_COMPANY_ID = os.environ.get('ESPRESSO_COMPANY_ID', 1)
-CELERY_IMPORTS = ('portalbackend.lendapi.v1.accounting.tasks',)

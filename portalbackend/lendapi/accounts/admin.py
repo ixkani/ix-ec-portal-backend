@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django import forms
 from django.contrib.sessions.models import Session
-from .models import Company, User, CompanyMeta, EspressoContact, Contact, ForgotPasswordRequest,UserSession,FiscalYearEnd, CompanyAccountingConfiguration
+from .models import Company, User, CompanyMeta, EspressoContact, Contact, ForgotPasswordRequest,UserSession,FiscalYearEnd
 from portalbackend.lendapi.reporting.models import MonthlyReport
 
 from django.contrib.auth.admin import UserAdmin
 from django.db import models
-from .forms import CompanyMetaForm, CompanyForm, ContactForm, EcUserChangeForm, EcUserCreationForm,FiscalYearEndForm,CompanyAccountingConfigurationForm
+from .forms import CompanyMetaForm, CompanyForm, ContactForm, EcUserChangeForm, EcUserCreationForm,FiscalYearEndForm
 from portalbackend.lendapi.v1.accounts.serializers import CompanySerializer, UserSerializer, CompanyMetaSerializer, \
     UserLoginSerializer, LoginSerializer, CreateUserSerializer, ContactSerializer, EspressoContactSerializer
 
@@ -22,14 +22,6 @@ class CompanyMetaInline(admin.StackedInline):
     form = CompanyMetaForm
     extra = 0
     fields = [field.name for field in CompanyMeta._meta.fields]
-    max_num = 1
-
-class CompanyAccountingConfigurationInline(admin.StackedInline):
-    model = CompanyAccountingConfiguration
-    form = CompanyAccountingConfigurationForm
-    extra = 2
-    show_change_link = True
-    fields = [field.name for field in CompanyAccountingConfiguration._meta.fields]
     max_num = 1
 
 
@@ -52,8 +44,20 @@ class CompanyAdmin(admin.ModelAdmin):
     form = CompanyForm
     # list_display = [field.name for field in Company._meta.fields]
     list_display = ('id', 'name', 'external_id', 'parent_company', 'default_currency', 'website', 'employee_count',
-                    'accounting_type', 'current_fiscal_year_end')
-    inlines = (CompanyAccountingConfigurationInline,CompanyUserInline, CompanyMetaInline, CompanyMonthlyReportInline, CompanyContactInline)
+                    'accounting_type', 'auth_key_display', 'secret_key_display', 'current_fiscal_year_end')
+    inlines = (CompanyUserInline, CompanyMetaInline, CompanyMonthlyReportInline, CompanyContactInline)
+
+    def auth_key_display(self,obj):
+        if len(obj.auth_key) > 50:
+              return (obj.auth_key[:50] + '...')
+        return obj.auth_key
+    auth_key_display.short_description = "AUTH KEY"
+
+    def secret_key_display(self,obj):
+        if len(obj.secret_key) > 50:
+              return (obj.secret_key[:50] + '...')
+        return obj.secret_key
+    secret_key_display.short_description = "SECRET KEY"
 
 admin.site.register(Company, CompanyAdmin)
 
@@ -101,7 +105,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 admin.site.register(Contact, ContactAdmin)
 
-
+admin.site.register(ForgotPasswordRequest)
 
 # class EspressoContactAdmin(admin.ModelAdmin):
 #     form = EspressoContactForm
@@ -115,6 +119,7 @@ admin.site.register(Contact, ContactAdmin)
 
 class FiscalYearEndAdmin(admin.ModelAdmin):
     form = FiscalYearEndForm
-    list_display = [field.name for field in FiscalYearEnd._meta.fields]
 
+
+admin.site.register(UserSession)
 admin.site.register(FiscalYearEnd,FiscalYearEndAdmin)

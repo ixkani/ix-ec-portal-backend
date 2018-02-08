@@ -32,7 +32,7 @@ class AccountingOauth2(models.Model):
     accessToken = models.CharField(max_length=1000, unique=True)
     refreshToken = models.CharField(max_length=255, blank=True, null=True)
     realmId = models.CharField(max_length=255, blank=True, null=True)
-    accessSecretKey = models.TextField(blank=True, null=True)
+    accessSecretKey = models.CharField(max_length=255, blank=True, null=True)
     tokenAcitvatedOn = models.CharField(max_length=255, blank=True, null=True)
     tokenExpiryON = models.CharField(max_length=255, blank=True, null=True)
     company = models.ForeignKey(Company)

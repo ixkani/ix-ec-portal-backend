@@ -16,7 +16,7 @@ class AllSightMock:
         :param input_data:Json [Model][Financials]
         :return: json of [Model][Financials] with Balancesheet and Income Statement
         """
-        flag_verbose_output = False
+        flag_verbose_output = True
         # from chart of accounts figure out the class: Asset, Liability, Equity, Income
 
 
@@ -24,12 +24,12 @@ class AllSightMock:
         for coa_account in input_data['Model']['Financials']['CustomerAccount']:
             account_category = coa_account['AccountCategory']
             base_account_id = coa_account['AccountId']
-            if account_category in ['NONCURRENT','BANK','CURRENT','FIXED','INVENTORY','Fixed Asset', 'Bank', 'Other Current Asset', 'Accounts Receivable']:
+            if account_category in ['Fixed Asset', 'Bank', 'Other Current Asset', 'Accounts Receivable']:
                 coa_base_list[base_account_id] = 'Asset'
-            elif account_category in ['DIRECTCOSTS','SALES','CURRLIAB','LIABILITY','Other Current Liability', 'Long Term Liability', 'Credit Card',
+            elif account_category in ['Other Current Liability', 'Long Term Liability', 'Credit Card',
                                       'Accounts Payable']:
                 coa_base_list[base_account_id] = 'Liability'
-            elif account_category in ['Equity','EQUITY']:
+            elif account_category in ['Equity']:
                 coa_base_list[base_account_id] = 'Equity'
             else:
                 coa_base_list[base_account_id] = 'Income'
@@ -39,6 +39,7 @@ class AllSightMock:
         print("\nChecking trial balances on the input file for errors")
         flag_input_tb_errors = False
         input_tb_summary = {}
+        print('###### INPUT DATA TO SAVE', input_data)
         for tb in input_data['Model']['Financials']['CustomerTrialBalance']:
             total_debits = 0.0
             total_credits = 0.0
@@ -71,18 +72,20 @@ class AllSightMock:
                 'Net Income (YTD)': net_income_ytd
             }
 
-            # print("Here i come")
             if flag_verbose_output:
                 print('\tPeriod: {}\tAssets {:0.2f}, Liabilities {:0.2f}, Equity {:0.2f}, YTD NI {:0.2f}'.format(
                     period, total_assets, total_liabilities, total_equity, net_income_ytd))
+
             if abs(total_debits - total_credits) > 0.01:
                 print('\t\tERROR: {}: Debits {:0.2f}, Credits {:0.2f}, Diff {:0.3f}'.format(
                     period, total_debits, total_credits, total_debits - total_credits))
                 flag_input_tb_errors = True
+
             if abs(total_assets - (total_liabilities + total_equity)) > 0.01:
                 print('\t\tERROR: Balance sheet not balanced: {:0.03f}'.format(
                     total_assets - (total_liabilities + total_equity)))
                 flag_input_tb_errors = True
+
         print(flag_input_tb_errors)
         if flag_input_tb_errors:
             print('\tErrors found in input files -- correct and rerun')

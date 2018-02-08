@@ -117,7 +117,7 @@ class MappedAccountList:
 
         for period in period_names_list:
             tb_map = self.__period_values[period]
-            print("Processing period {period} - prev period: {prev_period}")
+            print(f"Processing period {period} - prev period: {prev_period}")
 
             # step A: make sure the amounts are complete (i.e. sum(map_account_values) = 0)
             # this is purely a sanity check to make sure the initial values are correct.
@@ -137,7 +137,7 @@ class MappedAccountList:
                     if prev_period is not None:
                         tb_map[account_id] -= prev_tb_map[account_id]
             tb_map[self.YEAR_TO_DATE_INCOME_ACCOUNT_ID] = ytd_value  # update YTD account
-            print("\tNRev value period {period}: value = {tb_map['4000']}")
+            print(f"\tNRev value period {period}: value = {tb_map['4000']}")
 
             # step C: flip the signs of the various accounts if normally credit balances
             total_assets = 0.0
@@ -255,10 +255,6 @@ class MappedAccountList:
         :param presort_names: Should period names be sorted prior to processing?
         :return:
         """
-        print('^^^^^^^^^^^^^^^^^ INPUT DATA')
-        print(input_data)
-        print('^^^^^^^^^^^^^^^^ END OF INPUT DATA')
-
         # Step 1: make sure the mapped accounts have been set up
         coa_map = input_data['Model']['Financials']['CustomerAccountMapping']
         for map_entry in coa_map:

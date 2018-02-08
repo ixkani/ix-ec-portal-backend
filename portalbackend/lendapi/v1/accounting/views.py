@@ -49,10 +49,7 @@ class Statement(views.APIView):
             # TODO: FISCAL YEAR CHANGE
             # Company's Current Fiscal Year End date
             print('setting fye dict')
-            try:
-                fye_dict = Utils.get_curr_prior_fiscal_year_end(company)
-            except Exception:
-                return Utils.dispatch_failure(request, 'FISCAL_YEAR_MISSING')
+            fye_dict = Utils.get_curr_prior_fiscal_year_end(company)
             print('splitting data into chuncks')
             slitted_data = Utils.spilt_input_to_chunk(data, fye_dict)
 
@@ -82,7 +79,7 @@ class Statement(views.APIView):
 
                 for data in slitted_data:
                     print('^^^^^^^^^^^^^^^ processing tb data ')
-                    # print(data)
+                    print(data)
                     print('^^^^^^^^^^^^^^^^^ tb data end')
                     st = time.time()
                     if url_configured:
@@ -94,6 +91,7 @@ class Statement(views.APIView):
 
                         response = json.loads(r.text)
                     else:
+                        print('$$$$$$$$$ calling local generate statements service.')
                         json_response = AllSightMock.initiate_allsight(input_data=data)
                         response = json.loads(json_response)
                     print('{:.2f}s AS - SAVE Request'.format(time.time() - st))
@@ -582,7 +580,6 @@ class TrialBalanceView(views.APIView):
         try:
             return Accounting().get_instance_by_id(pk).trail_balance(pk, request)
         except Exception as e:
-
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
     def post(self, request, pk, *args, **kwargs):

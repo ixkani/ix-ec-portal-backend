@@ -277,7 +277,6 @@ class AccountingUtils(object):
             try:
                 # since we're forced to match on strings, we strip out all non-numeric / non-alpha characters
                 # and lower all alpha to reduce the chance for mis match between submitted and default tag names
-                # added space to match entries with space
                 lookup_key = re.sub('[^a-zA-Z0-9]', '', account.gl_account_type).lower()
                 default_map_dict = mappings[lookup_key]
             except KeyError:
