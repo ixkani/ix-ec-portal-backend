@@ -296,7 +296,7 @@ class XeroAccountings(object):
             chartofaccounts = xero.accounts.all()
             XeroAccountings.save_chart_of_accounts(company, chartofaccounts)
             return Utils.dispatch_success(request,"COA_FETECHED_SUCCESSFULLY")
-        except XeroException:
+        except XeroException as e:
             return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
         except Exception as e:
             error = ["%s" % e]
@@ -304,7 +304,7 @@ class XeroAccountings(object):
 
     def save_chart_of_accounts(company, response):
         coas = []
-        currency = response[0]["CurrencyCode"]
+        currency = "CAD"
         #account_type = response[0]["BankAccountType"]
         for account in response:
             account_type = account["Type"]

@@ -34,9 +34,6 @@ class AllSightMock:
             else:
                 coa_base_list[base_account_id] = 'Income'
 
-        print("COA_BASE_LIST")
-        print(coa_base_list)
-        print("END_OF_COA_BASE_LIST")
         # sanity check - are all the trial balances 'in balance'?
         # that is, the sum of debits and credits should be equal
         print("\nChecking trial balances on the input file for errors")
@@ -197,7 +194,6 @@ class AllSightMock:
                                         abstract=True, is_ytd_account=False)
 
             # Step 3: process the input
-            print("GOING_INSIDE_PROCESS_REQUEST")
             res = mapaccounts.process_request(input_data)
 
             ##################################################################################

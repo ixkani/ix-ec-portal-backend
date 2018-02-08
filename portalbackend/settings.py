@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import datetime
 import os
 
-
 import dj_database_url
 from corsheaders.defaults import default_headers
 
@@ -66,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_json_widget',
-
+    'djangosecure',
     # handles cors headers, self explanatory
     'corsheaders',
 ]
@@ -104,6 +103,7 @@ MIDDLEWARE = [
 
     # Default
     'django.middleware.security.SecurityMiddleware',
+    'djangosecure.middleware.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
 
@@ -122,6 +122,9 @@ MIDDLEWARE = [
 CORS_ALLOW_HEADERS = default_headers + (
     'Content-Disposition',
 )
+
+# secure ssl redirect
+SECURE_SSL_REDIRECT = True
 
 # disable in production
 # todo: disable before production release
@@ -265,7 +268,7 @@ if environment == ENVIRONMENT_DEVELOPMENT:
     QBO_AUTH_CANCEL_URL = "http://localhost:4200/sync"
     CLIENT_ID = 'Q0W1osEOriGM0rwlt7ZBE2ArpDAuczZyDxUmQyx6neVBbU4lkI'
     CLIENT_SECRET = 'RPHtn6oWjCsQuwYyi5j0Jh2M8hl93LsYk934pR81'
-    REDIRECT_URI = 'http://localhost:8000/lend/v1/authCodeHandler'
+    REDIRECT_URI = 'http://localhost:8000/lend/v1/qbo/authCodeHandler'
 
     # Xero accounting access configuration
     # TODO: Only for identity,need to remove once confirmed, XERO_CONSUMER_KEY & XERO_CONSUMER_SECRET
