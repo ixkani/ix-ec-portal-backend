@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import datetime
 import os
 
+
 import dj_database_url
 from corsheaders.defaults import default_headers
 
