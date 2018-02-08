@@ -123,21 +123,17 @@ CORS_ALLOW_HEADERS = default_headers + (
     'Content-Disposition',
 )
 
-# secure ssl redirect
-SECURE_SSL_REDIRECT = True
-
 # disable in production
 # todo: disable before production release
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
 # add the portal frontend url
 CORS_ORIGIN_WHITELIST = (
-    'https://ec-portal-frontend.herokuapp.com',
-    'https://ec-portal-frontend.herokuapp.com',
-    'https://prod-ec-portal-frontend.herokuapp.com',
-    'https://portal.espressocapital.com',
-    'https://portal.espressocapital.com.herokudns.com',
-	'espresso-ix-backend.herokuapp.com',
+    'ec-portal-frontend.herokuapp.com',
+    'prod-ec-portal-frontend.herokuapp.com',
+    'portal.espressocapital.com',
+    'portal.espressocapital.com.herokudns.com',
+    'espressocapital--dev.cs50.my.salesforce.com',
 )
 
 ROOT_URLCONF = 'portalbackend.urls'
