@@ -15,6 +15,7 @@ class ErrorCode:
     MULTIPLE_EMAIL_FOUND = 1012
     EMAIL_NOT_FOUND = 1013
     USER_NOT_CONNECTED = 1014
+    FISCAL_YEAR_MISSING = 1015
 
 
     # Reports

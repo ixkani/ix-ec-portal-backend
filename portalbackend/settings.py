@@ -338,7 +338,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
                                   'QBO_CLIENT_ID', 'QBO_CLIENT_SECRET', 'QBO_DISCOVERY_DOCUMENT', 'QBO_PROFILE_URL',
                                   'QBO_REDIRECT_URI', 'QUICKBOOKS_DESKTOP_APP_FILE_NAME',
                                   'QUICKBOOKS_DESKTOP_APP_VERSION', 'REDIS_URL', 'SECRET_KEY',
-                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL', 'ESPRESSO_COMPANY_ID']
+                                  'EMAIL_HOST_USER', 'EMAIL_HOST_PASSWORD', 'ADMIN_EMAIL', 'ESPRESSO_COMPANY_ID','XERO_AUTH_REDIRECT_URL']
     # Add all the variables in this list to ignore from prevalidation the environment
     environment_variable_uncheck = ['ALLSIGHT_URL']
     for environment in environment_variable_check:
@@ -363,6 +363,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
     XERO_CALL_BACK_URI = os.environ.get('XERO_CALL_BACK_URI')
     XERO_AUTH_VERIFIER_URI = os.environ.get('XERO_AUTH_VERIFIER_URI')
     XERO_ACCOUNT_TYPE = os.environ.get('XERO_ACCOUNT_TYPE')
+    XERO_AUTH_REDIRECT_URL = os.environ.get('XERO_AUTH_REDIRECT_URL')
 
     # FORGOT PASSWORD EMAIL
     FORGOT_PASSWORD_EMAIL_URL = os.environ.get('FORGOT_PASSWORD_EMAIL_URL')
@@ -372,7 +373,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'vivek.tamilarasan@ionixxtech.com')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'lifeissimple')
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'vivek.tamilarasan@ionixxtech.com')
-	
+
 # Celery configuration
 # task queue? some kinda queue
 BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')

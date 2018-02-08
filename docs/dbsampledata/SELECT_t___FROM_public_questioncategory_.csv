@@ -1,0 +1,6 @@
+id,group_name,is_active,purpose
+2,Employee Information,true,questions about employees
+3,Covenants,true,questions about covenants
+4,General Info,true,General questions with no specific category
+5,Certification,true,questions about company certification of financial statements
+1,Compliance,true,To Ensure the compliance of companys

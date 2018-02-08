@@ -23,7 +23,8 @@ from portalbackend import settings
 from portalbackend.lendapi.accounting.models import Bearer, LoginInfo
 # token can either be an accessToken or a refreshToken
 from portalbackend.lendapi.accounting.utils import AccountingUtils
-from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact, CompanyMeta, FiscalYearEnd
+from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact, CompanyMeta, FiscalYearEnd, \
+    CompanyAccountingConfiguration
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.constants import MONTHLY_REPORT_KEY_ERROR_EMAIL_SUBJECT, \
     COMAPANY_META_EMAIL_BODY, COMAPANY_META_EMAIL_SUBJECT, MONTHLY_REPORT_KEY_ERROR_ADMIN_EMAIL_BODY, \
@@ -312,8 +313,8 @@ class Utils(object):
         :param id: Company ID
         :return: Access Key of accounting system
         '''
-        keys = Company.objects.filter(id=id).values('accounting_type', 'auth_key', 'secret_key')
-        return keys[0]
+        return CompanyAccountingConfiguration.objects.filter(company=id).first()
+
 
     @staticmethod
     def check_company_exists(id):
@@ -522,20 +523,18 @@ class Utils(object):
     def get_xero_auth(pk):
         auth_info = AccountingUtils.get_credentials_by_company(pk)
         auth={}
-        cm = CompanyMeta.objects.filter(company_id=pk).first()
-        print(cm.last_page)
-        if cm.last_page == "PRIVATE":
-            print("IM here")
+        secret_keys = Utils.get_access_keys(pk)
+        if CompanyAccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
             auth['consumer_key']= auth_info.accessToken
             auth['rsa_key'] = auth_info.accessSecretKey
-        if cm.last_page == "PUBLIC":
+        else:
             auth['oauth_token'] = auth_info.accessToken
             auth['oauth_token_secret'] = auth_info.accessSecretKey
             auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info.tokenAcitvatedOn)
             auth['oauth_expires_at'] = Utils.format_expiry_duration(auth_info.tokenExpiryON)
             access_key = Utils.get_access_keys(pk)
-            auth['consumer_key'] = access_key['auth_key']
-            auth['consumer_secret'] = access_key['secret_key']
+            auth['consumer_key'] = access_key.auth_key
+            auth['consumer_secret'] = access_key.secret_key
             auth['verified'] = True
             auth['callback_uri'] = settings.XERO_CALL_BACK_URI
 
@@ -544,8 +543,8 @@ class Utils(object):
     @staticmethod
     def refresh_xero_auth_token(pk):
         secret_keys = Utils.get_access_keys(pk)
-        consumer_key = secret_keys['auth_key']
-        consumer_secret = secret_keys['secret_key']
+        consumer_key = secret_keys.auth_key
+        consumer_secret = secret_keys.secret_key
         credentials = PublicCredentials(consumer_key, consumer_secret)
 
         return
@@ -803,9 +802,8 @@ class Utils(object):
                       )
     @staticmethod
     def get_xero_credentials(company,**auth):
-        cm = CompanyMeta.objects.filter(company=company).first()
-        print(cm.last_page)
-        if cm.last_page == "PRIVATE":
+        secret_keys = Utils.get_access_keys(company)
+        if CompanyAccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
             return PrivateCredentials(**auth)
-        if cm.last_page == "PUBLIC":
+        else:
             return PublicCredentials(**auth)

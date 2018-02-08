@@ -1,5 +1,5 @@
 
-from .models import Company, User, CompanyMeta, EspressoContact, Contact,FiscalYearEnd
+from .models import Company, User, CompanyMeta, EspressoContact, Contact,FiscalYearEnd,CompanyAccountingConfiguration
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.db import models
@@ -25,6 +25,9 @@ class EcUserChangeForm(UserChangeForm):
 
 
 class CompanyForm(forms.ModelForm):
+    class Media:
+        js = ('./admin/js/admin-custom-actions.js',)
+
     class Meta:
         model = Company
         fields = ('__all__')
@@ -43,12 +46,23 @@ class CompanyMetaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CompanyMetaForm, self).__init__(*args, **kwargs)
 
-
         for field in self.fields.values():
             field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA}
 
             if('date' or 'period' or 'year' in field.label):
                 field.error_messages = {'invalid': UIErrorMessage.INVALID_DATE_FORMAT}
+
+class CompanyAccountingConfigurationForm (forms.ModelForm):
+    class Meta:
+        model = CompanyAccountingConfiguration
+        fields = ('__all__')
+
+    def __init__(self, *args, **kwargs):
+        super (CompanyAccountingConfigurationForm, self).__init__ (*args, **kwargs)
+
+        for field in self.fields.values ():
+            field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA}
+
 
 
 class ContactForm(forms.ModelForm):

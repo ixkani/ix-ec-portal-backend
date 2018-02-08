@@ -12,7 +12,7 @@ from xero.exceptions import XeroException, XeroBadRequest
 
 from portalbackend import settings
 from portalbackend.lendapi.accounting.models import LoginInfo, AccountingOauth2, TrialBalance, CoA
-from portalbackend.lendapi.accounts.models import Company,CompanyMeta
+from portalbackend.lendapi.accounts.models import Company,CompanyMeta,CompanyAccountingConfiguration
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.v1.accounting.utils import Utils
 from portalbackend.lendapi.accounting.utils import AccountingUtils
@@ -30,21 +30,15 @@ class XeroAccountings(object):
         try:
             secret_keys = Utils.get_access_keys(company)
 
-            account_type = secret_keys['accounting_type']
-
-            # Check verify the company account tool
-            if account_type != Company.XERO:
-                return Utils.dispatch_failure(request, 'XERO_CONFIGURATION_NOT_FOUND')
-
-            consumer_key = secret_keys['auth_key']
-            consumer_secret = secret_keys['secret_key']
+            consumer_key = secret_keys.auth_key
+            consumer_secret = secret_keys.secret_key
 
             global credentials
             try:
                 call_back_uri = settings.XERO_CALL_BACK_URI + "/" + company
 
                 # call_back_url = 'http://localhost/oauth'
-                if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+                if CompanyAccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
                     credentials = PrivateCredentials(consumer_key=consumer_key,rsa_key=consumer_secret)
                     OAUTH_PERSISTENT_SERVER_STORAGE.update({'consumer_key':credentials.consumer_key})
                     OAUTH_PERSISTENT_SERVER_STORAGE.update({'rsa_key':credentials.rsa_key})
@@ -77,12 +71,13 @@ class XeroAccountings(object):
         try:
             # Get xero auth access information form xero connection
             stored_values = OAUTH_PERSISTENT_SERVER_STORAGE
-            print(stored_values)
+
 
             if len(stored_values) == 0:
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
 
-            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+            secret_keys = Utils.get_access_keys(pk)
+            if CompanyAccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
                 exists = AccountingOauth2.objects.filter(company=pk).first()
                 if not exists:
                     auth = AccountingOauth2(accessToken=stored_values['consumer_key'],
@@ -135,8 +130,9 @@ class XeroAccountings(object):
                 # return redirect(auth_redirect_url)
 
         except Exception as e:
-            print(e)
-            return Utils.dispatch_success(request, 'TOKEN_ALREADY_VALIDATED')
+            auth_cancel_url = settings.QBO_AUTH_CANCEL_URL
+            return redirect(auth_cancel_url)
+            #return Utils.dispatch_success(request, 'TOKEN_ALREADY_VALIDATED')
 
         auth_redirect_url = settings.XERO_AUTH_REDIRECT_URL
         return redirect(auth_redirect_url)
@@ -165,11 +161,10 @@ class XeroAccountings(object):
 
             # Checking Xero Connection Authentication available
             auth = Utils.get_xero_auth(pk)
-            cm = CompanyMeta.objects.filter(company_id=pk).first()
-            print(cm.last_page)
-            if cm.last_page == "PRIVATE":
+            secret_keys = Utils.get_access_keys(pk)
+            if CompanyAccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
                 credentials = PrivateCredentials(**auth)
-            if cm.last_page == "PUBLIC":
+            else:
                 credentials = PublicCredentials(**auth)
 
                 if credentials.expired():
@@ -280,7 +275,9 @@ class XeroAccountings(object):
                 return Utils.dispatch_failure(request, "NO_TOKEN_AUTHENTICATION")
 
             auth = Utils.get_xero_auth(id)
-            if settings.XERO_ACCOUNT_TYPE == "PRIVATE":
+
+            secret_keys = Utils.get_access_keys(id)
+            if CompanyAccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
                 credentials = PrivateCredentials(**auth)
             else:
                 credentials = PublicCredentials(**auth)
@@ -307,7 +304,7 @@ class XeroAccountings(object):
 
     def save_chart_of_accounts(company, response):
         coas = []
-        currency = 'CAD'
+        currency = response[0]["CurrencyCode"]
         #account_type = response[0]["BankAccountType"]
         for account in response:
             account_type = account["Type"]
