@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_json_widget',
-
+    'djangosecure',
     # handles cors headers, self explanatory
     'corsheaders',
 ]
@@ -118,9 +118,16 @@ MIDDLEWARE = [
 
 ]
 
+MIDDLEWARE_CLASSES = (
+    'djangosecure.middleware.SecurityMiddleware',
+)
+
 CORS_ALLOW_HEADERS = default_headers + (
     'Content-Disposition',
 )
+
+# secure ssl redirect
+SECURE_SSL_REDIRECT = True
 
 # disable in production
 # todo: disable before production release
@@ -133,6 +140,7 @@ CORS_ORIGIN_WHITELIST = (
     'portal.espressocapital.com',
     'portal.espressocapital.com.herokudns.com',
     'espressocapital--dev.cs50.my.salesforce.com',
+    'espresso-ix-backend.herokuapp.com',
 )
 
 ROOT_URLCONF = 'portalbackend.urls'
