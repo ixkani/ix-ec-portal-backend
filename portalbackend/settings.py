@@ -137,6 +137,7 @@ CORS_ORIGIN_WHITELIST = (
     'https://prod-ec-portal-frontend.herokuapp.com',
     'https://portal.espressocapital.com',
     'https://portal.espressocapital.com.herokudns.com',
+	'espresso-ix-backend.herokuapp.com',
 )
 
 ROOT_URLCONF = 'portalbackend.urls'
