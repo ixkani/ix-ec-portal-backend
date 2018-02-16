@@ -46,7 +46,7 @@ class QuickBooks(object):
             url = getDiscoveryDocument.auth_endpoint
 
             configuration = Utils.get_access_keys(company_id)
-            client_id = configuration.auth_key
+            client_id = configuration.client_id
 
             params = {'scope': settings.ACCOUNTING_SCOPE, 'redirect_uri': settings.REDIRECT_URI,
                       'response_type': 'code', 'state': company_id, 'client_id': client_id}

@@ -1,7 +1,7 @@
 (function($) {
     $(function() {
         var AccountType = $('#id_accounting_type'),
-            XeroAccountingType = $('.field-xero_accounting_type');
+            XeroAccountingType = $('.field-type');
 
 
         function toggleVerified(value) {

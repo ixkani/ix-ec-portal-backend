@@ -527,7 +527,7 @@ class Utils(object):
         auth_info = AccountingUtils.get_credentials_by_company(pk)
         auth={}
         secret_keys = Utils.get_access_keys(pk)
-        if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+        if AccountingConfiguration.PRIVATE == secret_keys.type:
             auth['consumer_key']= auth_info.accessToken
             auth['rsa_key'] = auth_info.accessSecretKey
         else:
@@ -536,8 +536,8 @@ class Utils(object):
             auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info.tokenAcitvatedOn)
             auth['oauth_expires_at'] = Utils.format_expiry_duration(auth_info.tokenExpiryON)
             access_key = Utils.get_access_keys(pk)
-            auth['consumer_key'] = access_key.auth_key
-            auth['consumer_secret'] = access_key.secret_key
+            auth['consumer_key'] = access_key.client_id
+            auth['consumer_secret'] = access_key.client_secret
             auth['verified'] = True
             auth['callback_uri'] = settings.XERO_CALL_BACK_URI
 
@@ -546,8 +546,8 @@ class Utils(object):
     @staticmethod
     def refresh_xero_auth_token(pk):
         secret_keys = Utils.get_access_keys(pk)
-        consumer_key = secret_keys.auth_key
-        consumer_secret = secret_keys.secret_key
+        consumer_key = secret_keys.client_id
+        consumer_secret = secret_keys.client_secret
         credentials = PublicCredentials(consumer_key, consumer_secret)
 
         return
@@ -816,7 +816,7 @@ class Utils(object):
     @staticmethod
     def get_xero_credentials(pk,**auth):
         secret_keys = Utils.get_access_keys(pk)
-        if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+        if AccountingConfiguration.PRIVATE == secret_keys.type:
             return PrivateCredentials(**auth)
         else:
             return PublicCredentials(**auth)

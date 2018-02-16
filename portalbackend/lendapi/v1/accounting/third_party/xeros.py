@@ -30,14 +30,14 @@ class XeroAccountings(object):
         try:
             secret_keys = Utils.get_access_keys(company)
 
-            consumer_key = secret_keys.auth_key
-            consumer_secret = secret_keys.secret_key
+            consumer_key = secret_keys.client_id
+            consumer_secret = secret_keys.client_secret
 
             global credentials
             call_back_uri = settings.XERO_CALL_BACK_URI + "/" + company
 
             # call_back_url = 'http://localhost/oauth'
-            if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            if AccountingConfiguration.PRIVATE == secret_keys.type:
                 credentials = PrivateCredentials(consumer_key=consumer_key,rsa_key=consumer_secret)
                 OAUTH_PERSISTENT_SERVER_STORAGE.update({'consumer_key':credentials.consumer_key})
                 OAUTH_PERSISTENT_SERVER_STORAGE.update({'rsa_key':credentials.rsa_key})
@@ -73,7 +73,7 @@ class XeroAccountings(object):
                 return Utils.dispatch_failure(request, 'NO_TOKEN_AUTHENTICATION')
 
             secret_keys = Utils.get_access_keys(pk)
-            if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            if AccountingConfiguration.PRIVATE == secret_keys.type:
                 exists = AccountingOauth2.objects.filter(company=pk).first()
                 if not exists:
                     auth = AccountingOauth2(accessToken=stored_values['consumer_key'],
@@ -160,7 +160,7 @@ class XeroAccountings(object):
             # Checking Xero Connection Authentication available
             auth = Utils.get_xero_auth(pk)
 
-            if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            if AccountingConfiguration.PRIVATE == secret_keys.type:
                 credentials = PrivateCredentials(**auth)
             else:
                 credentials = PublicCredentials(**auth)
@@ -173,7 +173,7 @@ class XeroAccountings(object):
                 xero.reports.get('TrialBalance')
 
             except XeroException as e:
-                if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+                if AccountingConfiguration.PRIVATE == secret_keys.type:
                     error = ["%s" % e]
                     return Utils.dispatch_failure(request, 'XERO_CONNECTION_ERROR', error)
                 else:
@@ -277,7 +277,7 @@ class XeroAccountings(object):
             auth = Utils.get_xero_auth(id)
 
 
-            if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            if AccountingConfiguration.PRIVATE == secret_keys.type:
                 credentials = PrivateCredentials(**auth)
             else:
                 credentials = PublicCredentials(**auth)
@@ -291,7 +291,7 @@ class XeroAccountings(object):
             # stored_values = bind_auth_info(credentials, pk)
 
         except XeroException as e:
-            if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            if AccountingConfiguration.PRIVATE == secret_keys.type:
                 error = ["%s" % e]
                 return Utils.dispatch_failure(request, 'XERO_CONNECTION_ERROR', error)
             else:
@@ -301,7 +301,7 @@ class XeroAccountings(object):
             XeroAccountings.save_chart_of_accounts(company, chartofaccounts)
             return Utils.dispatch_success(request,"COA_FETECHED_SUCCESSFULLY")
         except XeroException as e:
-            if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            if AccountingConfiguration.PRIVATE == secret_keys.type:
                 error = ["%s" % e]
                 return Utils.dispatch_failure(request, 'XERO_CONNECTION_ERROR', error)
             else:

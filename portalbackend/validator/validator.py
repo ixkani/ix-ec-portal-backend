@@ -34,7 +34,7 @@ def init_validator_rules(fields):
 def min_length_message(field):
     if field in "website":
         message = ErrorMessage.MINIMUM_LENGTH_4
-    elif field in "auth_key" or field in "secret_key":
+    elif field in "client_id" or field in "client_secret":
         message = ErrorMessage.MINIMUM_LENGTH_10
     else:
         message = ErrorMessage.MINIMUM_LENGTH_3

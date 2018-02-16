@@ -102,7 +102,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 class AccountingConfigurationAdmin(admin.ModelAdmin):
     form = AccountingConfigurationForm
-    list_display = ['accounting_type','xero_accounting_type','is_active']
+    list_display = ['accounting_type','type','is_active']
     search_fields = ('=accounting_type',)
 admin.site.register(Contact, ContactAdmin)
 

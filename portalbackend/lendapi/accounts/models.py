@@ -206,12 +206,12 @@ class AccountingConfiguration(models.Model):
         (SAGE, "Sage")
     )
     accounting_type = models.CharField(max_length=60, choices=ACCOUNTING_CHOICES, default=QUICKBOOKS)
-    xero_accounting_type = models.CharField(max_length=50, null=True, blank=True, choices=ACCOUNTING_TYPE,default=PUBLIC)
+    type = models.CharField(max_length=50, null=True, blank=True, choices=ACCOUNTING_TYPE,default=PUBLIC)
 
-    auth_key = models.CharField(max_length=500, null=True, blank=True, validators=[
+    client_id = models.CharField(max_length=500, null=True, blank=True, validators=[
         MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
     ])
-    secret_key = models.TextField(
+    client_secret = models.TextField(
         help_text="Copy & paste the rsa key content from generated .pem for xero private type accounting access. Otherwise secret key required.",
         null=True, blank=True, validators=[
             MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
