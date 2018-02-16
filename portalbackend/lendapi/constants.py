@@ -14,6 +14,11 @@ COMAPANY_META_EMAIL_BODY = "Espresso capital faced an configuration error where 
 COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT = "Current Reporting period is missing for "
 COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_BODY = "Espresso capital faced an configuration error where company current reporting period is not found for following company profile \n"
 
+COMPANY_MISCONFIG_EMAIL_SUBJECT = "Company Access Key configuration missing for  "
+COMPANY_MISCONFIG_EMAIL_BODY = "Espresso capital faced an configuration error where company access keys are not configured for following company profile \n"
+
+
+
 SESSION_EXPIRE_MINUTES = 60
 
 SESSION_SAVE_URLS = ['accounting/balancesheet/', 'accounting/incomestatement/',
@@ -51,3 +56,11 @@ COMPANY_PERIOD_NOT_FOUND_EMAIL_ADMIN = "Admin,<br><p>%s</p><br><b>Company Detail
                                        "<tr><td>Company Name</td> <td>%s</td>" \
                                        "<tr><td>Company Id</td> <td>%s</td>" \
                                        "<tr><td>Accounting Type</td> <td>%s</td>"
+
+COMPANY_MISCONFIG_EMAIL_ADMIN = "Admin,<br><p>%s</p><br><b>Company Details</b><br><br>" \
+                                "<table border='1' style='border-collapse:collapse'>" \
+                                "<tr><td>Company Name</td> <td>%s</td>" \
+                                "<tr><td>Company Id</td> <td>%s</td>" \
+                                "<tr><td>Accounting Type</td>  <td>%s</td></table>" \
+                                "<br><b>Errors</b><br><p> " \
+                                "%s"

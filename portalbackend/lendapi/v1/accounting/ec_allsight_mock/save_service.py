@@ -28,6 +28,7 @@ class MappedAccountList:
 
     BALANCE_SHEET_ACCOUNT = 1
     INCOME_STATEMENT_ACCOUNT = 2
+    UNBALANCED_THRESHOLD = 0.1
 
     def __init__(self):
         self.__map_account_list = {}  # a dictionary of account values
@@ -117,14 +118,17 @@ class MappedAccountList:
 
         for period in period_names_list:
             tb_map = self.__period_values[period]
-            print(f"Processing period {period} - prev period: {prev_period}")
+            print("Processing period {period} - prev period: {prev_period}")
 
             # step A: make sure the amounts are complete (i.e. sum(map_account_values) = 0)
             # this is purely a sanity check to make sure the initial values are correct.
             total = 0
             for val in tb_map.values():
                 total += val
-            if abs(total) >= 0.01:
+
+            print("Save Service step A: make sure the amounts are complete (i.e. sum(map_account_values) = 0)")
+            print("unformatted total is ", abs(total))
+            if abs(total) > self.UNBALANCED_THRESHOLD:
                 raise Exception("Trial balance not balanced: net = {:0.3f}".format(total))
 
             # step B: diff all non-balance sheet accounts -- skip the first period
@@ -136,8 +140,10 @@ class MappedAccountList:
                     ytd_value += tb_map[account_id]
                     if prev_period is not None:
                         tb_map[account_id] -= prev_tb_map[account_id]
+
             tb_map[self.YEAR_TO_DATE_INCOME_ACCOUNT_ID] = ytd_value  # update YTD account
-            print(f"\tNRev value period {period}: value = {tb_map['4000']}")
+
+            print("\tNRev value period {period}: value = {tb_map['4000']}")
 
             # step C: flip the signs of the various accounts if normally credit balances
             total_assets = 0.0
@@ -149,71 +155,106 @@ class MappedAccountList:
                 if account in range(1000, 2000):
                     # Assets
                     total_assets += tb_map[account_id]
+                    print("ADDING to total_assets from account {account_id} with balance of {tb_map[account_id]}")
                 elif account in range(2000, 3000):
                     # Liabilities
                     tb_map[account_id] *= -1
                     total_liabilities += tb_map[account_id]
+                    print("ADDING to total_liabilities from account {account_id} with balance of {tb_map[account_id]}")
                 elif account in range(3000, 4000):
                     # Equities
                     tb_map[account_id] *= -1
                     total_equity += tb_map[account_id]
+                    print("ADDING to total_equity from account {account_id} with balance of {tb_map[account_id]}")
                 elif account in range(4000, 5000):
                     # Revenues
                     tb_map[account_id] *= -1
                     net_income += tb_map[account_id]
+                    print("ADDING to net_income in Revenues from account {account_id} with balance of {tb_map[account_id]}")
                 else:
                     # Expenses
                     net_income -= tb_map[account_id]
-            # print("\t{}\tAssets: {:0.2f}\tLiabilites: {:0.2f}\tEquity: {:0.2f}\tNet Income: {:0.2f}".format(
-            #     period,
-            #     total_assets,
-            #     total_liabilities,
-            #     total_equity,
-            #     net_income))
+                    print("ADDING to net_income Expenses from account {account_id} with balance of {tb_map[account_id]}")
+
+            print("\t{}\tAssets: {:0.2f}\tLiabilites: {:0.2f}\tEquity: {:0.2f}\tNet Income: {:0.2f}".format(
+                 period,
+                 total_assets,
+                 total_liabilities,
+                 total_equity,
+                 net_income))
 
             # step D: process the abstract accounts
-            tb_map['4900'] = tb_map['4000'] + tb_map['4500']  # Total Revenue (credit value)
-            tb_map['5999'] = tb_map['4900'] - tb_map['5000']  # Gross Profit
+            # Total Revenue (credit value)
+            tb_map['4900'] = tb_map['4000'] + tb_map['4500']
+
+            # Gross Profit
+            tb_map['5999'] = tb_map['4900'] - tb_map['5000']
+
+            # Total operating expenses
             tb_map['6695'] = tb_map['6100'] + tb_map['6200'] + \
-                             tb_map['6300']  # Total operating expenses
-            tb_map['6699'] = tb_map['5999'] - tb_map['6695']  # EBITDA
-            tb_map['6900'] = tb_map['6699'] - tb_map['6710'] - \
-                             tb_map['6720'] - tb_map['6730'] - \
-                             tb_map['6740']  # net income
+                             tb_map['6300']
+
+            # EBITDA
+            tb_map['6699'] = tb_map['5999'] - tb_map['6695']
+
+            # Net Income = ...
+            tb_map['6900'] = tb_map['6699'] - tb_map['6700'] - \
+                             tb_map['6710'] - tb_map['6720'] - \
+                             tb_map['6730'] - tb_map['6740']
+
+            # Total current assets
             tb_map['1499'] = tb_map['1000'] + tb_map['1100'] + \
-                             tb_map['1150'] + tb_map['1200']  # Total current assets
+                             tb_map['1150'] + tb_map['1200']
+
+            # Total assets
             tb_map['1999'] = tb_map['1499'] + tb_map['1500'] + \
-                             tb_map['1600'] + tb_map['1700']  # Total assets
+                             tb_map['1600'] + tb_map['1700']
+
+            # Total current liabilities
             tb_map['2199'] = tb_map['2000'] + tb_map['2050'] + \
-                             tb_map['2100'] + tb_map['2150']  # Total current liabilities
+                             tb_map['2100'] + tb_map['2150']
+
+            # Total liabilities
             tb_map['2999'] = tb_map['2199'] + tb_map['2500'] + \
                              tb_map['2600'] + tb_map['2700'] + \
-                             tb_map['2800'] + tb_map['2900']  # Total liabilities
+                             tb_map['2800'] + tb_map['2900']
+
+            # Total Equity
             tb_map['3998'] = tb_map['3000'] + tb_map['3100'] + \
                              tb_map['3200'] + tb_map['3900'] + \
-                             tb_map['3997']  # Total Equity
-            tb_map['3999'] = tb_map['3998'] + tb_map['2999']  # Total liabilities & equity
+                             tb_map['3997']
+
+            # Total liabilities & equity
+            tb_map['3999'] = tb_map['3998'] + tb_map['2999']
+
+            print('#### printing TB Map results for Abstract Tag calculations')
+            print(tb_map)
+            print('####### End TB Map')
 
             # check that it balances etc.
             balance = tb_map['1999'] - tb_map['3999']
-            if abs(balance) >= 0.01:
+            if abs(balance) > self.UNBALANCED_THRESHOLD:
                 print("Out of balance: ${:0.2f}".format(balance))
-            if abs(total_assets - tb_map['1999']) >= 0.01:
+
+            if abs(total_assets - tb_map['1999']) > self.UNBALANCED_THRESHOLD:
                 raise AssertionError(
                     "Total assets not matching map account: diff = ${:0.2f}".format(
                         abs(total_assets - tb_map['1999'])))
-            if abs(total_liabilities - tb_map['2999']) >= 0.01:
+
+            if abs(total_liabilities - tb_map['2999']) > self.UNBALANCED_THRESHOLD:
                 raise AssertionError(
                     "Total liabilities not matching map account: diff = ${:0.2f}".format(
                         abs(total_liabilities - tb_map['2999'])))
-            if abs(total_equity - tb_map['3998']) >= 0.01:
+
+            if abs(total_equity - tb_map['3998']) > self.UNBALANCED_THRESHOLD:
                 raise AssertionError(
                     "Total equity not matching map account: diff = ${:0.2f}".format(
                         abs(total_equity - tb_map['3998'])))
-            if abs(net_income - tb_map['6900']) >= 0.01:
+
+            if abs(net_income - tb_map['6900']) > self.UNBALANCED_THRESHOLD:
                 raise AssertionError(
-                    "Net Income not matching map account: diff = ${:0.2f}".format(
-                        abs(net_income - tb_map['6900'])))
+                    "Net Income ${:0.2f} not matching map account ${:0.2f}: diff = ${:0.2f}".format(
+                        net_income, tb_map['6900'], (net_income - tb_map['6900'])))
 
             # End of loop: process the next period
             prev_period = period

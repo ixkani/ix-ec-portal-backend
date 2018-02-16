@@ -78,6 +78,7 @@ class MonthlyReportList(generics.ListCreateAPIView):
                 # during initial setup, we do not advance the reporting dates. There is no initial setup for Form Entry
                 # aka manual reporting
                 if not meta.is_initial_setup:
+                    print('#### moving period forward for new monthly report')
                     current_period = next_period
                     next_period = next_period + relativedelta(months=+1, day=31)
                     meta.monthly_reporting_current_period = current_period
@@ -85,8 +86,8 @@ class MonthlyReportList(generics.ListCreateAPIView):
                     meta.monthly_reporting_current_period_status = 'IN_PROGRESS'
                     meta.save()
                     print('######## CURR AND NEXT - not initial setup, after move forward ', current_period, next_period)
-                    print('######## CURR AND NEXT - meta after save is ', meta)
 
+                print('#### creating new monthly report for current period = ', meta.monthly_reporting_current_period)
                 report = MonthlyReport(status='In Progress', company_id=pk, period_ending=current_period)
                 report.save()
 
@@ -231,9 +232,10 @@ class MonthlyReportSignoff(views.APIView):
                 #return Response({"status": "INFO", "message": ""})
                 return Utils.dispatch_success(request,'MONTHLY_REPORT_ALREADY_EXISTS_WITH_COMPLETED')
 
-            # if we're signgin off as part of the setup process, then we need to slip this flag to False
+            # if we're signgin off as part of the setup process, then we need to set this flag to False
             # so the system will carry forward into it's normal monthly reporting workflow
             if meta.is_initial_setup:
+                meta.qb_desktop_installed = True
                 meta.is_initial_setup = False
                 meta.accounting_setup_status = 'COMPLETE'
 

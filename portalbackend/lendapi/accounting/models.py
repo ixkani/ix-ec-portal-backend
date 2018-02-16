@@ -32,7 +32,7 @@ class AccountingOauth2(models.Model):
     accessToken = models.CharField(max_length=1000, unique=True)
     refreshToken = models.CharField(max_length=255, blank=True, null=True)
     realmId = models.CharField(max_length=255, blank=True, null=True)
-    accessSecretKey = models.CharField(max_length=255, blank=True, null=True)
+    accessSecretKey = models.TextField(blank=True, null=True)
     tokenAcitvatedOn = models.CharField(max_length=255, blank=True, null=True)
     tokenExpiryON = models.CharField(max_length=255, blank=True, null=True)
     company = models.ForeignKey(Company)
@@ -47,9 +47,9 @@ class TrialBalance(models.Model):
     """
     gl_account_name = models.CharField(max_length=150)
     # gl_account_id change made changed Integer field to char field
-    gl_account_id = models.CharField(max_length=10,blank=True, null=True)
-    debit = models.DecimalField(max_digits=10, decimal_places=2)
-    credit = models.DecimalField(max_digits=10, decimal_places=2)
+    gl_account_id = models.CharField(max_length=60,blank=True, null=True)
+    debit = models.DecimalField(max_digits=12, decimal_places=2)
+    credit = models.DecimalField(max_digits=12, decimal_places=2)
     company = models.ForeignKey(Company)
     period = models.DateField(default=None)
     currency = models.CharField(max_length=3, blank=True)
@@ -69,12 +69,12 @@ class CoAMap(models.Model):
     """
     company = models.ForeignKey(Company)
     # gl_account_id change made changed cust_account_id to charfield
-    cust_account_id = models.CharField(max_length=10,blank=True, null=True)
-    cust_account_name = models.CharField(max_length=60, blank=True,validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
+    cust_account_id = models.CharField(max_length=60,blank=True, null=True)
+    cust_account_name = models.CharField(max_length=128, blank=True,validators=[
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
     espresso_account_id = models.IntegerField()
-    espresso_account_name = models.CharField(max_length=60, blank=True,validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
+    espresso_account_name = models.CharField(max_length=128, blank=True,validators=[
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
     is_mapped = models.BooleanField(default=False)
     verified_by_user = models.BooleanField(default=False)
 
@@ -89,15 +89,15 @@ class CoA(models.Model):
     """
     company = models.ForeignKey(Company)
     # gl_account_id change made
-    gl_account_id = models.CharField(max_length=10,null=True, blank=True)
-    gl_account_name = models.CharField(max_length=60, verbose_name="Account Name",validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
-    gl_account_type = models.CharField(max_length=60, verbose_name="Account Type",validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
-    gl_account_bal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Account Balance",
+    gl_account_id = models.CharField(max_length=60,null=True, blank=True)
+    gl_account_name = models.CharField(max_length=128, verbose_name="Account Name",validators=[
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+    gl_account_type = models.CharField(max_length=128, verbose_name="Account Type",validators=[
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+    gl_account_bal = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Account Balance",
                                          blank=True, null=True)
     gl_account_currency = models.CharField(max_length=3, verbose_name="Account Currency",validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
+        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_1)])
 
     class Meta:
         db_table = 'coa'

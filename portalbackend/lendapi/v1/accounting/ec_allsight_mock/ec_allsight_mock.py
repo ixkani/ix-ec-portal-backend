@@ -24,16 +24,19 @@ class AllSightMock:
         for coa_account in input_data['Model']['Financials']['CustomerAccount']:
             account_category = coa_account['AccountCategory']
             base_account_id = coa_account['AccountId']
-            if account_category in ['Fixed Asset', 'Bank', 'Other Current Asset', 'Accounts Receivable']:
+            if account_category in ['NONCURRENT','BANK','CURRENT','FIXED','INVENTORY','Fixed Asset', 'Bank', 'Other Current Asset', 'Accounts Receivable']:
                 coa_base_list[base_account_id] = 'Asset'
-            elif account_category in ['Other Current Liability', 'Long Term Liability', 'Credit Card',
+            elif account_category in ['DIRECTCOSTS','SALES','CURRLIAB','LIABILITY','Other Current Liability', 'Long Term Liability', 'Credit Card',
                                       'Accounts Payable']:
                 coa_base_list[base_account_id] = 'Liability'
-            elif account_category in ['Equity']:
+            elif account_category in ['Equity','EQUITY']:
                 coa_base_list[base_account_id] = 'Equity'
             else:
                 coa_base_list[base_account_id] = 'Income'
 
+        print("COA_BASE_LIST")
+        print(coa_base_list)
+        print("END_OF_COA_BASE_LIST")
         # sanity check - are all the trial balances 'in balance'?
         # that is, the sum of debits and credits should be equal
         print("\nChecking trial balances on the input file for errors")
@@ -48,6 +51,7 @@ class AllSightMock:
             total_equity = 0.0
             net_income_ytd = 0.0
             period = tb['Period']
+
             for tb_entry in tb['CustomerTrialBalanceItem']:
                 debit = float(tb_entry['DebitAmount'])
                 credit = float(tb_entry['CreditAmount'])
@@ -76,12 +80,12 @@ class AllSightMock:
                 print('\tPeriod: {}\tAssets {:0.2f}, Liabilities {:0.2f}, Equity {:0.2f}, YTD NI {:0.2f}'.format(
                     period, total_assets, total_liabilities, total_equity, net_income_ytd))
 
-            if abs(total_debits - total_credits) > 0.01:
+            if abs(total_debits - total_credits) > MappedAccountList.UNBALANCED_THRESHOLD:
                 print('\t\tERROR: {}: Debits {:0.2f}, Credits {:0.2f}, Diff {:0.3f}'.format(
                     period, total_debits, total_credits, total_debits - total_credits))
                 flag_input_tb_errors = True
 
-            if abs(total_assets - (total_liabilities + total_equity)) > 0.01:
+            if abs(total_assets - (total_liabilities + total_equity)) > MappedAccountList.UNBALANCED_THRESHOLD:
                 print('\t\tERROR: Balance sheet not balanced: {:0.03f}'.format(
                     total_assets - (total_liabilities + total_equity)))
                 flag_input_tb_errors = True
@@ -197,6 +201,7 @@ class AllSightMock:
                                         abstract=True, is_ytd_account=False)
 
             # Step 3: process the input
+            print("GOING_INSIDE_PROCESS_REQUEST")
             res = mapaccounts.process_request(input_data)
 
             ##################################################################################

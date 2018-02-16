@@ -12,16 +12,26 @@ class CoAAdmin(admin.ModelAdmin):
     form = CoAForm
     list_display = [field.name for field in CoA._meta.fields]
 
+class TBAdmin(admin.ModelAdmin):
+
+    list_display = [field.name for field in TrialBalance._meta.fields]
+
 class CoAMapAdmin(admin.ModelAdmin):
     form = CoAMapForm
+    list_display = [field.name for field in CoAMap._meta.fields]
+
+class DefaultAccountTagMappingAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in DefaultAccountTagMapping._meta.fields]
+    search_fields = ('=software','account_category')
 
 class FinancialStatementEntryTagAdmin(admin.ModelAdmin):
-    list_display = ('short_label', 'description', 'tag_id', 'sort_order')
+    list_display = [field.name for field in FinancialStatementEntryTag._meta.fields]
+    search_fields = ('name', 'all_sight_name')
 
 admin.site.register(AccountingOauth2, Oauth2Admin)
 admin.site.register(FinancialStatementEntryTag, FinancialStatementEntryTagAdmin)
-admin.site.register(DefaultAccountTagMapping)
+admin.site.register(DefaultAccountTagMapping,DefaultAccountTagMappingAdmin)
 admin.site.register(CoA, CoAAdmin)
 admin.site.register(CoAMap,CoAMapAdmin)
-admin.site.register(TrialBalance)
+admin.site.register(TrialBalance,TBAdmin)
 

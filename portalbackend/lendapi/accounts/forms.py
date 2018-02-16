@@ -1,5 +1,6 @@
 
-from .models import Company, User, CompanyMeta, EspressoContact, Contact,FiscalYearEnd
+from .models import Company, User, CompanyMeta, EspressoContact, Contact,FiscalYearEnd,AccountingConfiguration
+from portalbackend.lendapi.accounting.models import AccountingOauth2
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.db import models
@@ -20,11 +21,13 @@ class EcUserChangeForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EcUserChangeForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
+        self.fields['company'].queryset = Company.objects.order_by('name')
         for field in self.fields.values():
             field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA,'invalid':UIErrorMessage.REQUIRED_INVALID_DATA}
 
 
 class CompanyForm(forms.ModelForm):
+
     class Meta:
         model = Company
         fields = ('__all__')
@@ -34,6 +37,7 @@ class CompanyForm(forms.ModelForm):
 
         for field in self.fields.values():
             field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA,'invalid':UIErrorMessage.REQUIRED_INVALID_DATA}
+
 
 class CompanyMetaForm(forms.ModelForm):
     class Meta:
@@ -46,8 +50,58 @@ class CompanyMetaForm(forms.ModelForm):
         for field in self.fields.values():
             field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA}
 
-            if('date' or 'period' or 'year' in field.label):
+            if ('date' or 'period' or 'year' in field.label):
                 field.error_messages = {'invalid': UIErrorMessage.INVALID_DATE_FORMAT}
+
+    def clean(self):
+        current_date = self.cleaned_data.get('monthly_reporting_current_period')
+        next_date = self.cleaned_data.get('monthly_reporting_next_period')
+
+        if current_date is not None and next_date is not None:
+            if current_date >= next_date:
+                raise forms.ValidationError(
+                    "Monthly reporting current period date should be less than Monthly reporting next period date")
+        return self.cleaned_data
+
+
+class AccountingConfigurationForm (forms.ModelForm):
+    class Media:
+        js = ('./admin/js/admin-custom-actions.js',)
+
+    class Meta:
+        model = AccountingConfiguration
+        fields = ('__all__')
+
+    def __init__(self, *args, **kwargs):
+        if 'initial' not in kwargs:
+            self.instance = kwargs.__getitem__('instance')
+        super (AccountingConfigurationForm, self).__init__ (*args, **kwargs)
+
+        for field in self.fields.values():
+            field.error_messages = {'required': UIErrorMessage.REQUIRED_VALID_DATA}
+
+    def clean(self):
+        accounting_type = self.cleaned_data.get('accounting_type')
+        if self.is_valid():
+            if accounting_type != AccountingConfiguration.XERO:
+                self.cleaned_data['xero_accounting_type'] = None
+            else:
+                if self.cleaned_data['xero_accounting_type'] == None:
+                    raise forms.ValidationError("Xero Accounting Type not null")
+            acc_objects = AccountingConfiguration.objects.filter(accounting_type = self.cleaned_data['accounting_type'])
+            if self.cleaned_data['is_active']:
+                for obj in acc_objects:
+                    obj.is_active = False
+                    obj.save()
+            else:
+                is_true = False
+                for obj in acc_objects:
+                    if obj.is_active and obj.id is not self.instance.id:
+                        is_true = True
+                if not is_true:
+                    raise forms.ValidationError("Atleast one configuration year end should be active for %s" % self.cleaned_data['accounting_type'])
+
+        return self.cleaned_data
 
 
 class ContactForm(forms.ModelForm):
@@ -57,6 +111,7 @@ class ContactForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['company'].queryset = Company.objects.order_by('name')
 
         for field in self.fields.values():
             field.error_messages = {'required' : UIErrorMessage.REQUIRED_VALID_DATA}
@@ -67,10 +122,10 @@ class FiscalYearEndForm(forms.ModelForm):
         fields = ('__all__')
 
     def __init__(self, *args, **kwargs):
-        print(kwargs)
         if 'initial' not in kwargs:
             self.instance = kwargs.__getitem__('instance')
         super(FiscalYearEndForm, self).__init__(*args, **kwargs)
+        self.fields['company'].queryset = Company.objects.order_by('name')
 
     def clean(self):
 

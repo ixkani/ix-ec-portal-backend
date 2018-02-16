@@ -69,12 +69,13 @@ class ErrorMessage:
     NO_TOKEN_AUTHENTICATION = "No connection established"
     USER_NOT_CONNECTED = "User must connect to company"
     REVOKE_SUCCESSFULL = "Revoke successful"
-    TOKEN_ALREADY_VALIDATED = "Token already Validated."
+    TOKEN_ALREADY_VALIDATED = "Token already in Use."
 
     # Xero
     XERO_CONFIGURATION_NOT_FOUND = "Xero not configured for this company."
     XERO_CONNECTION_FAILED = "Xero connection establishing failed."
     XERO_CONNECTION_EXPIRED = "Xero connection expired."
+    XERO_CONNECTION_ERROR = "Xero connection error."
 
     EMAIL_SEND = "Email Send"
     TOKEN_VALID = "Token Valid"
@@ -88,9 +89,11 @@ class ErrorMessage:
 
     COMPANY_META_NOT_AVAILABLE = "No company metadata found. Your administrator has been notified and will be in " \
                                  "touch as soon as possible to help fix the issue "
+    FISCAL_YEAR_MISSING = "Fiscal year ends not configured as proper"
 
 
 class UIErrorMessage:
+    MINIMUM_LENGTH_1 = "Atleast a character required"
     MINIMUM_LENGTH_3 = "Atleast 3 characters required"
     MINIMUM_LENGTH_4 = "Atleast 4 characters required"
     MINIMUM_LENGTH_10 = "Atleast 10 characters required"

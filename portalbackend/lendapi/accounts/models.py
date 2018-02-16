@@ -15,9 +15,9 @@ from django.conf import settings
 from django.contrib.sessions.models import Session
 
 class Company(models.Model):
-    QUICKBOOKS = "Quickbooks"
-    XERO = "Xero"
-    SAGE = "Sage"
+    QUICKBOOKS = "quickbooks"
+    XERO = "xero"
+    SAGE = "sage"
 
     ACCOUNTING_CHOICES = (
         (QUICKBOOKS, "Quickbooks"),
@@ -33,7 +33,7 @@ class Company(models.Model):
     external_id = models.CharField(max_length=150, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)
     ])
-    parent_company = models.ForeignKey('self', null=True, blank=True)
+    parent_company = models.ForeignKey('self', null=True, blank=True,on_delete=models.CASCADE)
     default_currency = models.CharField(max_length=3, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)
     ])
@@ -47,12 +47,6 @@ class Company(models.Model):
     employee_count = models.IntegerField(null=True, default=0,
                                          validators=[MinValueValidator(0)])
     accounting_type = models.CharField(max_length=60, choices=ACCOUNTING_CHOICES, default=QUICKBOOKS)
-    auth_key = models.CharField(max_length=500, default="", validators=[
-        MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
-    ])
-    secret_key = models.CharField(max_length=500, default="", validators=[
-        MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
-    ])
     current_fiscal_year_end = models.DateField(null=True, blank=True)
     is_tag_error_notified = models.BooleanField(default=False,blank=True,help_text="No Need to Change. Auto Updation Field")
 
@@ -109,18 +103,25 @@ class ForgotPasswordRequest(models.Model):
 class Contact(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message=UIErrorMessage.INVALID_PHONE_NUMBER)
+
     company = models.ForeignKey(Company)
+
     external_id = models.CharField(max_length=150, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
+
     title = models.CharField(max_length=50, blank=True, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
+
     phone = models.CharField(max_length=15, validators=[phone_regex], blank=True, )
+
     first_name = models.CharField(max_length=100, validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3),
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1),
         RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[\"-\.'#&!]|[)\]])+$")])
+
     last_name = models.CharField(max_length=100, validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3),
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1),
         RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[\"-\.'#&!]|[)\]])+$")])
+
     email = models.CharField(max_length=100, validators=[
         RegexValidator("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
                        message=UIErrorMessage.INVALID_EMAIL_ID)])
@@ -183,6 +184,42 @@ class CompanyMeta(models.Model):
 
     class Meta:
         db_table = "companymeta"
+
+
+class AccountingConfiguration(models.Model):
+    PUBLIC = "PUBLIC"
+    PRIVATE = "PRIVATE"
+    PARTNER = "PARTNER"
+    QUICKBOOKS = "quickbooks"
+    XERO = "xero"
+    SAGE = "sage"
+
+    ACCOUNTING_TYPE = (
+        (PUBLIC, "Public"),
+        (PRIVATE, "Private"),
+        (PARTNER, "Partner")
+    )
+
+    ACCOUNTING_CHOICES = (
+        (QUICKBOOKS, "Quickbooks"),
+        (XERO, "Xero"),
+        (SAGE, "Sage")
+    )
+    accounting_type = models.CharField(max_length=60, choices=ACCOUNTING_CHOICES, default=QUICKBOOKS)
+    xero_accounting_type = models.CharField(max_length=50, null=True, blank=True, choices=ACCOUNTING_TYPE,default=PUBLIC)
+
+    auth_key = models.CharField(max_length=500, null=True, blank=True, validators=[
+        MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
+    ])
+    secret_key = models.TextField(
+        help_text="Copy & paste the rsa key content from generated .pem for xero private type accounting access. Otherwise secret key required.",
+        null=True, blank=True, validators=[
+            MinLengthValidator(10, message=UIErrorMessage.MINIMUM_LENGTH_10)
+        ])
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "accountingconfiguration"
 
 
 # this function can probably be phased out. Need to assess and decide. #brad #todo

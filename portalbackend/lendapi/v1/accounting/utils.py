@@ -23,14 +23,16 @@ from portalbackend import settings
 from portalbackend.lendapi.accounting.models import Bearer, LoginInfo
 # token can either be an accessToken or a refreshToken
 from portalbackend.lendapi.accounting.utils import AccountingUtils
-from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact, CompanyMeta, FiscalYearEnd
+from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact, CompanyMeta, FiscalYearEnd, \
+    AccountingConfiguration
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.constants import MONTHLY_REPORT_KEY_ERROR_EMAIL_SUBJECT, \
     COMAPANY_META_EMAIL_BODY, COMAPANY_META_EMAIL_SUBJECT, MONTHLY_REPORT_KEY_ERROR_ADMIN_EMAIL_BODY, \
     MONTHLY_REPORT_KEY_ERROR_USER_EMAIL_BODY, COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT, \
     COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_BODY, ERROR_TAG_EMAIL_ADMIN_BODY, \
     ERROR_TAG_EMAIL_USER_BODY, COMPANY_META_NOT_FOUND_EMAIL_ADMIN, \
-    COMPANY_PERIOD_NOT_FOUND_EMAIL_ADMIN
+    COMPANY_PERIOD_NOT_FOUND_EMAIL_ADMIN, COMPANY_MISCONFIG_EMAIL_ADMIN, COMPANY_MISCONFIG_EMAIL_SUBJECT, \
+    COMPANY_MISCONFIG_EMAIL_BODY
 from portalbackend.lendapi.v1.accounting import getDiscoveryDocument
 from portalbackend.lendapi.v1.accounting.serializers import CompanyDetailSerializer, LoginInfoSerializer
 from portalbackend.lendapi.v1.accounts.serializers import CompanySerializer
@@ -38,6 +40,7 @@ from portalbackend.settings import BASE_DIR, EMAIL_ENABLED
 from portalbackend.validator.errorcodemapping import ErrorCode
 from portalbackend.validator.errormapping import ErrorMessage
 from portalbackend.validator.headercodemapping import HeaderErrorCode
+from xero.auth import PublicCredentials,PrivateCredentials
 
 
 class Utils(object):
@@ -311,8 +314,10 @@ class Utils(object):
         :param id: Company ID
         :return: Access Key of accounting system
         '''
-        keys = Company.objects.filter(id=id).values('accounting_type', 'auth_key', 'secret_key')
-        return keys[0]
+        company = Company.objects.filter(id=id).first()
+        return AccountingConfiguration.objects.filter(accounting_type=company.accounting_type,
+                                                          is_active=True).first()
+
 
     @staticmethod
     def check_company_exists(id):
@@ -517,7 +522,39 @@ class Utils(object):
         # print(response)
         return response, status_code
 
-    # TODO: FISCAL YEAR CHANGE
+    @staticmethod
+    def get_xero_auth(pk):
+        auth_info = AccountingUtils.get_credentials_by_company(pk)
+        auth={}
+        secret_keys = Utils.get_access_keys(pk)
+        if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            auth['consumer_key']= auth_info.accessToken
+            auth['rsa_key'] = auth_info.accessSecretKey
+        else:
+            auth['oauth_token'] = auth_info.accessToken
+            auth['oauth_token_secret'] = auth_info.accessSecretKey
+            auth['oauth_authorization_expires_at'] = Utils.format_expiry_duration(auth_info.tokenAcitvatedOn)
+            auth['oauth_expires_at'] = Utils.format_expiry_duration(auth_info.tokenExpiryON)
+            access_key = Utils.get_access_keys(pk)
+            auth['consumer_key'] = access_key.auth_key
+            auth['consumer_secret'] = access_key.secret_key
+            auth['verified'] = True
+            auth['callback_uri'] = settings.XERO_CALL_BACK_URI
+
+        return auth
+
+    @staticmethod
+    def refresh_xero_auth_token(pk):
+        secret_keys = Utils.get_access_keys(pk)
+        consumer_key = secret_keys.auth_key
+        consumer_secret = secret_keys.secret_key
+        credentials = PublicCredentials(consumer_key, consumer_secret)
+
+        return
+
+
+
+        # TODO: FISCAL YEAR CHANGE
     @staticmethod
     def get_curr_prior_fiscal_year_end(company):
         """
@@ -573,7 +610,6 @@ class Utils(object):
 
         current_fiscal_year_data["Model"]["Financials"]["CustomerTrialBalance"] = current_fiscal_year_tb
         previous_fiscal_year_data["Model"]["Financials"]["CustomerTrialBalance"] = previous_fiscal_year_tb
-
         return [current_fiscal_year_data, previous_fiscal_year_data]
 
     # for decoding ID Token
@@ -754,3 +790,33 @@ class Utils(object):
             Utils.send_mail(email=[admin_mail, ], body='', subject=subject, html_message=html_body)
 
         return
+    @staticmethod
+    def send_company_misconfig(company, error):
+        admin_mail = settings.ADMIN_EMAIL
+        company_data = Company.objects.get(pk=company)
+        html_body = COMPANY_MISCONFIG_EMAIL_ADMIN % (
+                    COMPANY_MISCONFIG_EMAIL_BODY, company_data.name, company_data.id,
+                    company_data.accounting_type,error)
+        subject = COMPANY_MISCONFIG_EMAIL_SUBJECT + company_data.name
+        Utils.send_mail(email=[admin_mail, ], body='', subject=subject, html_message=html_body)
+        return
+
+    @staticmethod
+    def get_xero_public_credentials(stored_values):
+        return PublicCredentials(consumer_key=stored_values['consumer_key'],
+                      consumer_secret=stored_values['consumer_secret'],
+                      callback_uri=stored_values['callback_uri'],
+                      verified=stored_values['verified'],
+                      oauth_token=stored_values['oauth_token'],
+                      oauth_token_secret=stored_values['oauth_token_secret'],
+                      oauth_expires_at=stored_values['oauth_expires_at'],
+                      oauth_authorization_expires_at=stored_values[
+                          'oauth_authorization_expires_at'],
+                      )
+    @staticmethod
+    def get_xero_credentials(pk,**auth):
+        secret_keys = Utils.get_access_keys(pk)
+        if AccountingConfiguration.PRIVATE == secret_keys.xero_accounting_type:
+            return PrivateCredentials(**auth)
+        else:
+            return PublicCredentials(**auth)
