@@ -13,11 +13,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='coa',
-            name='gl_account_bal',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=12, null=True, verbose_name='Account Balance'),
-        ),
+       
         migrations.AlterField(
             model_name='coa',
             name='gl_account_currency',
@@ -34,11 +30,7 @@ class Migration(migrations.Migration):
             name='gl_account_type',
             field=models.CharField(max_length=128, validators=[django.core.validators.MinLengthValidator(1, message='Atleast a character required')], verbose_name='Account Type'),
         ),
-        migrations.AlterField(
-            model_name='coamap',
-            name='cust_account_id',
-            field=models.CharField(blank=True, max_length=60, null=True),
-        ),
+        
         migrations.AlterField(
             model_name='coamap',
             name='cust_account_name',
@@ -49,16 +41,8 @@ class Migration(migrations.Migration):
             name='espresso_account_name',
             field=models.CharField(blank=True, max_length=128, validators=[django.core.validators.MinLengthValidator(1, message='Atleast a character required')]),
         ),
-        migrations.AlterField(
-            model_name='trialbalance',
-            name='credit',
-            field=models.DecimalField(decimal_places=2, max_digits=12),
-        ),
-        migrations.AlterField(
-            model_name='trialbalance',
-            name='debit',
-            field=models.DecimalField(decimal_places=2, max_digits=12),
-        ),
+   
+
         migrations.AlterField(
             model_name='trialbalance',
             name='gl_account_id',
