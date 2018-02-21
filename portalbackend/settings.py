@@ -141,6 +141,7 @@ CORS_ORIGIN_WHITELIST = (
     'portal.espressocapital.com.herokudns.com',
     'espressocapital--dev.cs50.my.salesforce.com',
     'espresso-ix-backend.herokuapp.com',
+    'espresso-ix.herokuapp.com',
 )
 
 ROOT_URLCONF = 'portalbackend.urls'
