@@ -1,12 +1,12 @@
 from django.db import models
-from portalbackend.lendapi.accounts.models import Company
+from portalbackend.lendapi.accounts.models import Company,User
 from portalbackend.lendapi.accounting.models import FinancialStatementEntryTag
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import RegexValidator, MinValueValidator, MinLengthValidator
 from django.apps import apps
 from django.core.validators import RegexValidator
 from portalbackend.validator.errormapping import ErrorMessage,UIErrorMessage
-
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 # Create your models here.
 class MonthlyReport(models.Model):
@@ -74,6 +74,8 @@ class FinancialStatementEntry(models.Model):
         db_table = "financialstatemententry"
         # ordering = ('fse_tag__sort_order',)
 
+    def __str__(self):
+        return self.fse_tag.all_sight_name
 
 class QuestionCategory(models.Model):
     group_name = models.CharField(max_length=30)
@@ -114,7 +116,7 @@ class Question(models.Model):
         db_table = "question"
 
     def __str__(self):
-        return self.short_tag
+        return self.question_text
 
 
 class Answer(models.Model):
@@ -135,3 +137,23 @@ class Download(models.Model):
     name = models.CharField(max_length=60, null=True)
     link = models.CharField(max_length=300, null=True)
     version = models.DecimalField(max_digits=4, decimal_places=2)
+
+class PreviousReportEditLogger(models.Model):
+    INCOME_STATEMENT = "Income Statement"
+    BALANCE_SHEET = "Balance Sheet"
+    ANSWER = "Answer"
+    SECTION_CHOICES = (
+        (INCOME_STATEMENT, "Income Statement"),
+        (BALANCE_SHEET, "Balance Sheet"),
+        (ANSWER, "Answer")
+    )
+    company = models.ForeignKey(Company)
+    user = models.ForeignKey(User)
+    reporting_period = models.ForeignKey(MonthlyReport)
+    section_name = models.CharField(max_length=60, choices=SECTION_CHOICES,verbose_name="Section Name")
+    finacial_statement_item = models.ForeignKey(FinancialStatementEntry,null=True,verbose_name="Changed Finacial Tag")
+    question_item = models.ForeignKey(Question,null=True,verbose_name="Changed Question")
+    old_value = models.CharField(max_length=512,null=True,verbose_name="Old Value")
+    new_value = models.CharField(max_length=512,null=True,verbose_name="New Value")
+    date_changed = models.DateTimeField()
+

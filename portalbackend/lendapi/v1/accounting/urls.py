@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^company/(?P<pk>[0-9]+)/accounting/incomestatement/?$', views.IncomeStatementView.as_view(),
         name='income-statement'),
     url(r'^company/(?P<pk>[0-9]+)/accounting/coamap/?$', views.CoaMapView.as_view(), name='coa-map'),
+    url(r'^company/(?P<pk>[0-9]+)/accounting/generatepdf/?$', views.GeneratePDF.as_view(), name='generate-pdf'),
     # Espresso URLS
 
 ]

@@ -90,6 +90,7 @@ class ErrorMessage:
     COMPANY_META_NOT_AVAILABLE = "No company metadata found. Your administrator has been notified and will be in " \
                                  "touch as soon as possible to help fix the issue "
     FISCAL_YEAR_MISSING = "Fiscal year ends not configured as proper"
+    CREDIT_DEBIT_UNEQUALS = "Debit and Credit are not same for this month."
 
 
 class UIErrorMessage:

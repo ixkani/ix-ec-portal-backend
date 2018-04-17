@@ -7,7 +7,7 @@ from portalbackend.validator.errormapping import ErrorMessage
 from portalbackend.validator.errorcodemapping import ErrorCode
 from django.utils.deprecation import MiddlewareMixin
 from datetime import datetime, timedelta
-from portalbackend.lendapi.accounts.models import UserSession
+from portalbackend.lendapi.accounts.models import UserSession,CompanyMeta
 from re import sub
 from oauth2_provider.models import AccessToken
 from portalbackend.lendapi.v1.accounting.utils import Utils
@@ -24,7 +24,7 @@ class IsAuthenticatedOrCreate(permissions.IsAuthenticated):
 
 
 class ResourceNotFound(APIException):
-    status_code = status.HTTP_403_FORBIDDEN
+    status_code = status.HTTP_404_NOT_FOUND
     default_detail = {"message": ErrorMessage.RESOURCE_NOT_FOUND, "status": "failed"}
 
 
@@ -79,6 +79,9 @@ class SessionValidator(MiddlewareMixin):
                 token = token.split(' ')
                 token_obj = AccessToken.objects.get(token=token[1])
                 user = token_obj.user
+                meta = CompanyMeta.objects.get(company = user.company)
+                if meta is not None and meta.monthly_reporting_sync_method == 'QBD':
+                    return
                 try:
                     user_session = UserSession.objects.get(user=user)
                     if user_session:

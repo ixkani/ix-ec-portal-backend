@@ -1,6 +1,9 @@
 import datetime
 import json
 import re
+import pyotp
+import random
+
 from functools import reduce
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -12,11 +15,11 @@ from django.utils.timezone import utc
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework import views
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 import uuid
 
 from portalbackend.lendapi.accounts.models import Company, User, CompanyMeta, Contact, EspressoContact, \
-    ForgotPasswordRequest , UserSession
+    ForgotPasswordRequest, UserSession, ScheduledMaintenance
 from portalbackend.lendapi.constants import FORGOT_PASSWORD_EMAIL_BODY, APP_NAME,SESSION_EXPIRE_MINUTES
 from portalbackend.lendapi.utils import PageNumberPaginationDataOnly
 from portalbackend.lendapi.v1.accounting.utils import Utils
@@ -28,6 +31,7 @@ from .serializers import CompanySerializer, UserSerializer, CompanyMetaSerialize
     ForgotPasswordSerializer, ForgotPasswordValidationSerializer
 from portalbackend.lendapi import constants
 from portalbackend import settings
+from django.contrib.auth import logout
 
 
 class UserList(generics.ListCreateAPIView):
@@ -106,9 +110,12 @@ class UserDetail(views.APIView):
         Updates the user by their ID
         """
         try:
-            user = self.get_object(pk)
+            is_valid_user, contact_message = Utils.check_user_exists(pk)
+            if not is_valid_user:
+                return Utils.dispatch_failure(request, contact_message)
 
-            if request.user == user:
+            user = self.get_object(pk)
+            if request.user == user or request.user.is_superuser:
                 serializer = UserSerializer(user, data=request.data, partial=True, context={'request': request})
                 if serializer.is_valid():
                     serializer.save()
@@ -125,6 +132,10 @@ class UserDetail(views.APIView):
         Deletes the user by their ID
         """
         try:
+            is_valid_user, contact_message = Utils.check_user_exists(pk)
+            if not is_valid_user:
+                return Utils.dispatch_failure(request, contact_message)
+
             if self.request.user.is_superuser:
                 user = self.get_object(pk)
                 user.delete()
@@ -286,6 +297,7 @@ class LoginView(views.APIView):
                 user = validate_user.validated_data
                 print("---LOGGING IN--")
                 user.last_login = timezone.now()
+                user.is_logged_in = True
                 user.save()
                 serializer = UserLoginSerializer(user, context={'request': request})
                 data = serializer.data
@@ -302,9 +314,21 @@ class LoginView(views.APIView):
         except Exception as e:
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
+class LogoutView(views.APIView):
+    """
+    Logout  the user
+    """
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        print(request.user)
+        user=User.objects.filter(username=request.user).first()
+        if user:
+            user.is_logged_in = False
+            user.save()
+        return Utils.dispatch_success(request, [])
 
 class Me(views.APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         """
@@ -312,6 +336,7 @@ class Me(views.APIView):
         """
         try:
             serializer = UserSerializer(self.request.user, context={'request': request})
+
             try:
                 return Utils.dispatch_success(request, serializer.data)
             except Exception as e:
@@ -467,8 +492,7 @@ class EspressoContacts(views.APIView):
 
                 if serializer.is_valid():
                     serializer.save()
-                    contacts[c_count] = serializer.validated_data
-                    print(serializer.validated_data)
+                    contacts[c_count] = serializer.data
                     c_count += c_count
                 else:
                     return Utils.dispatch_failure(request, 'VALIDATION_ERROR', serializer.errors)
@@ -592,3 +616,102 @@ class ForgotPassword(generics.ListCreateAPIView):
             return Utils.dispatch_failure(request, "TOKEN_EXPIRED")
 
         return Utils.dispatch_success(request, "PASSWORD_RESET_SUCCESSFUL")
+
+class ChangePassword(views.APIView):
+    """
+    Forgot Password Handler
+    """
+    permission_classes = (AllowAny,)
+    def post(self, request, *args, **kwargs):
+        try:
+            user = request.data.get("id")
+            passcode = request.data.get("passcode")
+            password = passcode.get("password")
+            reenter_password = passcode.get("reenter_password")
+
+            if password == reenter_password:
+                u = User.objects.get(id=user)
+                u.set_password(password)
+                u.is_password_reset = False
+                u.save()
+                return Utils.dispatch_success(request, "PASSWORD_RESET_SUCCESSFUL")
+            else:
+                return Utils.dispatch_failure(request, "VALIDATION_ERROR")
+        except Exception as e:
+            return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
+
+
+class ScheduledMaintenanceDetails(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request, *args, **kwargs):
+        try:
+            response = {
+                "is_under_maintenance": False,
+            }
+            maintenance = ScheduledMaintenance.objects.all().first()
+            if maintenance and maintenance.is_active:
+                now = datetime.datetime.utcnow().replace(tzinfo=utc)
+                if maintenance.start_time < now < maintenance.end_time:
+                    response["is_under_maintenance"] = maintenance.is_active
+                    response["message"] = maintenance.message,
+                    response["end_time"] = maintenance.end_time
+                else:
+                    maintenance.is_active = False
+                    maintenance.save()
+            return Utils.dispatch_success(request,response)
+        except Exception:
+            return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
+
+class TwoFactorAuthenticationDetails(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self,request):
+        """
+        Gets TOTP Secret Key for a user
+        """
+        try:
+            user = User.objects.get(username=request.user)
+            if user.tfa_secret_code is None:
+                key = pyotp.random_base32()
+                user.tfa_secret_code = key
+                user.save()
+            data = {
+                "secret_code" : user.tfa_secret_code
+            }
+            return Utils.dispatch_success(request,data)
+        except Exception as e:
+            print(e)
+            return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
+
+    def post(self,request):
+        """
+        Check weather the totp is valid or not
+        """
+        try:
+            user = User.objects.get(username=request.user)
+            user_totp = request.data["code"]
+            totp = pyotp.TOTP(user.tfa_secret_code)
+            if int(user_totp) == int(totp.now()):
+                return Utils.dispatch_success(request, [])
+            else:
+                return Utils.dispatch_failure(request,"VALIDATION_ERROR")
+        except Exception as e:
+            print(e)
+            return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
+
+    def put(self, request):
+        """
+        Updates Two factor flag
+        """
+        try:
+            user = User.objects.get(username=request.user)
+            is_tfa_enaled = request.data.get("is_tfa_enabled",None)
+            is_tfa_setup_completed = request.data.get("is_tfa_setup_completed",None)
+            if is_tfa_enaled is not None:
+                user.is_tfa_enabled = is_tfa_enaled
+            if is_tfa_setup_completed is not None:
+                user.is_tfa_setup_completed = is_tfa_setup_completed
+            user.save()
+            return Utils.dispatch_success(request, [])
+        except Exception as e:
+            print(e)
+            return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')

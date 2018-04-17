@@ -6,23 +6,30 @@ from .forms import CoAForm,CoAMapForm
 
 class Oauth2Admin(admin.ModelAdmin):
     list_display = ('company', )
+    search_fields = ('company__name',)
 
 
 class CoAAdmin(admin.ModelAdmin):
     form = CoAForm
     list_display = [field.name for field in CoA._meta.fields]
+    search_fields = ('company__name','gl_account_name','gl_account_type',)
 
 class TBAdmin(admin.ModelAdmin):
-
     list_display = [field.name for field in TrialBalance._meta.fields]
+    search_fields = ('company__name', 'gl_account_name',)
 
 class CoAMapAdmin(admin.ModelAdmin):
     form = CoAMapForm
     list_display = [field.name for field in CoAMap._meta.fields]
+    search_fields = ('company__name', 'cust_account_name','espresso_account_name')
 
 class DefaultAccountTagMappingAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in DefaultAccountTagMapping._meta.fields]
-    search_fields = ('=software','account_category')
+    list_display = ['softwares','account_category','default_map_id','default_map_name']
+    search_fields = ('software','account_category','default_map_id','default_map_name')
+
+    def softwares(self,obj):
+        return obj.software.lower()
+
 
 class FinancialStatementEntryTagAdmin(admin.ModelAdmin):
     list_display = [field.name for field in FinancialStatementEntryTag._meta.fields]

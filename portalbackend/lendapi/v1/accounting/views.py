@@ -2,19 +2,29 @@ import base64
 import contextlib
 import json
 import os
+import re
 import time
+import datetime
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
 
 import requests
+from django.http import HttpResponse
+from django.views.generic import View
 from django.shortcuts import redirect
 from rest_framework import views
 from rest_framework.parsers import FileUploadParser, JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
+from portalbackend.lendapi.constants import PREVIOUS_MONTHLY_REPORT_DOWNLOAD_FILE_PREFIX
 from portalbackend.lendapi.accounting.csv_utils import CSVUtils
 from portalbackend.lendapi.accounting.models import DefaultAccountTagMapping, CoAMap
 from portalbackend.lendapi.accounting.models import TrialBalance, CoA
 from portalbackend.lendapi.accounting.utils import AccountingUtils
+from portalbackend.lendapi.reporting.utils import ReportingUtils
 from portalbackend.lendapi.accounts.models import Company
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.reporting.models import FinancialStatementEntry
@@ -26,6 +36,7 @@ from portalbackend.lendapi.v1.accounting.third_party.quickbooks import QuickBook
 # from portalbackend.lendapi.v1.accounting.utils import *
 from portalbackend.lendapi.v1.accounting.utils import Utils
 from .serializers import FinancialStatementEntrySerializer, CoAMapSerializer, UpdatedCoAMapSerializer
+from portalbackend.lendapi.v1.reporting.serializers import QuestionWithAnswerSerializer, MonthlyReportSerializer
 
 
 class Statement(views.APIView):
@@ -82,7 +93,7 @@ class Statement(views.APIView):
 
                 for data in slitted_data:
                     print('^^^^^^^^^^^^^^^ processing tb data ')
-                    # print(data)
+
                     print('^^^^^^^^^^^^^^^^^ tb data end')
                     st = time.time()
                     if url_configured:
@@ -94,8 +105,12 @@ class Statement(views.APIView):
 
                         response = json.loads(r.text)
                     else:
-                        json_response = AllSightMock.initiate_allsight(input_data=data)
-                        response = json.loads(json_response)
+                        try:
+                            json_response = AllSightMock.initiate_allsight(input_data=data)
+                            response = json.loads(json_response)
+                        except Exception as e:
+                            error = ["%s" % e]
+                            return Utils.dispatch_failure(request,'CREDIT_DEBIT_UNEQUALS')
                     print('{:.2f}s AS - SAVE Request'.format(time.time() - st))
 
                     # print('########## AS RESPONSE', response)
@@ -164,7 +179,7 @@ class CoaMapView(views.APIView):
             coa = CoA.objects.filter(company=company)
             remap = request.GET.get('remap', None)
             if coa:
-                default_mappings = DefaultAccountTagMapping.objects.filter(software=company.accounting_type.lower())
+                default_mappings = DefaultAccountTagMapping.objects.filter(software__iexact=company.accounting_type)
 
                 if not default_mappings:
                     return Utils.dispatch_failure(request, "OBJECT_RESOURCE_NOT_FOUND")
@@ -506,6 +521,9 @@ class ChartOfAccounts(views.APIView):
         Sample response found at https://developer.intuit.com/docs/api/accounting/account
         """
         try:
+            print('##### Chart of Accounts RAW Request')
+            print(request.data)
+            print('####### End of CoA Request')
 
             company = AccountsUtils.get_company(pk)
             if 'file' in request.data:
@@ -584,7 +602,6 @@ class TrialBalanceView(views.APIView):
         try:
             return Accounting().get_instance_by_id(pk).trail_balance(pk, request)
         except Exception as e:
-
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
     def post(self, request, pk, *args, **kwargs):
@@ -676,3 +693,155 @@ class LoginStatus(views.APIView):
         except Exception as e:
             print(e)
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
+
+
+
+class GeneratePDF (views.APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, pk, *args, **kwargs):
+        try:
+            company = AccountsUtils.get_company (pk)
+
+            query, dates = Utils.validate_query (request, dateformat=True)
+            end_date = request.GET.get ('end_date', None)
+            split_date = end_date.split ('-')
+            report_identifier = split_date[0]+"-"+split_date[1]
+
+            report_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
+            report_month = report_date.strftime('%b')
+            report_month_fillform = report_date.strftime ('%B')
+
+            if '-' in report_identifier:
+                monthly_report = ReportingUtils.get_monthly_report (pk=pk, period=report_identifier)
+            else:
+                monthly_report = ReportingUtils.get_monthly_report (pk=pk, report_id=report_identifier)
+
+            context = {'request': request,
+                       'company': pk,
+                       'period': report_identifier}
+
+            # todo: figure out why order_by isn't workin on these query_sets, ordering added to model as workaround
+            if not dates:
+                print('########### not dates')
+                bs_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                      statement_type=FinancialStatementEntry.BALANCE_SHEET)
+                is_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                      statement_type=FinancialStatementEntry.INCOME_STATEMENT)
+            else:
+                if dates[0] == 'ERROR':
+                    return Utils.dispatch_failure (request, dates[1])
+                elif len (dates) == 2:
+                    bs_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                                                                          period_ending__range=(dates[0], dates[1]))
+
+                    is_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          statement_type=FinancialStatementEntry.INCOME_STATEMENT,
+                                                                          period_ending__range=(dates[0], dates[1]))
+                elif len (dates) == 1:
+                    print(dates)
+                    bs_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                                                                          period_ending=dates[0])
+
+                    is_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          statement_type=FinancialStatementEntry.INCOME_STATEMENT,
+                                                                          period_ending=dates[0])
+                else:
+                    print(dates)
+                    bs_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          statement_type=FinancialStatementEntry.BALANCE_SHEET)
+                    is_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          statement_type=FinancialStatementEntry.INCOME_STATEMENT)
+
+            orderlist = {}
+            ordered_data = {}
+            bslist = {}
+            islist = {}
+            qalist = {}
+            signofflist = {}
+            reportlist = {}
+
+            questions = ReportingUtils.get_questionnaire_objects (pk, report_identifier)
+            has_answers = ReportingUtils.has_answers_for_period (pk, report_identifier)
+
+            if questions and has_answers:
+                # return Q n A for requested period.
+                question_and_answer = QuestionWithAnswerSerializer (questions, many=True, context=context)
+                if len (question_and_answer.data) > 0:
+                    for row in range (0, int (len (question_and_answer.data))):
+                        question_text = question_and_answer.data[row]['question_text']
+                        answer_data_type = question_and_answer.data[row]['answer_data_type']
+                        short_tag = question_and_answer.data[row]['short_tag']
+                        answer = question_and_answer.data[row]['answer']['answer']
+                        if row is not 0 and qalist[row-1]["answer_data_type"] == "boolean" and answer_data_type == "varchar(255)" or answer_data_type == "varchar(511)":
+                            if question_text.split(' ')[1].split(',')[0].lower() != qalist[row - 1]["answer"].lower():
+                                print(answer)
+                                answer = None
+                        qalist[row] = {"question": question_text, "answer_data_type": answer_data_type, "short_tag": short_tag, "answer":answer, "count": int(len (question_and_answer.data))}
+                    ordered_data["QUESTIONNAIRE"] = qalist
+            else:
+                qalist[0] = {"question": "", "answer_data_type": "","short_tag": "", "answer": "", "count": 0}
+                ordered_data["QUESTIONNAIRE"] = qalist
+            orderlist['QA'] = ordered_data
+
+            if bs_queryset:
+                balance_sheet = FinancialStatementEntrySerializer (bs_queryset, many=True)
+
+                for row in range (0, int (len (balance_sheet.data))):
+                    key = balance_sheet.data[row]['fse_tag']["sort_order"]
+                    description = balance_sheet.data[row]['fse_tag']['description']
+                    value = balance_sheet.data[row]['value']
+                    is_total = balance_sheet.data[row]['fse_tag']['is_total_row']
+                    bslist[key] = {"description": description, "value": Utils.currencyformat(value), "is_total": is_total}
+
+                ordered_data["BALANCE"] = bslist
+            orderlist['BS'] = ordered_data
+
+            if is_queryset:
+                income_statement = FinancialStatementEntrySerializer (is_queryset, many=True)
+                ordered_data = {"INCOME":{}}
+                for row in range (0, int (len (income_statement.data))):
+                    key = income_statement.data[row]['fse_tag']["sort_order"]
+                    description = income_statement.data[row]['fse_tag']['description']
+                    value = float(income_statement.data[row]['value'])
+                    is_total = income_statement.data[row]['fse_tag']['is_total_row']
+                    islist[key] = {"description": description,"value": Utils.currencyformat(value), "is_total": is_total}
+
+                ordered_data["INCOME"] = islist
+            orderlist['IS'] = ordered_data
+
+            if monthly_report:
+                monthly_report_serializer = MonthlyReportSerializer (monthly_report, context={'request': request, 'company_id': pk})
+                status = monthly_report_serializer.data['status']
+                signoff_by_name = monthly_report_serializer.data['signoff_by_name']
+                signoff_by_title = monthly_report_serializer.data['signoff_by_title']
+                signoff_date = monthly_report_serializer.data['signoff_date']
+                signofflist[0] = {"status": status, "signoff_by_name": signoff_by_name, "signoff_by_title": signoff_by_title, 'signoff_date':signoff_date}
+
+                ordered_data["SIGNOFF"] = signofflist
+            orderlist['REPORT'] = ordered_data
+
+            reportlist[0] = {"period": report_month+'. '+split_date[0]}
+            ordered_data["PERIOD"] = reportlist
+            orderlist['REPORT'] = ordered_data
+
+
+            pdf = AccountingUtils.render_to_pdf('pdf-layout.html', orderlist)
+            response = HttpResponse (pdf, content_type='application/pdf')
+
+            if pdf:
+                response = HttpResponse (pdf, content_type='application/pdf')
+                filename = PREVIOUS_MONTHLY_REPORT_DOWNLOAD_FILE_PREFIX+"%s.pdf" % (report_month_fillform+' '+split_date[0])
+                content = "inline; filename='%s'" % (filename)
+                download = request.GET.get ("download")
+                if download:
+                    content = "attachment; filename='%s'" % (filename)
+                response['Content-Disposition'] = content
+                return response
+            return Utils.dispatch_success (request, 'DATA_NOT_FOUND')
+        except Exception as e:
+            return Utils.dispatch_failure (request, 'INTERNAL_SERVER_ERROR')
+
+

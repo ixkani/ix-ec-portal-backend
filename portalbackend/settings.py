@@ -35,7 +35,7 @@ ENVIRONMENT_STAGING = "STAGING"
 ENVIRONMENT_PRODUCTION = "PRODUCTION"
 
 # todo: replace this based on environment of the application, Should replace with above variables
-environment = ENVIRONMENT_PRODUCTION
+environment = ENVIRONMENT_DEVELOPMENT
 
 # Application definition
 
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_json_widget',
     'djangosecure',
+    'coverage',
     # handles cors headers, self explanatory
     'corsheaders',
 ]
@@ -205,9 +206,12 @@ WSGI_APPLICATION = 'portalbackend.wsgi.application'
 
 try:
     from .databases import DBCONFIG
-except ModuleNotFoundError:
-    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
-                             'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': ''}}
+# except ModuleNotFoundError:
+#     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
+#                              'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': ''}}
+except Exception:
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'heroku',
+                             'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
 else:
     DATABASES = DBCONFIG
 
@@ -226,6 +230,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {   'NAME': 'portalbackend.validator.validator.CustomPasswortValidator',
+
     },
 ]
 

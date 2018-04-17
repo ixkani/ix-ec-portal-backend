@@ -1,26 +1,30 @@
+import os
+import datetime
+
+from dateutil.relativedelta import relativedelta
+
 from django.http import Http404
 from django.utils import timezone
+from django.core import serializers
+from django.db.models import Q
+
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from portalbackend.lendapi.reporting.models import MonthlyReport, Question, Answer
+from portalbackend.lendapi.reporting.models import MonthlyReport, Question, Answer,FinancialStatementEntry
 from portalbackend.lendapi.utils import PageNumberPaginationDataOnly
 from .serializers import MonthlyReportSerializer, CondensedMonthlyReportSerializer, QuestionWithAnswerSerializer, \
     CreateAnswerSerializer
 from portalbackend.lendapi.reporting.utils import ReportingUtils
 from portalbackend.lendapi.accounts.utils import AccountsUtils
-from portalbackend.lendapi.accounting.models import CoAMap
-from portalbackend.lendapi.accounts.models import CompanyMeta
-import datetime
-from dateutil.relativedelta import relativedelta
+from portalbackend.lendapi.accounting.models import CoAMap,FinancialStatementEntryTag
+from portalbackend.lendapi.accounts.models import CompanyMeta,FiscalYearEnd
 from portalbackend.validator.errormapping import ErrorMessage
-import os
-from django.core import serializers
-from django.db.models import Q
 from portalbackend.lendapi.v1.accounting.utils import Utils
+
 
 class MonthlyReportList(generics.ListCreateAPIView):
     """
@@ -220,6 +224,7 @@ class MonthlyReportSignoff(views.APIView):
     def put(self, request, pk, *args, **kwargs):
 
         try:
+            company = AccountsUtils.get_company(pk)
             meta = CompanyMeta.objects.filter(company_id=pk).first()
 
             # get report for current period
@@ -231,8 +236,7 @@ class MonthlyReportSignoff(views.APIView):
             if monthly_report.status == MonthlyReport.COMPLETE:
                 #return Response({"status": "INFO", "message": ""})
                 return Utils.dispatch_success(request,'MONTHLY_REPORT_ALREADY_EXISTS_WITH_COMPLETED')
-
-            # if we're signgin off as part of the setup process, then we need to set this flag to False
+            # if we're signing off as part of the setup process, then we need to set this flag to False
             # so the system will carry forward into it's normal monthly reporting workflow
             if meta.is_initial_setup:
                 meta.qb_desktop_installed = True
@@ -246,6 +250,19 @@ class MonthlyReportSignoff(views.APIView):
             #       conslidate and then merge these two fields. Submitting a report and signing off happen via the same
             #       UI activity.
             try:
+                # checking next reporting period has fye. If not automatically new fye created with label
+                # new "year_end fye" and mark it as active one
+                cur_fye = FiscalYearEnd.objects.filter(company=company, is_active=True).first()
+                if cur_fye is not None and  meta.monthly_reporting_next_period > cur_fye.fye_end_date:
+                    cur_fye.is_active = False
+                    cur_fye.save()
+                    new_fye = FiscalYearEnd(company=company,
+                                            fye_start_date=cur_fye.fye_start_date + relativedelta(years=1),
+                                            fye_end_date=cur_fye.fye_end_date + relativedelta(years=1),
+                                            label="{}FY".format((cur_fye.fye_end_date + relativedelta(years=1)).year),
+                                            is_active=True)
+                    new_fye.save()
+
                 data = {
                     "status": MonthlyReport.COMPLETE,
                     "submitted_on": timezone.now().date(),
@@ -377,3 +394,94 @@ class QuestionnaireDetail(views.APIView):
             return Utils.dispatch_success(request,serializer.data)
         except Exception as e:
             return Utils.dispatch_failure (request,'INTERNAL_SERVER_ERROR')
+
+
+class PreviousMonthlyReportEditDetails(views.APIView):
+    def put(self, request, pk, report_identifier):
+        try:
+            company = AccountsUtils.get_company(pk)
+
+            if '-' in report_identifier:
+                monthly_report = ReportingUtils.get_monthly_report(pk=pk, period=report_identifier)
+            else:
+                monthly_report = ReportingUtils.get_monthly_report(pk=pk, report_id=report_identifier)
+
+            changed_items = {
+                "Balancesheet" : [],
+                "Incomestatement" : [],
+                "Answers" : [],
+            }
+            change_available = False
+            data=request.data
+            for name,value in data["Balancesheet"]["data"].items():
+                if value is "":
+                    value = "0.00"
+                value = float (float (value.replace (',', '')))
+
+                fse_tag = FinancialStatementEntryTag.objects.filter(all_sight_name = name).first()
+                balancesheet = FinancialStatementEntry.objects.filter(company=company,
+                                                                      period_ending=monthly_report.period_ending,
+                                                                      statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                                                                      fse_tag =fse_tag
+                                                                     ).first()
+
+                if balancesheet is None:
+                    continue
+
+                if balancesheet.value != value:
+                    change_available = True
+                    old_value = balancesheet.value
+                    balancesheet.value = value
+                    balancesheet.save()
+                    changed_items["Balancesheet"].append({
+                        "object":balancesheet,
+                        "old_value":old_value,
+                        "new_value":value
+                    })
+
+            for name,value in data["Incomestatement"]["data"].items():
+                if value is "":
+                    value = "0.00"
+                value = float (float (value.replace (',', '')))
+
+                fse_tag = FinancialStatementEntryTag.objects.filter(all_sight_name = name).first()
+                incomestatement = FinancialStatementEntry.objects.filter(company=company,
+                                                                      period_ending=monthly_report.period_ending,
+                                                                      statement_type=FinancialStatementEntry.INCOME_STATEMENT,
+                                                                      fse_tag =fse_tag
+                                                                     ).first()
+                if incomestatement is None:
+                    continue
+
+                if incomestatement.value != value :
+                    change_available = True
+                    old_value = incomestatement.value
+                    incomestatement.value = value
+                    incomestatement.save()
+                    changed_items["Incomestatement"].append({
+                        "object":incomestatement,
+                        "old_value":old_value,
+                        "new_value":value
+                    })
+
+            for entry in data["Answers"]:
+                answer_data = entry["answer"]
+                answer_entry = Answer.objects.filter(id=answer_data["id"]).first()
+                if str(answer_entry.answer) != str(answer_data["answer"]):
+                    change_available = True
+                    old_value = answer_entry.answer
+                    answer_entry.answer = answer_data["answer"]
+                    answer_entry.save()
+                    changed_items["Answers"].append(
+                        {
+                            "object": answer_entry,
+                            "old_value": old_value,
+                            "new_value": answer_data["answer"]
+                        }
+                    )
+            if change_available:
+                Utils.log_prev_report_edit(company,monthly_report,request.user,changed_items)
+            return Utils.dispatch_success(request,[])
+        except Exception as e:
+            print(e)
+            return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')

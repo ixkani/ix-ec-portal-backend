@@ -14,7 +14,7 @@ class Accounting:
         :param accounting_type:Name of the accounting system
         :return: Object of the accounting system to be accessed
         """
-        accounting_type = Utils.get_accounting_type(company_id)
+        accounting_type = Utils.capitalize(Utils.get_accounting_type(company_id))
         if accounting_type == Company.QUICKBOOKS:
             return QuickBooks()
         elif accounting_type == Company.XERO:

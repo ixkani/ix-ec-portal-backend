@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django import forms
 from django.contrib.sessions.models import Session
-from .models import Company, User, CompanyMeta, EspressoContact, Contact, ForgotPasswordRequest,UserSession,FiscalYearEnd,AccountingConfiguration
+from django.utils import timezone
+
+from .models import Company, User, CompanyMeta, EspressoContact, Contact, ForgotPasswordRequest,UserSession,FiscalYearEnd,AccountingConfiguration,ScheduledMaintenance,LoggedInUser
 from portalbackend.lendapi.reporting.models import MonthlyReport
 
+from oauth2_provider.models import AccessToken
 from django.contrib.auth.admin import UserAdmin
 from django.db import models
 from .forms import CompanyMetaForm, CompanyForm, ContactForm, EcUserChangeForm, EcUserCreationForm,FiscalYearEndForm,AccountingConfigurationForm
@@ -44,19 +47,14 @@ class CompanyContactInline(admin.TabularInline):
     model = EspressoContact
     extra = 0
 
-
-
-
-
 class CompanyAdmin(admin.ModelAdmin):
     form = CompanyForm
     # list_display = [field.name for field in Company._meta.fields]
     list_display = ('id', 'name', 'external_id', 'parent_company', 'default_currency', 'website', 'employee_count',
                     'accounting_type', 'current_fiscal_year_end')
     inlines = (CompanyUserInline, CompanyMetaInline, CompanyMonthlyReportInline, CompanyContactInline)
-    search_fields = ('name','=accounting_type')
+    search_fields = ('name','accounting_type')
 admin.site.register(Company, CompanyAdmin)
-
 
 
 class EcUserAdmin(UserAdmin):
@@ -70,8 +68,10 @@ class EcUserAdmin(UserAdmin):
     form = EcUserChangeForm
     list_display = ('username', 'company', 'email','user_type')
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('external_id', 'company')}),
+        (None, {'fields': ('external_id', 'company','is_password_reset','is_tfa_enabled','enforce_tfa_enabled','tfa_secret_code','is_tfa_setup_completed','tour_guide_enabled','last_login')}),
+
     )
+    readonly_fields = ('tfa_secret_code',)
     """
     set the type of users and display to user list
     """
@@ -103,7 +103,8 @@ class ContactAdmin(admin.ModelAdmin):
 class AccountingConfigurationAdmin(admin.ModelAdmin):
     form = AccountingConfigurationForm
     list_display = ['accounting_type','type','is_active']
-    search_fields = ('=accounting_type',)
+    search_fields = ('accounting_type',)
+
 admin.site.register(Contact, ContactAdmin)
 
 
@@ -123,5 +124,51 @@ class FiscalYearEndAdmin(admin.ModelAdmin):
     list_display = [field.name for field in FiscalYearEnd._meta.fields]
     search_fields = ('company__name',)
 
+class ScheduledMaintenanceAdmin(admin.ModelAdmin):
+    list_display = ('message','start_time','end_time','is_active')
+    list_editable = ('is_active',)
+    # list_display_links = None
+    actions = None
+
+    def has_add_permission(self, request):
+        return not ScheduledMaintenance.objects.exists()
+
+class LoggedInUserAdmin(admin.ModelAdmin):
+    list_display = ('user','company','login_time')
+    actions = None
+    list_display_links = None
+    def company(self,obj):
+        return obj.user.company
+
+    def login_time(self,obj):
+        return obj.user.last_login
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_queryset(self, request):
+        for user in User.objects.all():
+            exists = LoggedInUser.objects.filter(user=user).first()
+            if user.is_logged_in and not exists:
+                new_user = LoggedInUser(user=user)
+                new_user.save()
+            if not user.is_logged_in and exists:
+                exists.delete()
+
+            exists = LoggedInUser.objects.filter(user=user).first()
+
+
+            session = UserSession.objects.filter(user=user).first()
+            if session is not None and exists and timezone.now() > session.end_time:
+                exists.delete()
+                session.delete()
+                user.is_logged_in = False
+                user.save()
+        return LoggedInUser.objects.exclude(user__is_staff=True)
+
+
 admin.site.register(FiscalYearEnd,FiscalYearEndAdmin)
 admin.site.register(AccountingConfiguration,AccountingConfigurationAdmin)
+admin.site.register(ScheduledMaintenance,ScheduledMaintenanceAdmin)
+admin.site.register(LoggedInUser,LoggedInUserAdmin)
+admin.site.register(UserSession)

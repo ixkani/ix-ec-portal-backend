@@ -9,7 +9,7 @@ class MappedAccountList:
     base_account = Clients financial accounts. The thing we are mapping from.
 
     many base_accounts will map to a single map_account. it is an error to map the same
-    base_account to a single map_account.
+    base_account to a multiple map_accounts.
 
     Usage:
     1. create the class instance
@@ -83,18 +83,21 @@ class MappedAccountList:
         for map_acc in self.__map_account_list.values():
             if base_account_id in map_acc['mapping']:
                 return map_acc['id']
-        raise ValueError("Cannot find '" + base_account_id + "'")
+            else:
+                continue
+        #raise ValueError("Cannot find '" + base_account_id + "'")
 
     def add_value(self, base_account_id: str, period: str, value: float):
         map_account_id = self.__find_map_account(base_account_id)
-        if period not in self.__period_names:
-            raise ValueError("Invalid period '" + period + "'")
-        self.__period_values[period][map_account_id] += value
+        if map_account_id is not None:
+            if period not in self.__period_names:
+                raise ValueError("Invalid period '" + period + "'")
+            self.__period_values[period][map_account_id] += value
 
     def process_values(self, presort_names=False):
         # make sure there is something to process
-        if len(self.__period_names) < 2:
-            return  # nothing to do if there are 0 or 1 periods.
+        if len(self.__period_names) < 1:
+            return  # nothing to do if there are 0 periods.
 
         # make a list of map accounts needed to be processed
         map_accounts_to_process = [x['id'] for x in self.__map_account_list.values() if

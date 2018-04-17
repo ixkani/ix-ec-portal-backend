@@ -6,7 +6,6 @@ import time
 # This class parses the financial data and returns the data of Balancesheet and Income Statement
 
 class AllSightMock:
-
     def __init__(self):
         pass
 
@@ -105,7 +104,7 @@ class AllSightMock:
             # Start of Code block to process input
             #
             ##################################################################################
-
+            res = {}
             # Step 1: Create Mapped Account List
             mapaccounts = MappedAccountList()
 
@@ -214,6 +213,7 @@ class AllSightMock:
             print('\tTime elapsed: {:0.6f} seconds'.format(end_time - start_time))
         except Exception as ve:
             print('Error processing the input data: ' + str(ve))
+            raise Exception(str(ve))
 
         # Process output
 

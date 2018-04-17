@@ -71,10 +71,10 @@ class CoAMap(models.Model):
     # gl_account_id change made changed cust_account_id to charfield
     cust_account_id = models.CharField(max_length=60,blank=True, null=True)
     cust_account_name = models.CharField(max_length=128, blank=True,validators=[
-        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_3)])
     espresso_account_id = models.IntegerField()
     espresso_account_name = models.CharField(max_length=128, blank=True,validators=[
-        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_3)])
     is_mapped = models.BooleanField(default=False)
     verified_by_user = models.BooleanField(default=False)
 
@@ -91,13 +91,13 @@ class CoA(models.Model):
     # gl_account_id change made
     gl_account_id = models.CharField(max_length=60,null=True, blank=True)
     gl_account_name = models.CharField(max_length=128, verbose_name="Account Name",validators=[
-        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_3)])
     gl_account_type = models.CharField(max_length=128, verbose_name="Account Type",validators=[
-        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_3)])
     gl_account_bal = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Account Balance",
                                          blank=True, null=True)
     gl_account_currency = models.CharField(max_length=3, verbose_name="Account Currency",validators=[
-        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_1)])
+        MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
 
     class Meta:
         db_table = 'coa'

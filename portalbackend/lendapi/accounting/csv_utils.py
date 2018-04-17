@@ -70,22 +70,20 @@ class CSVUtils(object):
         # todo: this is not a reliable way to determine if it's CSV vs EXCEL, fix when we decided to accept Excel
         # This is also verified from front end with validation of file name.
         try:
-            data.read().decode('utf-8')
-            if ".CSV" in data.name.upper():
+            if data.name.upper().endswith('.CSV'):
                 return 'CSV'
+            # elif data.name.upper().endswith('.XLS'):
+            #     return 'Excel'
             else:
                 return None
-        except UnicodeDecodeError:
-            try:
-                data.read().decode('utf-16')
-                return 'Excel'
-            except UnicodeDecodeError:
+        except Exception:
                 return None
+
 
     @staticmethod
     def process_chart_of_accounts_csv(company, csv_data):
         # Sage
-        if company.accounting_type == Company.SAGE:
+        if Utils.capitalize(company.accounting_type) == Company.SAGE:
             coas = []
             qbd_coa_file_header = ['', '', 'No.', 'Description', 'Type', 'Account Class']
             header_found = False
@@ -124,7 +122,7 @@ class CSVUtils(object):
             return coas
 
         # Quickbooks
-        elif company.accounting_type == Company.QUICKBOOKS:
+        elif Utils.capitalize(company.accounting_type) == Company.QUICKBOOKS:
             coas = []
             qbd_coa_file_header = ['', 'Account', 'Type', 'Balance Total', 'Description', 'Tax Line']
             header_found = False
@@ -208,7 +206,7 @@ class CSVUtils(object):
         today = date.today()
         century = str(today.year)[:2] # QB CSV gives 2 digit year, so we append to century portion of current year.
         print('#### century is ', century)
-        if company.accounting_type == Company.SAGE:
+        if Utils.capitalize(company.accounting_type) == Company.SAGE:
             tbs = []
             line_index = 0
             period_ending = ''
@@ -268,7 +266,7 @@ class CSVUtils(object):
 
             return tbs
 
-        elif company.accounting_type == Company.QUICKBOOKS:
+        elif Utils.capitalize(company.accounting_type) == Company.QUICKBOOKS:
             tbs = []
             header_found = False
             period_ending = ''
@@ -341,7 +339,7 @@ class CSVUtils(object):
 
             return tbs
 
-        elif company.accounting_type == Company.XERO:
+        elif Utils.capitalize(company.accounting_type) == Company.XERO:
             # TODO: Handle Xero CSV Data
             pass
 

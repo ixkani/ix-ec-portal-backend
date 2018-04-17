@@ -1,10 +1,17 @@
 import re
+from django.conf import settings
 from django.http import Http404, HttpResponseServerError
 from django.utils import timezone
 from datetime import timedelta, date,datetime
 import datetime
 import time
 from django.utils.timezone import utc
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+
+from xhtml2pdf import pisa
 
 from rest_framework.response import Response
 
@@ -84,7 +91,8 @@ class AccountingUtils(object):
         """
         d = {}
         for mapping in queryset:
-            d[mapping.account_category.lower()] = {"default_map_id": mapping.default_map_id,
+            mapping_key = re.sub ('[^a-zA-Z0-9]', '', mapping.account_category.lower())
+            d[mapping_key] = {"default_map_id": mapping.default_map_id,
                                                    "default_map_name": mapping.default_map_name}
         return d
 
@@ -123,7 +131,7 @@ class AccountingUtils(object):
                 if key not in fixed_fields:
                     check_key_exists = sight_tag_lookup.get (key, None)
                     if check_key_exists is None:
-                        tag_key = str (key)
+                        tag_key = str(key)
                     else:
                         tag_key = sight_tag_lookup[key]
 
@@ -152,6 +160,7 @@ class AccountingUtils(object):
                                                             statement_type=statement_type)
                             entries.append(entry)
         return entries,error_tags
+
     @staticmethod
     def credit_debit_mismatch(company):
         """
@@ -233,10 +242,12 @@ class AccountingUtils(object):
         grouped = dict()
         for obj in trial_balances:
             grouped.setdefault(obj.period.strftime("%Y-%m"), []).append(obj)
+
         data["Model"]["Financials"]["CustomerTrialBalance"] = []
         for key, month_data in grouped.items():
             subdata = {"Period": key, "RecordedTimestamp": timezone.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
                        "Version": "1", "CustomerTrialBalanceItem": []}
+
             for entry in month_data:
                 subdata["CustomerTrialBalanceItem"].append({
                     "AccountId": str(entry.gl_account_id),
@@ -277,8 +288,8 @@ class AccountingUtils(object):
             try:
                 # since we're forced to match on strings, we strip out all non-numeric / non-alpha characters
                 # and lower all alpha to reduce the chance for mis match between submitted and default tag names
-                # added space to match entries with space
                 lookup_key = re.sub('[^a-zA-Z0-9]', '', account.gl_account_type).lower()
+
                 default_map_dict = mappings[lookup_key]
             except KeyError:
                 # error = ["%s" % e]
@@ -287,6 +298,7 @@ class AccountingUtils(object):
                 print({"error": "no mapping for account type: {} ".format(account.gl_account_type)})
             else:
                 entry = CoAMap.objects.filter(company=company, cust_account_id=account.gl_account_id).first()
+
                 # send back anything that's new, so it can be mapped
                 if not entry:
                     mapping = CoAMap(company=company,
@@ -301,6 +313,14 @@ class AccountingUtils(object):
                     # verification doesn't occur until the monthly report is signed off, because the
                     # remapping exercise done by the UI may need to take place several times before it can be considered
                     # valid
+
+                    # Below logic for update changes in CoAMap
+                    mapping_data = CoAMap.objects.get(id=entry.id)
+                    if account.gl_account_name != entry.cust_account_name:
+                        mapping_data.cust_account_name = account.gl_account_name
+                        mapping_data.save()
+                        saved_mappings.append (mapping_data)
+
                     if not entry.verified_by_user:
                         saved_mappings.append(entry)
 
@@ -335,3 +355,13 @@ class AccountingUtils(object):
             gl_id = coa.gl_account_id
 
         return gl_id
+
+    @staticmethod
+    def render_to_pdf(template_src, context_dict={}):
+        template = get_template (template_src)
+        html = template.render (context_dict)
+        result = BytesIO ()
+        pdf = pisa.pisaDocument (BytesIO (html.encode ("ISO-8859-1")), result)
+        if not pdf.err:
+            return HttpResponse (result.getvalue (), content_type='application/pdf')
+        return None

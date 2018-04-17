@@ -50,8 +50,8 @@ class UserSerializer(serializers.ModelSerializer):
         user_data = User.objects.filter(id=obj.id).first()
         company_metadata = CompanyMeta.objects.filter(company=user_data.company_id).first()
 
-        print('User ', User.objects.filter(id=obj.id).values())
-        print('Meta ', CompanyMeta.objects.filter(company=user_data.company_id).values())
+        # print('User ', User.objects.filter(id=obj.id).values())
+        # print('Meta ', CompanyMeta.objects.filter(company=user_data.company_id).values())
 
         base_url = HttpRequest.get_host(self.context.get('request'))
 
@@ -88,7 +88,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'url', 'role', 'username', 'first_name', 'last_name', 'email', 'company'
-                  , 'password', 'qbd_user_config')
+                  , 'password', 'qbd_user_config','enforce_tfa_enabled','is_tfa_enabled','is_tfa_setup_completed','tour_guide_enabled')
 
         # Init validator rule
         extra_kwargs = init_validator_rules (fields)
@@ -168,7 +168,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('url', 'role', 'username', 'first_name', 'last_name', 'email', 'company', 'password')
+        fields = ('url', 'role','id', 'username', 'first_name', 'last_name', 'email', 'company', 'password','is_password_reset','is_tfa_enabled','enforce_tfa_enabled','is_tfa_setup_completed','tour_guide_enabled')
 
 
 class ContactSerializer(serializers.ModelSerializer):

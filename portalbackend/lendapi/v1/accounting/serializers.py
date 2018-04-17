@@ -13,7 +13,7 @@ class FinStatementTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinancialStatementEntryTag
         fields = ('name', 'description', 'tag_id', 'tag_category', 'tag_group', 'is_total_row', 'sort_order',
-                  'all_sight_name')
+                  'all_sight_name','formula',)
         # Init validator rule
         extra_kwargs = init_validator_rules (fields)
 
@@ -94,9 +94,17 @@ class FinancialStatementEntrySerializer(serializers.ModelSerializer):
     """
     fse_tag = FinStatementTagSerializer()
 
+
+    data = serializers.SerializerMethodField()
+
+    def get_data(self,obj):
+        ret = [{obj.fse_tag.all_sight_name : obj.value}]
+        return ret[0]
+
     class Meta:
         model = FinancialStatementEntry
-        fields = ('company', 'monthly_report', 'fse_tag', 'period_ending', 'value', 'currency', 'statement_type')
+
+        fields = ('company', 'monthly_report', 'fse_tag', 'period_ending', 'value', 'currency', 'statement_type','data')
         # Init validator rule
         extra_kwargs = init_validator_rules (fields)
 

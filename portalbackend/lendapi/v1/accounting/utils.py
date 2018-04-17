@@ -21,6 +21,7 @@ from rest_framework.response import Response
 
 from portalbackend import settings
 from portalbackend.lendapi.accounting.models import Bearer, LoginInfo
+from portalbackend.lendapi.reporting.models import PreviousReportEditLogger
 # token can either be an accessToken or a refreshToken
 from portalbackend.lendapi.accounting.utils import AccountingUtils
 from portalbackend.lendapi.accounts.models import Company, EspressoContact, User, Contact, CompanyMeta, FiscalYearEnd, \
@@ -28,11 +29,11 @@ from portalbackend.lendapi.accounts.models import Company, EspressoContact, User
 from portalbackend.lendapi.accounts.utils import AccountsUtils
 from portalbackend.lendapi.constants import MONTHLY_REPORT_KEY_ERROR_EMAIL_SUBJECT, \
     COMAPANY_META_EMAIL_BODY, COMAPANY_META_EMAIL_SUBJECT, MONTHLY_REPORT_KEY_ERROR_ADMIN_EMAIL_BODY, \
-    MONTHLY_REPORT_KEY_ERROR_USER_EMAIL_BODY, COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT, \
+    COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_SUBJECT, \
     COMAPANY_CURRENT_REPORT_PERIOD_EMAIL_BODY, ERROR_TAG_EMAIL_ADMIN_BODY, \
-    ERROR_TAG_EMAIL_USER_BODY, COMPANY_META_NOT_FOUND_EMAIL_ADMIN, \
+    COMPANY_META_NOT_FOUND_EMAIL_ADMIN, \
     COMPANY_PERIOD_NOT_FOUND_EMAIL_ADMIN, COMPANY_MISCONFIG_EMAIL_ADMIN, COMPANY_MISCONFIG_EMAIL_SUBJECT, \
-    COMPANY_MISCONFIG_EMAIL_BODY
+    COMPANY_MISCONFIG_EMAIL_BODY, LOG_PREV_REPORT_EDIT_SUBJECT,LOG_PREV_REPORT_EDIT_BODY
 from portalbackend.lendapi.v1.accounting import getDiscoveryDocument
 from portalbackend.lendapi.v1.accounting.serializers import CompanyDetailSerializer, LoginInfoSerializer
 from portalbackend.lendapi.v1.accounts.serializers import CompanySerializer
@@ -117,7 +118,7 @@ class Utils(object):
                 return "NONE"
             keys = Company.objects.filter(id=company_id).values('accounting_type')
             secret_keys = keys[0]
-            accounting_type = secret_keys['accounting_type']
+            accounting_type = Utils.capitalize(secret_keys['accounting_type'])
             return accounting_type
         except IndexError:
             return "NONE"
@@ -315,7 +316,7 @@ class Utils(object):
         :return: Access Key of accounting system
         '''
         company = Company.objects.filter(id=id).first()
-        return AccountingConfiguration.objects.filter(accounting_type=company.accounting_type,
+        return AccountingConfiguration.objects.filter(accounting_type__iexact=company.accounting_type,
                                                           is_active=True).first()
 
 
@@ -737,7 +738,6 @@ class Utils(object):
 
     @staticmethod
     def send_error_tags(company, user, error_tags, response):
-        user_mail = user.email
         admin_mail = settings.ADMIN_EMAIL
         company_data = Company.objects.get(pk=company)
         meta = CompanyMeta.objects.get(company=company)
@@ -754,15 +754,7 @@ class Utils(object):
                           meta.monthly_reporting_current_period, meta.monthly_reporting_next_period, error_tags_table,
                           json_body)
 
-        user_html_body = ERROR_TAG_EMAIL_USER_BODY % (
-                             user.username.title(),MONTHLY_REPORT_KEY_ERROR_USER_EMAIL_BODY,
-                             company_data.name, company_data.accounting_type,
-                             meta.monthly_reporting_current_period, meta.monthly_reporting_next_period,
-                             error_tags_table)
-
         subject = MONTHLY_REPORT_KEY_ERROR_EMAIL_SUBJECT
-
-        Utils.send_mail(email=[user_mail, ], body='', subject=subject, html_message=user_html_body)
 
         Utils.send_mail(email=[admin_mail, ], body='', subject=subject, html_message=admin_html_body)
 
@@ -802,6 +794,71 @@ class Utils(object):
         return
 
     @staticmethod
+    def log_prev_report_edit(company, monthly_report,user,edited_changes):
+        admin_mail = settings.ADMIN_EMAIL
+        report_date = (monthly_report.period_ending).strftime("%B, %Y")
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
+        today = now.strftime("%c")
+        subject = LOG_PREV_REPORT_EDIT_SUBJECT % (company,report_date)
+        data = ""
+        row = "<tr>" \
+                "<td>%s</td>" \
+                "<td>%s</td>" \
+                "<td>%s</td>" \
+                "<td>%s</td>" \
+                "<td>%s</td>" \
+                "<td>%s</td>" \
+                "</tr>"
+        for balancesheet in edited_changes["Balancesheet"]:
+            data+=row % ("Balance Sheet",
+                         balancesheet["object"].fse_tag.all_sight_name,
+                         balancesheet["old_value"],
+                         balancesheet["new_value"],
+                         user,today)
+            log = PreviousReportEditLogger(company=company,
+                                           user=user,
+                                           reporting_period = monthly_report,
+                                           section_name = PreviousReportEditLogger.BALANCE_SHEET,
+                                           finacial_statement_item =balancesheet["object"],
+                                           old_value = balancesheet["old_value"],
+                                           new_value = balancesheet["new_value"],
+                                           date_changed = now)
+            log.save()
+        for incomestatement in edited_changes["Incomestatement"]:
+            data+=row % ("Income Statement",
+                         incomestatement["object"].fse_tag.all_sight_name,
+                         incomestatement["old_value"],
+                         incomestatement["new_value"],
+                         user,today)
+            log = PreviousReportEditLogger(company=company,
+                                           user=user,
+                                           reporting_period = monthly_report,
+                                           section_name = PreviousReportEditLogger.INCOME_STATEMENT,
+                                           finacial_statement_item =incomestatement["object"],
+                                           old_value = incomestatement["old_value"],
+                                           new_value = incomestatement["new_value"],
+                                           date_changed = now)
+            log.save()
+        for answer in edited_changes["Answers"]:
+            data+=row % ("Questionnaire",
+                         answer["object"].question.question_text,
+                         answer["old_value"],
+                         answer["new_value"],
+                         user,today)
+            log = PreviousReportEditLogger(company=company,
+                                           user=user,
+                                           reporting_period = monthly_report,
+                                           section_name = PreviousReportEditLogger.ANSWER,
+                                           question_item =answer["object"].question,
+                                           old_value = answer["old_value"],
+                                           new_value = answer["new_value"],
+                                           date_changed = now)
+            log.save()
+        html_body = LOG_PREV_REPORT_EDIT_BODY % (report_date,company,user,data)
+        Utils.send_mail(email=[admin_mail, ], body='', subject=subject, html_message=html_body)
+        return
+
+    @staticmethod
     def get_xero_public_credentials(stored_values):
         return PublicCredentials(consumer_key=stored_values['consumer_key'],
                       consumer_secret=stored_values['consumer_secret'],
@@ -820,3 +877,15 @@ class Utils(object):
             return PrivateCredentials(**auth)
         else:
             return PublicCredentials(**auth)
+
+    @staticmethod
+    def capitalize(value):
+        first = value[0] if len (value) > 0 else ''
+        remaining = value[1:] if len (value) > 1 else ''
+        return first.upper () + remaining
+
+    @staticmethod
+    def currencyformat(value):
+        value = float(value)
+        value = (((value > 0) - (value < 0)) * int(abs(value) + 0.5))
+        return re.sub("(\d)(?=(\d{3})+(?!\d))", r"\1,", "%d" % value)

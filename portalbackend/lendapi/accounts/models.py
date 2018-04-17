@@ -15,9 +15,9 @@ from django.conf import settings
 from django.contrib.sessions.models import Session
 
 class Company(models.Model):
-    QUICKBOOKS = "quickbooks"
-    XERO = "xero"
-    SAGE = "sage"
+    QUICKBOOKS = "Quickbooks"
+    XERO = "Xero"
+    SAGE = "Sage"
 
     ACCOUNTING_CHOICES = (
         (QUICKBOOKS, "Quickbooks"),
@@ -33,7 +33,7 @@ class Company(models.Model):
     external_id = models.CharField(max_length=150, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)
     ])
-    parent_company = models.ForeignKey('self', null=True, blank=True,on_delete=models.CASCADE)
+    parent_company = models.ForeignKey('self', null=True, blank=True)
     default_currency = models.CharField(max_length=3, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)
     ])
@@ -80,8 +80,13 @@ class User(AbstractUser):
     role = models.CharField(max_length=100, blank=True, validators=[
         MinLengthValidator(3, message=UIErrorMessage.MINIMUM_LENGTH_3)])
     # last_login_time = models.DateField(blank=True, null=True)
-    is_session_active = models.BooleanField(default=False)
-
+    is_password_reset = models.BooleanField (default=True, verbose_name='Force Password Change')
+    is_tfa_enabled = models.BooleanField (default=False, verbose_name='Enable Two-factor Auth')
+    tfa_secret_code = models.CharField(max_length=100,blank=True, null=True,verbose_name='Two Factor Auth Secret Code')
+    enforce_tfa_enabled = models.BooleanField (default=False, verbose_name='Enforce Two-factor Auth')
+    is_tfa_setup_completed = models.BooleanField (default=False, verbose_name='Two-factor Auth setup completed',help_text='No Need to Change. Auto Updation Field')
+    tour_guide_enabled = models.BooleanField (default=True, verbose_name='User Tour Guide')
+    is_logged_in = models.BooleanField (default=False, verbose_name='User Logged In')
     class Meta:
         db_table = "user"
 
@@ -115,11 +120,11 @@ class Contact(models.Model):
     phone = models.CharField(max_length=15, validators=[phone_regex], blank=True, )
 
     first_name = models.CharField(max_length=100, validators=[
-        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1),
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_3),
         RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[\"-\.'#&!]|[)\]])+$")])
 
     last_name = models.CharField(max_length=100, validators=[
-        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_1),
+        MinLengthValidator(1, message=UIErrorMessage.MINIMUM_LENGTH_3),
         RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[\"-\.'#&!]|[)\]])+$")])
 
     email = models.CharField(max_length=100, validators=[
@@ -190,9 +195,9 @@ class AccountingConfiguration(models.Model):
     PUBLIC = "PUBLIC"
     PRIVATE = "PRIVATE"
     PARTNER = "PARTNER"
-    QUICKBOOKS = "quickbooks"
-    XERO = "xero"
-    SAGE = "sage"
+    QUICKBOOKS = "Quickbooks"
+    XERO = "Xero"
+    SAGE = "Sage"
 
     ACCOUNTING_TYPE = (
         (PUBLIC, "Public"),
@@ -288,3 +293,12 @@ class FiscalYearEnd(models.Model):
     label = models.CharField(max_length=60)
     last_update_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
+class ScheduledMaintenance(models.Model):
+    message = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+
+class LoggedInUser(models.Model):
+    user = models.ForeignKey(User)

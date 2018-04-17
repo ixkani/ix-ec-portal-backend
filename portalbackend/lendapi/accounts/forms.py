@@ -8,12 +8,15 @@ from portalbackend.validator.errormapping import ErrorMessage,UIErrorMessage
 
 class EcUserCreationForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Make sure valid email address.')
-
+    class Media:
+        js = ('./admin/js/admin-custom-actions.js',)
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2', )
 
 class EcUserChangeForm(UserChangeForm):
+    class Media:
+        js = ('./admin/js/admin-custom-actions.js',)
     class Meta(UserChangeForm.Meta):
         model = User
         fields = ('__all__')
@@ -84,9 +87,9 @@ class AccountingConfigurationForm (forms.ModelForm):
         accounting_type = self.cleaned_data.get('accounting_type')
         if self.is_valid():
             if accounting_type != AccountingConfiguration.XERO:
-                self.cleaned_data['xero_accounting_type'] = None
+                self.cleaned_data['type'] = None
             else:
-                if self.cleaned_data['xero_accounting_type'] == None:
+                if self.cleaned_data['type'] == None:
                     raise forms.ValidationError("Xero Accounting Type not null")
             acc_objects = AccountingConfiguration.objects.filter(accounting_type = self.cleaned_data['accounting_type'])
             if self.cleaned_data['is_active']:
@@ -99,7 +102,8 @@ class AccountingConfigurationForm (forms.ModelForm):
                     if obj.is_active and obj.id is not self.instance.id:
                         is_true = True
                 if not is_true:
-                    raise forms.ValidationError("Atleast one configuration year end should be active for %s" % self.cleaned_data['accounting_type'])
+                    raise forms.ValidationError("Atleast one configuration year end should be active for {}".format(
+                        self.cleaned_data['accounting_type']))
 
         return self.cleaned_data
 
