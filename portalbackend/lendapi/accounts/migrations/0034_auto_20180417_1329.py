@@ -30,10 +30,10 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True)),
             ],
         ),
-        migrations.RemoveField(
-            model_name='user',
-            name='is_session_active',
-        ),
+        # migrations.RemoveField(
+        #     model_name='user',
+        #     name='is_session_active',
+        # ),
         migrations.AddField(
             model_name='user',
             name='enforce_tfa_enabled',
