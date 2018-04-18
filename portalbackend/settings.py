@@ -207,10 +207,10 @@ try:
     from .databases import DBCONFIG
 except Exception:
     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
-                                 'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': ''}
+                                 'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': '',
                  'TEST': {
                                  'NAME': 'portal_backend_testing',
-                             },}
+                             },}}
     # except Exception:
     #     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'heroku',
     #                              'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
