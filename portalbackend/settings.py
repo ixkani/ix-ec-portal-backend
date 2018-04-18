@@ -208,21 +208,18 @@ try:
 except Exception:
     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
                                  'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': '',
-                             "TEST" : {
-                                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                                 'NAME': 'd5b14o8211hbio',
-                                 'HOST': '',
-                                 'PORT': 5432,
-                                 'USER': 'hywggnmppkgrby',
-                                 'PASSWORD': '2d2dd75975a5bd04dc2f8527680a73950a89650bcb0bd0436d9ad9072dd26d26'
-
-                             }}}
+                             }}
     # except Exception:
     #     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'heroku',
     #                              'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
 else:
     DATABASES = DBCONFIG
 
+TEST_DATABASES = {
+    'default': dj_database_url.config(env='TEST_DATABASE_URL')
+}
+
+TEST_RUNNER = 'portalbackend.validator.runner.HerokuTestSuiteRunner'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
