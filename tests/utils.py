@@ -1,7 +1,7 @@
 import datetime
 
 import pyotp
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 from portalbackend.lendapi.accounts.models import User, Company, CompanyMeta, ScheduledMaintenance, Contact, \
     EspressoContact
@@ -49,6 +49,7 @@ class TestUtils(object):
     @staticmethod
     def _post_with_args(client, string, args, data):
         response = client.post(reverse(string, args=[args]), data)
+        print(response)
         return response.status_code, response.data
 
     @staticmethod
