@@ -44,11 +44,11 @@ class Migration(migrations.Migration):
             name='is_logged_in',
             field=models.BooleanField(default=False, verbose_name='User Logged In'),
         ),
-        migrations.AddField(
-            model_name='user',
-            name='is_password_reset',
-            field=models.BooleanField(default=True, verbose_name='Force Password Change'),
-        ),
+        # migrations.AddField(
+        #     model_name='user',
+        #     name='is_password_reset',
+        #     field=models.BooleanField(default=True, verbose_name='Force Password Change'),
+        # ),
         migrations.AddField(
             model_name='user',
             name='is_tfa_enabled',
