@@ -203,19 +203,19 @@ WSGI_APPLICATION = 'portalbackend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-if 'test' in sys.argv:
-    DATABASE_ENGINE = 'sqlite3'
-else:
-    try:
-        from .databases import DBCONFIG
-    except ModuleNotFoundError:
-        DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
+try:
+    from .databases import DBCONFIG
+except ModuleNotFoundError:
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
                                  'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': ''}}
     # except Exception:
     #     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'heroku',
     #                              'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
-    else:
-        DATABASES = DBCONFIG
+else:
+    DATABASES = DBCONFIG
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
