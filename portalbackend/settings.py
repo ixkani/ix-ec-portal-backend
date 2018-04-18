@@ -207,15 +207,15 @@ try:
     from .databases import DBCONFIG
 except Exception:
     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
-                                 'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': ''}}
+                                 'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': ''}
+                 'TEST': {
+                                 'NAME': 'portal_backend_testing',
+                             },}
     # except Exception:
     #     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'heroku',
     #                              'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
 else:
     DATABASES = DBCONFIG
-
-if 'test' in sys.argv:
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
