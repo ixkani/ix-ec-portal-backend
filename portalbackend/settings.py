@@ -444,3 +444,11 @@ OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
 
 DEVELOPMENT_TESTING_IP = "210.18.176.194"
 ESPRESSO_COMPANY_ID = os.environ.get('ESPRESSO_COMPANY_ID', 1)
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
