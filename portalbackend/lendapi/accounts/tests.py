@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 # from django.urls import reverse
 from rest_framework import status
 # from django.test import TestCase, Client, RequestFactory
-from .models import User, Company, CompanyMeta, Contact
+from .models import User, Company, CompanyMeta, Contact, ForgotPasswordRequest
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 
 from portalbackend.lendapi.v1.accounts.views import UserList, UserDetail, LoginView
 from tests.constants import TestConstants, UserConstant, CompanyConstant, ResponseCodeConstant, ContactConstant
 
 from tests.utils import TestUtils
+from portalbackend.validator.errormapping import ErrorMessage
 
 
 class _001_UserListTestCase(APITestCase):
@@ -24,7 +25,7 @@ class _001_UserListTestCase(APITestCase):
         TestUtils._create_companymeta(1)
         self.login = TestUtils._admin_login(self.client)
 
-    def test_UserList001_create_user_success(self):
+    def test_001_create_user_success(self):
         """
         Creating user with all information (test user for further testing)
         :return:
@@ -35,7 +36,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'user-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserList002_create_user_existing_username_failure(self):
+    def test_002_create_user_existing_username_failure(self):
         """
         Creating user with already exisitng user name
         :return:
@@ -49,7 +50,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'user-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_UserList003_create_user_failure(self):
+    def test_003_create_user_failure(self):
         """
         Creating user with empty information
         :return:
@@ -59,7 +60,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'user-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_UserList004_create_user_missing_password_failure(self):
+    def test_004_create_user_missing_password_failure(self):
         """
         Creating user without some required information.
         :return:
@@ -70,7 +71,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'user-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_UserList005_create_user_invalid_data_failure(self):
+    def test_005_create_user_invalid_data_failure(self):
         """
         Creating user with invalid data
         ( invalid email id,Maximum/Min Length for username, firstname, lastname)
@@ -82,7 +83,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'user-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_UserList006_get_user_list_success(self):
+    def test_006_get_user_list_success(self):
         """
         Get and verify the all list of users.
         :return:
@@ -91,7 +92,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'user-list')
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserList007_get_user_list_with_normal_login_failure(self):
+    def test_007_get_user_list_with_normal_login_failure(self):
         """
         Get user call verify by user unauthorized access.
         :return:
@@ -102,7 +103,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'user-list')
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_UserList008_get_user_internal_server_error_failure(self):
+    def test_008_get_user_internal_server_error_failure(self):
         """
         Get user call verify by user unauthorized access.
         :return:
@@ -112,7 +113,7 @@ class _001_UserListTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'user-list')
         self.assertEquals(code, ResponseCodeConstant.INTERNAL_SERVER_ERROR)
 
-    def test_UserList009_post_user_internal_server_error_failure(self):
+    def test_009_post_user_internal_server_error_failure(self):
         """
         Get user call verify by user unauthorized access.
         :return:
@@ -132,7 +133,7 @@ class _002_MeTestCase(APITestCase):
         TestUtils._create_company(1, CompanyConstant.COMPANY_NAME_001)
         TestUtils._create_companymeta(1)
 
-    def test_Me001_get_admin_user_success(self):
+    def test_001_get_admin_user_success(self):
         """
         Getting self user information  (admin)
         :return:
@@ -141,7 +142,7 @@ class _002_MeTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'me')
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_Me002_get_normal_user_success(self):
+    def test_002_get_normal_user_success(self):
         """
         Getting self information  (non admin user)
         :return:
@@ -153,7 +154,7 @@ class _002_MeTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'me')
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_Me003_get_user_without_login_failure(self):
+    def test_003_get_user_without_login_failure(self):
         """
         Getting self information  (non admin user)
         :return:
@@ -163,7 +164,7 @@ class _002_MeTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'me')
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_Me004_get_user_company_meta_not_available_failure(self):
+    def test_004_get_user_company_meta_not_available_failure(self):
         """
         Getting self information  (non admin user)
         :return:
@@ -177,7 +178,7 @@ class _002_MeTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'me')
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_Me005_get_user_internal_server_error_failure(self):
+    def test_005_get_user_internal_server_error_failure(self):
         """
         Getting self information  (non admin user)
         :return:
@@ -203,7 +204,7 @@ class _003_UserDetailsTestCase(APITestCase):
         TestUtils._create_user("ut_user001", 1)
         self.user = User.objects.get(username="ut_user001")
 
-    def test_UserDetails001_get_user_success(self):
+    def test_001_get_user_success(self):
         """
         Getting information with existing admin user id
         :return:
@@ -212,7 +213,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserDetails002_get_invalid_user_id_failure(self):
+    def test_002_get_invalid_user_id_failure(self):
         """
         Getting information with not existing user id
         :return:
@@ -221,7 +222,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'user-detail', TestConstants.INVALID_ID)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_UserDetails003_get_user_normal_user_success(self):
+    def test_003_get_user_normal_user_success(self):
         """
         Getting information with user login
         :return:
@@ -232,7 +233,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserDetails004_get_user_without_login_failure(self):
+    def test_004_get_user_without_login_failure(self):
         """
         Getting information without logged in
         :return:
@@ -242,7 +243,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_UserDetails005_get_user_unauthorized_access_failure(self):
+    def test_005_get_user_unauthorized_access_failure(self):
         """
         Getting information with user login
         :return:
@@ -254,7 +255,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_UserDetails006_get_user_internal_server_error_failure(self):
+    def test_006_get_user_internal_server_error_failure(self):
         """
         Getting self information  (non admin user)
         :return:
@@ -266,7 +267,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.INTERNAL_SERVER_ERROR)
 
-    def test_UserDetails007_update_user_success(self):
+    def test_007_update_user_success(self):
         """
         Updating all information with existing user id
         :return:
@@ -278,7 +279,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id, data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserDetails008_update_user_invalid_user_failure(self):
+    def test_008_update_user_invalid_user_failure(self):
         """
         Updating all information with existing user id
         :return:
@@ -290,7 +291,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_UserDetails009_update_user_empty_value_failure(self):
+    def test_009_update_user_empty_value_failure(self):
         """
         Updating all information with existing user id
         :return:
@@ -302,7 +303,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id, data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_UserDetails010_update_user_empty_value_invalid_user_failure(self):
+    def test_010_update_user_empty_value_invalid_user_failure(self):
         """
         Updating all information with existing user id
         :return:
@@ -314,7 +315,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_UserDetails011_update_user_valid_info_success(self):
+    def test_011_update_user_valid_info_success(self):
         """
         Updating valid information with existing user id
         :return:
@@ -325,7 +326,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id, data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserDetails012_update_user_valid_info_invalid_user_failure(self):
+    def test_012_update_user_valid_info_invalid_user_failure(self):
         """
         Updating valid information with not existing user id
         :return:
@@ -336,7 +337,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_UserDetails013_update_user_invalid_value_failure(self):
+    def test_013_update_user_invalid_value_failure(self):
         """
         Updating all information with existing user id
         :return:
@@ -347,7 +348,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id, data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_UserDetails014_update_user_unauthorized_access_failure(self):
+    def test_014_update_user_unauthorized_access_failure(self):
         """
         Getting information with user login
         :return:
@@ -357,10 +358,10 @@ class _003_UserDetailsTestCase(APITestCase):
         self.client.logout()
         TestUtils._create_user("ut_user002", 2)
         self.login = TestUtils._user_login(self.client, "ut_user002")
-        code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id,data)
+        code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id, data)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_UserDetails015_update_user_internal_server_error_failure(self):
+    def test_015_update_user_internal_server_error_failure(self):
         """
         Getting self information  (non admin user)
         :return:
@@ -370,10 +371,10 @@ class _003_UserDetailsTestCase(APITestCase):
         self.client.logout()
         self.user = TestUtils._create_user("ut_user002", TestConstants.INVALID_ID)
         self.login = TestUtils._user_login(self.client, "ut_user002")
-        code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id,data)
+        code, response = TestUtils._put_with_args(self.client, 'user-detail', self.user.id, data)
         self.assertEquals(code, ResponseCodeConstant.INTERNAL_SERVER_ERROR)
 
-    def test_UserDetails016_delete_user_success(self):
+    def test_016_delete_user_success(self):
         """
         Delete with existing user id
         :return:
@@ -382,7 +383,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._delete(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_UserDetails017_delete_user_invalid_user_failure(self):
+    def test_017_delete_user_invalid_user_failure(self):
         """
         Delete with existing user id
         :return:
@@ -391,7 +392,7 @@ class _003_UserDetailsTestCase(APITestCase):
         code, response = TestUtils._delete(self.client, 'user-detail', TestConstants.INVALID_ID)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_UserDetails018_delete_unauthorized_access_failure(self):
+    def test_018_delete_unauthorized_access_failure(self):
         """
         Delete with existing user id
         :return:
@@ -402,6 +403,7 @@ class _003_UserDetailsTestCase(APITestCase):
         self.login = TestUtils._user_login(self.client, "ut_user002")
         code, response = TestUtils._delete(self.client, 'user-detail', self.user.id)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
+
 
 class _004_LoginViewTestCase(APITestCase):
     """
@@ -414,35 +416,35 @@ class _004_LoginViewTestCase(APITestCase):
         TestUtils._create_companymeta(1)
         TestUtils._create_user("ut_user001", 1)
 
-    def test_LoginView001_post_valid_login_success(self):
+    def test_001_post_valid_login_success(self):
         data = {'username': "ut_user001",
                 'password': UserConstant.USER_PASSWORD
                 }
         code, response = TestUtils._post(self.client, 'login', data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_LoginView002_post_valid_login_success(self):
+    def test_002_post_valid_login_success(self):
         data = {'username': TestConstants.INVALID_USERNAME,
                 'password': UserConstant.USER_PASSWORD
                 }
         code, response = TestUtils._post(self.client, 'login', data)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_LoginView003_post_invalid_login_password_success(self):
+    def test_003_post_invalid_login_password_success(self):
         data = {'username': "ut_user001",
                 'password': TestConstants.INVALID_PASSWORD
                 }
         code, response = TestUtils._post(self.client, 'login', data)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_LoginView004_post_invalid_login_values_failure(self):
+    def test_004_post_invalid_login_values_failure(self):
         data = {'username': TestConstants.INVALID_USERNAME,
                 'password': TestConstants.INVALID_PASSWORD
                 }
         code, response = TestUtils._post(self.client, 'login', data)
         self.assertEquals(code, ResponseCodeConstant.UNAUTHORIZED_ACCESS_401)
 
-    def test_LoginView005_post_empty_login_values_failure(self):
+    def test_005_post_empty_login_values_failure(self):
         data = {'username': '',
                 'password': ''
                 }
@@ -454,7 +456,7 @@ class _005_ScheduledMaintenanceDetailsTestCase(APITestCase):
     def setUp(self):
         TestUtils._create_scheduled_maintenance()
 
-    def test_ScheduledMaintenanceDetails001_schedule_mainatince_on_success(self):
+    def test_001_schedule_mainatince_on_success(self):
         """
         Scheduled Maintaince is Turned ON
         :return:
@@ -463,7 +465,7 @@ class _005_ScheduledMaintenanceDetailsTestCase(APITestCase):
         code, response = TestUtils._get(self.client, 'scheduled-maintenance')
         self.assertEqual(response["result"]["is_under_maintenance"], True)
 
-    def test_ScheduledMaintenanceDetails002_schedule_mainatince_off_failure(self):
+    def test_002_schedule_mainatince_off_failure(self):
         """
         Scheduled Maintaince is Turned OFF
         :return:
@@ -488,7 +490,7 @@ class _006_TwoFactorAuthenticationDetailsTestCase(APITestCase):
         self.key = ''
         self.login = TestUtils._user_login(self.client, "ut_user001")
 
-    def test_TwoFactorAuthenticationDetails001_get_twofactor_success(self):
+    def test_001_get_twofactor_success(self):
         """
         To turn on Two factor authentication On
         :return:
@@ -498,7 +500,7 @@ class _006_TwoFactorAuthenticationDetailsTestCase(APITestCase):
         self.key = response["result"]["secret_code"]
         self.assertEqual(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_TwoFactorAuthenticationDetails002_post_twofactor_success(self):
+    def test_002_post_twofactor_success(self):
         """
         check 2FA
         :return:
@@ -512,7 +514,7 @@ class _006_TwoFactorAuthenticationDetailsTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'twofactor-auth', data)
         self.assertEqual(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_TwoFactorAuthenticationDetails003_post_twofactor_invalidtotp_failure(self):
+    def test_003_post_twofactor_invalidtotp_failure(self):
         """
         check 2FA
         :return:
@@ -526,7 +528,7 @@ class _006_TwoFactorAuthenticationDetailsTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'twofactor-auth', data)
         self.assertEqual(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_TwoFactorAuthenticationDetails004_post_twofactor_emptytotp_failure(self):
+    def test_004_post_twofactor_emptytotp_failure(self):
         """
         check 2FA
         :return:
@@ -540,7 +542,7 @@ class _006_TwoFactorAuthenticationDetailsTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'twofactor-auth', data)
         self.assertEqual(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_TwoFactorAuthenticationDetails005_update_twofactor_flags_success(self):
+    def test_005_update_twofactor_flags_success(self):
         """
         updates 2FA
         :return:
@@ -564,7 +566,7 @@ class _007_CompanyListTestCase(APITestCase):
         self.superuser = TestUtils._create_superuser()
         self.login = TestUtils._admin_login(self.client)
 
-    def test_CompanyList001_create_company_success(self):
+    def test_001_create_company_success(self):
         """
         Creating company with all information ( test company for further testing)
         :return:
@@ -582,7 +584,7 @@ class _007_CompanyListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'company-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyList002_create_company_without_required_values_failure(self):
+    def test_002_create_company_without_required_values_failure(self):
         """
         Creating company without some required information
         :return:
@@ -597,7 +599,7 @@ class _007_CompanyListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'company-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_CompanyList003_create_company_with_empty_values_failure(self):
+    def test_003_create_company_with_empty_values_failure(self):
         """
         Creating company  with empty information
         :return:
@@ -608,7 +610,7 @@ class _007_CompanyListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'company-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_CompanyList004_create_company_with_invalid_data_failure(self):
+    def test_004_create_company_with_invalid_data_failure(self):
         """
         Creating company with invalid data
         ( invalid website,Maximum/Min Length for name,Currency,invalid account type )
@@ -625,7 +627,7 @@ class _007_CompanyListTestCase(APITestCase):
         code, response = TestUtils._post(self.client, 'company-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_CompanyList005_get_company_list_success(self):
+    def test_005_get_company_list_success(self):
         """
         Get the all company list
         :return:
@@ -648,7 +650,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         TestUtils._create_user("ut_user001", 1)
         self.company = Company.objects.get(id=1)
 
-    def test_CompanyDetails001_get_company_success(self):
+    def test_001_get_company_success(self):
         """
         Getting information with existing admin user id
         :return:
@@ -657,7 +659,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'company-detail', self.company.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyDetails002_get_invalid_company_id_failure(self):
+    def test_002_get_invalid_company_id_failure(self):
         """
         Getting information with not existing user id
         :return:
@@ -666,7 +668,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'company-detail', TestConstants.INVALID_ID)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyDetails003_update_company_success(self):
+    def test_003_update_company_success(self):
         """
         Updating all information with existing user id
         :return:
@@ -684,7 +686,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-detail', self.company.id, data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyDetails004_update_company_invalid_company_failure(self):
+    def test_004_update_company_invalid_company_failure(self):
         """
         Updating all information with not existing user id
         :return:
@@ -702,7 +704,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-detail', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyDetails005_update_company_empty_value_failure(self):
+    def test_005_update_company_empty_value_failure(self):
         """
         Updating all information with existing user id with empty information
         :return:
@@ -720,7 +722,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-detail', self.company.id, data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_CompanyDetails006_update_company_empty_value_invalid_company_failure(self):
+    def test_006_update_company_empty_value_invalid_company_failure(self):
         """
         Updating all information with existing user id
         :return:
@@ -738,7 +740,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-detail', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyDetails007_update_company_valid_info_success(self):
+    def test_007_update_company_valid_info_success(self):
         """
         Updating valid information with existing company id
         :return:
@@ -749,7 +751,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-detail', self.company.id, data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyDetails008_update_company_valid_info_invalid_company_failure(self):
+    def test_008_update_company_valid_info_invalid_company_failure(self):
         """
         Updating valid information with not existing company id
         :return:
@@ -760,7 +762,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-detail', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyDetails009_delete_company_success(self):
+    def test_009_delete_company_success(self):
         """
         Delete with existing company id
         :return:
@@ -769,7 +771,7 @@ class _008_CompanyDetailsTestCase(APITestCase):
         code, response = TestUtils._delete(self.client, 'company-detail', self.company.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyDetails010_delete_company_invalid_user_failure(self):
+    def test_010_delete_company_invalid_user_failure(self):
         """
         Delete with existing company id
         :return:
@@ -792,7 +794,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         TestUtils._create_user("ut_user001", 1)
         self.company = Company.objects.get(id=1)
 
-    def test_CompanyMetaDetails001_get_companymeta_success(self):
+    def test_001_get_companymeta_success(self):
         """
         Getting information with existing admin user id
         :return:
@@ -801,7 +803,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'company-meta', self.company.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyMetaDetails002_get_invalid_companymeta_id_failure(self):
+    def test_002_get_invalid_companymeta_id_failure(self):
         """
         Getting information with not existing user id
         :return:
@@ -810,7 +812,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'company-meta', TestConstants.INVALID_ID)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyMetaDetails003_update_companymeta_success(self):
+    def test_003_update_companymeta_success(self):
         """
         Updating all information with existing user id
         :return:
@@ -827,7 +829,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-meta', self.company.id, data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyMetaDetails004_update_companymeta_invalid_company_failure(self):
+    def test_004_update_companymeta_invalid_company_failure(self):
         """
         Updating all information with not existing company id
         :return:
@@ -844,7 +846,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-meta', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyMetaDetails005_update_companymeta_invalid_value_failure(self):
+    def test_005_update_companymeta_invalid_value_failure(self):
         """
         Updating all information with existing company id with empty information
         :return:
@@ -857,7 +859,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-meta', self.company.id, data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_CompanyMetaDetails006_update_companymeta_empty_value_invalid_company_failure(self):
+    def test_006_update_companymeta_empty_value_invalid_company_failure(self):
         """
         Updating all information with existing user id
         :return:
@@ -871,7 +873,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-meta', TestConstants.INVALID_ID, data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_CompanyMetaDetails007_update_companymeta_valid_info_success(self):
+    def test_007_update_companymeta_valid_info_success(self):
         """
         Updating valid information with existing company id
         :return:
@@ -882,7 +884,7 @@ class _009_CompanyMetaDetailsTestCase(APITestCase):
         code, response = TestUtils._put_with_args(self.client, 'company-meta', self.company.id, data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_CompanyMetaDetails008_update_companymeta_valid_info_invalid_company_failure(self):
+    def test_008_update_companymeta_valid_info_invalid_company_failure(self):
         """
         Updating valid information with not existing company id
         :return:
@@ -909,7 +911,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         self.company = Company.objects.get(id=1)
         self.contact = Contact.objects.get(company__id=1, external_id=ContactConstant.DEFAULT_CONTACT_EXTERNALID)
 
-    def test_ContactDetails001_get_contact_list_success(self):
+    def test_001_get_contact_list_success(self):
         """
         Getting information with existing company id
         :return:
@@ -918,7 +920,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'company-contacts-list', self.company.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_ContactDetails002_get_invalid_company_id_failure(self):
+    def test_002_get_invalid_company_id_failure(self):
         """
         Getting information with not existing company id
         :return:
@@ -927,7 +929,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._get_with_args(self.client, 'company-contacts-list', TestConstants.INVALID_ID)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails003_create_contact_success(self):
+    def test_003_create_contact_success(self):
         """
         Creating contact with all information ( test company for further testing)
         :return:
@@ -945,7 +947,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._post_with_args(self.client, 'company-contacts-list', self.company.id, self.data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_ContactDetails004_create_contact_without_required_values_failure(self):
+    def test_004_create_contact_without_required_values_failure(self):
         """
         Creating contact without some required information
         :return:
@@ -960,7 +962,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._post_with_args(self.client, 'company-contacts-list', self.company.id, self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_ContactDetails005_create_contact_with_required_values_success(self):
+    def test_005_create_contact_with_required_values_success(self):
         """
         Creating contact with only required information
         :return:
@@ -976,7 +978,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._post_with_args(self.client, 'company-contacts-list', self.company.id, self.data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_ContactDetails006_create_contact_with_invalid_data_failure(self):
+    def test_006_create_contact_with_invalid_data_failure(self):
         """
         Creating contact with invalid data
         ( min/max length validation for first name , last name ,email,phone validation )
@@ -994,7 +996,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._post_with_args(self.client, 'company-contacts-list', self.company.id, self.data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_ContactDetails007_get_contact_with_exisitng_company_and_contact_success(self):
+    def test_007_get_contact_with_exisitng_company_and_contact_success(self):
         """
         Getting information with existing company id and existing contact id
         :return:
@@ -1005,7 +1007,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, self.contact.id])
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_ContactDetails008_get_contact_with_not_exisitng_company_and_contact_success(self):
+    def test_008_get_contact_with_not_exisitng_company_and_contact_success(self):
         """
         Getting information with not existing company id and existing contact id
         :return:
@@ -1016,7 +1018,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [TestConstants.INVALID_ID, self.contact.id])
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails009_get_contact_with_exisitng_company_and_not_exisitng_contact_success(self):
+    def test_009_get_contact_with_exisitng_company_and_not_exisitng_contact_success(self):
         """
         Getting information with existing company id and not existing contact id
         :return:
@@ -1027,7 +1029,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, TestConstants.INVALID_ID])
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails010_get_contact_with_not_exisitng_company_and_not_exisitng_contact_success(self):
+    def test_010_get_contact_with_not_exisitng_company_and_not_exisitng_contact_success(self):
         """
         Getting information with not existing company id and not existing contact id
         :return:
@@ -1038,7 +1040,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [TestConstants.INVALID_ID, TestConstants.INVALID_ID])
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails011_update_contact_information_success(self):
+    def test_011_update_contact_information_success(self):
         """
         Updating information with existing company id  and existing contact id with all information
         :return:
@@ -1056,7 +1058,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, self.contact.id], data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_ContactDetails012_update_contact_invalid_information_failure(self):
+    def test_012_update_contact_invalid_information_failure(self):
         """
         Updating information with existing company id and existing contact id with invalid information
         :return:
@@ -1074,7 +1076,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, self.contact.id], data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_ContactDetails013_update_contact_empty_information_failure(self):
+    def test_013_update_contact_empty_information_failure(self):
         """
         Updating empty information with existing company id  and existing contact id
         :return:
@@ -1092,7 +1094,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, self.contact.id], data)
         self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
 
-    def test_ContactDetails014_update_contact_empty_information_invalid_company_failure(self):
+    def test_014_update_contact_empty_information_invalid_company_failure(self):
         """
         Updating empty information with not existing company id and existing contact id
         :return:
@@ -1110,7 +1112,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [TestConstants.INVALID_ID, self.contact.id], data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails015_update_contact_information_not_existing_contact_failure(self):
+    def test_015_update_contact_information_not_existing_contact_failure(self):
         """
         Updating information with existing company id  and not existing contact id with all information
         :return:
@@ -1128,7 +1130,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, TestConstants.INVALID_ID], data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails016_update_contact_invalid_information_not_existing_contact_failure(self):
+    def test_016_update_contact_invalid_information_not_existing_contact_failure(self):
         """
         Updating information with existing company id and not existing contact id with invalid information
         :return:
@@ -1146,7 +1148,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [self.company.id, TestConstants.INVALID_ID], data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails017_update_contact_information_not_existing_company_failure(self):
+    def test_017_update_contact_information_not_existing_company_failure(self):
         """
         Updating information with not existing company id  and existing contact id with all information
         :return:
@@ -1164,7 +1166,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [TestConstants.INVALID_ID, self.contact.id], data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails018_update_contact_invalid_information_not_existing_company_failure(self):
+    def test_018_update_contact_invalid_information_not_existing_company_failure(self):
         """
         Updating information with not existing company id and existing contact id with invalid information
         :return:
@@ -1182,7 +1184,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                                   [TestConstants.INVALID_ID, self.contact.id], data)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails019_delete_contact_success(self):
+    def test_019_delete_contact_success(self):
         """
         Delete with existing company id and exisitng contact id
         :return:
@@ -1191,7 +1193,7 @@ class _010_ContactDetailsTestCase(APITestCase):
         code, response = TestUtils._delete(self.client, 'company-contacts-list', [self.company.id, self.contact.id])
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_ContactDetails020_delete_contact_with_invalid_company_failure(self):
+    def test_020_delete_contact_with_invalid_company_failure(self):
         """
         Delete with not existing company id and existing contact id
         :return:
@@ -1201,7 +1203,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                            [TestConstants.INVALID_ID, self.contact.id])
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails021_delete_contact_with_invalid_contact_failure(self):
+    def test_021_delete_contact_with_invalid_contact_failure(self):
         """
         Delete with existing company id and not existing contact id
         :return:
@@ -1211,7 +1213,7 @@ class _010_ContactDetailsTestCase(APITestCase):
                                            [self.company.id, TestConstants.INVALID_ID])
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
-    def test_ContactDetails022_delete_contactwith_invalid_company_invalid_contact_failure(self):
+    def test_022_delete_contactwith_invalid_company_invalid_contact_failure(self):
         """
         Delete with not existing company id and not existing contact id
         :return:
@@ -1221,10 +1223,12 @@ class _010_ContactDetailsTestCase(APITestCase):
                                            [TestConstants.INVALID_ID, TestConstants.INVALID_ID])
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
+
 class _011_EspressoContactsTestCase(APITestCase):
     """
      Tests the EspressoContacts View
     """
+
     def setUp(self):
         self.superuser = TestUtils._create_superuser()
         self.login = TestUtils._admin_login(self.client)
@@ -1235,20 +1239,253 @@ class _011_EspressoContactsTestCase(APITestCase):
         self.company = Company.objects.get(id=1)
         self.contact = Contact.objects.get(company__id=1, external_id=ContactConstant.DEFAULT_CONTACT_EXTERNALID)
 
-    def test_EspressoContacts001_get_espresso_contact_list_success(self):
+    def test_001_get_espresso_contact_list_success(self):
         """
         Getting information with existing company id
         :return:
         :rtype:
         """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
         code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list', self.company.id)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
-    def test_EspressoContacts002_get_invalid_company_id_failure(self):
+    def test_002_get_invalid_company_id_failure(self):
         """
         Getting information with not existing company id
         :return:
         :rtype:
         """
-        code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list', TestConstants.INVALID_ID)
+        code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list',
+                                                  TestConstants.INVALID_ID)
         self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+    def test_003_create_espresso_contact_success(self):
+        """
+        Create with valid contact list
+        :return:
+        :rtype:
+        """
+        data = {
+            "contacts": [self.contact.id, TestConstants.INVALID_ID, self.contact.id]
+        }
+        code, response = TestUtils._post_with_args(self.client, 'company-special-contacts-list', self.company.id, data)
+        self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
+
+    def test_004_create_espresso_contact_invalid_contact_success(self):
+        """
+        Create with invalid contact list
+        :return:
+        :rtype:
+        """
+        data = {
+            "contacts": [TestConstants.INVALID_ID]
+        }
+        code, response = TestUtils._post_with_args(self.client, 'company-special-contacts-list', self.company.id, data)
+        self.assertEquals(response["message"], ErrorMessage.DATA_NOT_FOUND)
+
+    def test_005_get_espresso_contact_valid_contact_id_success(self):
+        """
+        Getting information with existing company id and existing contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list',
+                                                  [self.company.id, self.contact.id])
+        self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
+
+    def test_006_get_espresso_contact_invalid_contact_id_failure(self):
+        """
+        Getting information with not existing company id and existing contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list',
+                                                  [self.company.id, TestConstants.INVALID_ID])
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+    def test_007_get_espresso_contact_invalid_company_id_failure(self):
+        """
+        Getting information with existing company id and not existing contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list',
+                                                  [TestConstants.INVALID_ID, self.contact.id])
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+    def test_008_get_espresso_contact_invalid_company_and_contact_id_failure(self):
+        """
+        Getting information with existing company id and not existing contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._get_with_args(self.client, 'company-special-contacts-list',
+                                                  [TestConstants.INVALID_ID, TestConstants.INVALID_ID])
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+    def test_009_delete_espresso_contact_success(self):
+        """
+        Delete with existing company id and exisitng contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._delete(self.client, 'company-special-contacts-list',
+                                                  [self.company.id, self.contact.id])
+        self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
+
+    def test_010_delete_espresso_contact_invalid_contact_failure(self):
+        """
+        Delete with not existing company id and existing contact id
+        :return:
+        :rtype:
+        """
+        code, response = TestUtils._delete(self.client, 'company-special-contacts-list',
+                                                  [self.company.id, TestConstants.INVALID_ID])
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+    def test_009_delete_espresso_contact_invalid_company_failure(self):
+        """
+        Delete with existing company id and not existing contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._delete(self.client, 'company-special-contacts-list',
+                                                  [TestConstants.INVALID_ID, self.contact.id])
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+    def test_009_delete_espresso_contact_invalid_company_invalid_contact_failure(self):
+        """
+        Delete with not existing company id and not existing contact id
+        :return:
+        :rtype:
+        """
+        TestUtils._create_espresso_contact(self.company.id, self.contact.id)
+        code, response = TestUtils._delete(self.client, 'company-special-contacts-list',
+                                                  [TestConstants.INVALID_ID, TestConstants.INVALID_ID])
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+class _012_EmailValidationTestCase(APITestCase):
+    """
+     Tests the EmailValidation View
+    """
+    def setUp(self):
+        self.superuser = TestUtils._create_superuser()
+        self.login = TestUtils._admin_login(self.client)
+        TestUtils._create_company(1, CompanyConstant.COMPANY_NAME_001)
+        TestUtils._create_companymeta(1)
+        TestUtils._create_user("ut_user001", 1)
+        self.user = User.objects.get(username = "ut_user001")
+        self.company = Company.objects.get(id=1)
+        global token
+
+    def test_001_create_forgot_password_request_success(self):
+        """
+        Requesting with Valid email Id
+        :return:
+        :rtype:
+        """
+        data = {
+            "email" : self.user.email
+        }
+        code, response = TestUtils._post(self.client, 'validate-forgot-password',
+                                           data)
+        token = ForgotPasswordRequest.objects.get(user=self.user).token
+        self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
+
+    def test_002_create_forgot_password_request_invalid_email_failure(self):
+        """
+        Requesting with Invalid email ID
+        :return:
+        :rtype:
+        """
+
+        data = {
+            "email" : TestConstants.INVALID_EMAIL
+        }
+        code, response = TestUtils._post(self.client, 'validate-forgot-password',
+                                           data)
+        self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
+
+    def test_003_create_forgot_password_request_not_existing_email_failure(self):
+        """
+        Requesting with valid email ID but not exists
+        :return:
+        :rtype:
+        """
+
+        data = {
+            "email" : ContactConstant.DEFAULT_CONTACT_EMAIL
+        }
+        code, response = TestUtils._post(self.client, 'validate-forgot-password',
+                                           data)
+        self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
+
+    def test_004_create_forgot_password_request_without_email_failure(self):
+        """
+        Requesting with empty email ID
+        :return:
+        :rtype:
+        """
+
+        data = {
+        }
+        code, response = TestUtils._post(self.client, 'validate-forgot-password',
+                                           data)
+        self.assertEquals(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
+
+class _013_ForgotPasswordTestCase(APITestCase):
+    """
+     Tests the EmailValidation View
+    """
+    def setUp(self):
+        self.superuser = TestUtils._create_superuser()
+        self.login = TestUtils._admin_login(self.client)
+        TestUtils._create_company(1, CompanyConstant.COMPANY_NAME_001)
+        TestUtils._create_companymeta(1)
+        TestUtils._create_user("ut_user001", 1)
+        self.user = User.objects.get(username = "ut_user001")
+        self.company = Company.objects.get(id=1)
+
+    def test_001_get_check_change_password_token_success(self):
+        """
+        Requesting with valid token
+        :return:
+        :rtype:
+        """
+        data = {
+            "email" : self.user.email
+        }
+        TestUtils._post(self.client, 'validate-forgot-password',
+                                           data)
+
+        token = ForgotPasswordRequest.objects.get(user=self.user).token
+
+        code, response = TestUtils._get_with_args(self.client, 'forgot-password',
+                                            token)
+        print(response)
+        self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
+
+    def test_002_get_check_change_password_with_intoken_failure(self):
+        """
+        Requesting with invalid token
+        :return:
+        :rtype:
+        """
+        code, response = TestUtils._get_with_args(self.client, 'forgot-password',
+                                            TestConstants.INVALID_TOKEN)
+        self.assertEquals(code, ResponseCodeConstant.FAILURE_400)
+
+    def test_003_get_check_change_password_with_empty_failure(self):
+        """
+        Requesting with invalid token
+        :return:
+        :rtype:
+        """
+        code, response = TestUtils._get_with_args(self.client, 'forgot-password','_')
+        self.assertEquals(code, ResponseCodeConstant.FAILURE_400)

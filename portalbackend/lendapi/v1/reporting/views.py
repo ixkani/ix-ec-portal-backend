@@ -428,7 +428,7 @@ class PreviousMonthlyReportEditDetails(views.APIView):
                 if balancesheet is None:
                     continue
 
-                if balancesheet.value != value:
+                if float(balancesheet.value) != float(value):
                     change_available = True
                     old_value = balancesheet.value
                     balancesheet.value = value
@@ -453,15 +453,15 @@ class PreviousMonthlyReportEditDetails(views.APIView):
                 if incomestatement is None:
                     continue
 
-                if incomestatement.value != value :
+                if float(incomestatement.value) != float(value):
                     change_available = True
                     old_value = incomestatement.value
                     incomestatement.value = value
                     incomestatement.save()
                     changed_items["Incomestatement"].append({
-                        "object":incomestatement,
-                        "old_value":old_value,
-                        "new_value":value
+                        "object": incomestatement,
+                        "old_value": old_value,
+                        "new_value": value
                     })
 
             for entry in data["Answers"]:
