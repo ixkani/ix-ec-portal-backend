@@ -44,7 +44,7 @@ class HerokuTestSuiteRunner(DiscoverRunner):
             from django.core.cache import caches
             from django.core.cache.backends.db import BaseDatabaseCache
             for cache_alias in settings.CACHES:
-                cache = caches(cache_alias)
+                cache = caches[cache_alias]
                 if isinstance(cache, BaseDatabaseCache):
                     call_command('createcachetable', cache._table,
                                  database=test_connection.alias)
