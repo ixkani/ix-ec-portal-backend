@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e2c935f-3e21-46d7-b8fa-303e90cff9b1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/portalbackend/settings.py" afterPath="$PROJECT_DIR$/portalbackend/settings.py" />
-      <change beforePath="$PROJECT_DIR$/portalbackend/validator/runner.py" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,8 +16,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="211" column="47" lean-forward="false" selection-start-line="211" selection-start-column="47" selection-end-line="211" selection-end-column="47" />
+            <state relative-caret-position="264">
+              <caret line="215" column="45" lean-forward="false" selection-start-line="215" selection-start-column="45" selection-end-line="215" selection-end-column="45" />
               <folding>
                 <element signature="e#317#332#0" expanded="true" />
               </folding>
@@ -414,8 +412,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="211" column="47" lean-forward="false" selection-start-line="211" selection-start-column="47" selection-end-line="211" selection-end-column="47" />
+        <state relative-caret-position="264">
+          <caret line="215" column="45" lean-forward="false" selection-start-line="215" selection-start-column="45" selection-end-line="215" selection-end-column="45" />
           <folding>
             <element signature="e#317#332#0" expanded="true" />
           </folding>

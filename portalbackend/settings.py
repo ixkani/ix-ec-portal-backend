@@ -209,7 +209,13 @@ except Exception:
     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
                                  'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': '',
                              "TEST" : {
-                                 'NAME': 'test_borrowerportal'
+                                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                                 'NAME': 'd5b14o8211hbio',
+                                 'HOST': '',
+                                 'PORT': 5432,
+                                 'USER': 'hywggnmppkgrby',
+                                 'PASSWORD': '2d2dd75975a5bd04dc2f8527680a73950a89650bcb0bd0436d9ad9072dd26d26'
+
                              }}}
     # except Exception:
     #     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'heroku',
