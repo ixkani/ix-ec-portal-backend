@@ -52,41 +52,50 @@ class TestUtils(object):
 
     @staticmethod
     def _post_with_args(client, string, args, data):
-        response = client.post(reverse(string, args=[args]), data ,format='json')
+        response = client.post(reverse(string, args=[args]), data ,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+        print(response)
         return response.status_code, response.data
 
     @staticmethod
     def _get(client, string, ):
-        response = client.get(reverse(string),format='json')
+        response = client.get(reverse(string),format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+        print(response)
         return response.status_code, response.data
 
     @staticmethod
     def _get_with_args(client, string, args):
         if type(args) is list:
-            response = client.get(reverse(string, args=args),format='json')
+            response = client.get(reverse(string, args=args),format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+            print(response)
         else:
-            response = client.get(reverse(string, args=[args]),format='json')
+            response = client.get(reverse(string, args=[args]),format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+            print(response)
         return response.status_code, response.data
 
     @staticmethod
     def _put(client, string, data):
-        response = client.put(reverse(string), data,format='json')
+        response = client.put(reverse(string), data,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+        print(response)
         return response.status_code, response.data
 
     @staticmethod
     def _put_with_args(client, string, args, data):
         if type(args) is list:
-            response = client.put(reverse(string, args=args), data,format='json')
+            response = client.put(reverse(string, args=args), data,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+            print(response)
         else:
-            response = client.put(reverse(string, args=[args]), data,format='json')
+            response = client.put(reverse(string, args=[args]), data,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+            print(response)
         return response.status_code, response.data
 
     @staticmethod
     def _delete(client, string, args):
         if type(args) is list:
             response = client.delete(reverse(string, args=args),format='json')
+            print(response)
         else:
             response = client.delete(reverse(string, args=[args]),format='json')
+            print(response)
         return response.status_code, response.data
 
     @staticmethod
