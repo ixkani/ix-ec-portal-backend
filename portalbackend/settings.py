@@ -216,7 +216,7 @@ else:
     DATABASES = DBCONFIG
 
 TEST_DATABASES = {
-    'default': dj_database_url.config(env='DATABASE_URL')
+    'default': dj_database_url.config(env='HEROKU_POSTGRESQL_BLACK_URL')
 }
 
 TEST_RUNNER = 'portalbackend.validator.runner.HerokuTestSuiteRunner'

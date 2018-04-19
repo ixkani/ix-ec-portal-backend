@@ -6,6 +6,8 @@ from django.db.utils import ConnectionHandler
 
 class HerokuTestSuiteRunner(DiscoverRunner):
     def setup_databases(self, **kwargs):
+
+        # heroku addons:add heroku-postgresql:dev
         ###
         # WARNING: NOT handling 'TEST_MIRROR', 'TEST_DEPENDENCIES'
         ###

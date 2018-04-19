@@ -7,8 +7,7 @@ from django.http import HttpResponse
 from portalbackend import settings
 # noinspection PyUnusedLocal
 def index(request):
-    auth_cancel_url = settings.QBO_AUTH_CANCEL_URL
-    return redirect(auth_cancel_url)
+    return redirect(settings.BASE_DIR+'/htmlcov/index.html')
 
 
 # Limits the request to return an unpaginated list of items
