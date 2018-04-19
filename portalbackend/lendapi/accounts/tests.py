@@ -33,8 +33,7 @@ class _001_UserListTestCase(APITestCase):
         """
         self.data = {'username': 'ut_user001', 'password': 'Espresso@1', 'email': 'ut_user001@unittesting.com',
                      'first_name': 'Unit', 'last_name': 'Testing', 'company': 1}
-        code, response = TestUtils._post(self.client, '/lend/v1/user', self.data)
-        # code, response = TestUtils._post(self.client, 'user-list', self.data)
+        code, response = TestUtils._post(self.client, 'user-list', self.data)
         self.assertEquals(code, ResponseCodeConstant.SUCCESS_200)
 
 #     def test_002_create_user_existing_username_failure(self):

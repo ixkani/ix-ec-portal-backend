@@ -3,6 +3,8 @@ import datetime
 import pyotp
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
+from django.test import override_settings
+
 from portalbackend.lendapi.accounts.models import User, Company, CompanyMeta, ScheduledMaintenance, Contact, \
     EspressoContact
 from portalbackend.lendapi.v1.accounts.views import UserList, UserDetail, LoginView
@@ -42,8 +44,9 @@ class TestUtils(object):
         return user
 
     @staticmethod
+    @override_settings(APPEND_SLASH=True)
     def _post(client, string, data):
-        response = client.post(string, data,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
+        response = client.post(reverse(string), data,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
         print(response)
         return response.status_code, response.data
 
