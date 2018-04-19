@@ -91,10 +91,10 @@ class TestUtils(object):
     @staticmethod
     def _delete(client, string, args):
         if type(args) is list:
-            response = client.delete(reverse(string, args=args),format='json')
+            response = client.delete(reverse(string, args=args),format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
             print(response)
         else:
-            response = client.delete(reverse(string, args=[args]),format='json')
+            response = client.delete(reverse(string, args=[args]),format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
             print(response)
         return response.status_code, response.data
 
