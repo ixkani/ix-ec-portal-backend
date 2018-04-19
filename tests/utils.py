@@ -1,7 +1,7 @@
 import datetime
 
 import pyotp
-from django.urls import reverse
+from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from portalbackend.lendapi.accounts.models import User, Company, CompanyMeta, ScheduledMaintenance, Contact, \
     EspressoContact
