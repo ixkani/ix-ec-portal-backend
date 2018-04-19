@@ -46,56 +46,58 @@ class TestUtils(object):
     @staticmethod
     @override_settings(APPEND_SLASH=True)
     def _post(client, string, data):
-        response = client.post(reverse(string), data,format='json',secure=True,HTTP_HOST='espresso-ix-backend.herokuapp.com')
-        print(response)
+        response = client.post(reverse(string), data, format='json', secure=TestConstants.SECURE_CONNECTION,
+                               HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
     def _post_with_args(client, string, args, data):
-        response = client.post(reverse(string, args=[args]), data ,format='json',secure=True,HTTP_HOST='espresso-ix-backend.herokuapp.com')
-        print(response)
+        response = client.post(reverse(string, args=[args]), data, format='json',
+                               secure=TestConstants.SECURE_CONNECTION, HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
     def _get(client, string, ):
-        response = client.get(reverse(string),format='json',secure=True,HTTP_HOST='espresso-ix-backend.herokuapp.com')
-        print(response)
+        response = client.get(reverse(string), format='json', secure=TestConstants.SECURE_CONNECTION,
+                              HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
     def _get_with_args(client, string, args):
         if type(args) is list:
-            response = client.get(reverse(string, args=args),secure=True,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
-            print(response)
+            response = client.get(reverse(string, args=args), secure=TestConstants.SECURE_CONNECTION, format='json',
+                                  HTTP_HOST=TestConstants.HOST_URL)
+            
         else:
-            response = client.get(reverse(string, args=[args]),secure=True,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
-            print(response)
+            response = client.get(reverse(string, args=[args]), secure=TestConstants.SECURE_CONNECTION, format='json',
+                                  HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
     def _put(client, string, data):
-        response = client.put(reverse(string), data,format='json',secure=True,HTTP_HOST='espresso-ix-backend.herokuapp.com')
-        print(response)
+        response = client.put(reverse(string), data, format='json', secure=TestConstants.SECURE_CONNECTION,
+                              HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
     def _put_with_args(client, string, args, data):
         if type(args) is list:
-            response = client.put(reverse(string, args=args), data,secure=True,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
-            print(response)
+            response = client.put(reverse(string, args=args), data, secure=TestConstants.SECURE_CONNECTION,
+                                  format='json', HTTP_HOST=TestConstants.HOST_URL)
         else:
-            response = client.put(reverse(string, args=[args]), data,secure=True,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
-            print(response)
+            response = client.put(reverse(string, args=[args]), data, secure=TestConstants.SECURE_CONNECTION,
+                                  format='json', HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
     def _delete(client, string, args):
         if type(args) is list:
-            response = client.delete(reverse(string, args=args),format='json',secure=True,HTTP_HOST='espresso-ix-backend.herokuapp.com')
-            print(response)
+            response = client.delete(reverse(string, args=args), format='json', secure=TestConstants.SECURE_CONNECTION,
+                                     HTTP_HOST=TestConstants.HOST_URL)
+            
         else:
-            response = client.delete(reverse(string, args=[args]),format='json',secure=True,HTTP_HOST='espresso-ix-backend.herokuapp.com')
-            print(response)
+            response = client.delete(reverse(string, args=[args]), format='json',
+                                     secure=TestConstants.SECURE_CONNECTION, HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
@@ -130,7 +132,7 @@ class TestUtils(object):
     def _create_espresso_contact(id, cid):
         company = Company.objects.get(id=id)
         contact = Contact.objects.get(id=cid)
-        espresso_contact = EspressoContact.objects.create(company=company,contact=contact)
+        espresso_contact = EspressoContact.objects.create(company=company, contact=contact)
         espresso_contact.save()
 
     @staticmethod

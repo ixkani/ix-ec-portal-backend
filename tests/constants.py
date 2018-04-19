@@ -1,4 +1,13 @@
 class TestConstants:
+
+    HOST_URL = 'espresso-ix-backend.herokuapp.com'
+    SECURE_CONNECTION = True
+
+
+
+
+
+
     INVALID_ID = 100
     INVALID_STRING = "DUMMY"
     INVALID_USERNAME = "dummmy_username"
