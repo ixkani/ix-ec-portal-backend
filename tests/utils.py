@@ -43,7 +43,7 @@ class TestUtils(object):
 
     @staticmethod
     def _post(client, string, data):
-        response = client.post(reverse(string), data,format='json')
+        response = client.post(string, data,format='json')
         return response.status_code, response.data
 
     @staticmethod
