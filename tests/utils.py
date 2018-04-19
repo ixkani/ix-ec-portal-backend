@@ -44,12 +44,12 @@ class TestUtils(object):
     @staticmethod
     def _post(client, string, data):
         response = client.post(string, data,format='json')
+        response = client.post(response.url, data)
         return response.status_code, response.data
 
     @staticmethod
     def _post_with_args(client, string, args, data):
         response = client.post(reverse(string, args=[args]), data ,format='json')
-        print(response)
         return response.status_code, response.data
 
     @staticmethod
