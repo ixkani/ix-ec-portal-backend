@@ -43,9 +43,7 @@ class TestUtils(object):
 
     @staticmethod
     def _post(client, string, data):
-        response = client.post(string, data,format='json')
-        print(response)
-        response = client.post(response.url, data)
+        response = client.post(string, data,format='json',HTTP_HOST='espresso-ix-backend.herokuapp.com')
         print(response)
         return response.status_code, response.data
 
