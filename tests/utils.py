@@ -1,7 +1,7 @@
 import datetime
 
 import pyotp
-from django.shortcuts import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import override_settings
 
