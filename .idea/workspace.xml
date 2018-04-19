@@ -16,8 +16,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="275" column="29" lean-forward="false" selection-start-line="275" selection-start-column="17" selection-end-line="275" selection-end-column="29" />
+            <state relative-caret-position="149">
+              <caret line="220" column="0" lean-forward="false" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -39,7 +39,7 @@
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="50" lean-forward="false" selection-start-line="0" selection-start-column="50" selection-end-line="0" selection-end-column="50" />
+              <caret line="0" column="168" lean-forward="false" selection-start-line="0" selection-start-column="168" selection-end-line="0" selection-end-column="168" />
               <folding />
             </state>
           </provider>
@@ -80,6 +80,7 @@
       <find>'espresso-ix-backend.herokuapp.com'</find>
       <find>secure=True</find>
       <find>print(response)</find>
+      <find>HEROKU_POSTGRESQL_BLACK_URL</find>
     </findStrings>
     <replaceStrings>
       <replace>TestConstants.HOST_URL</replace>
@@ -606,8 +607,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="275" column="29" lean-forward="false" selection-start-line="275" selection-start-column="17" selection-end-line="275" selection-end-column="29" />
+        <state relative-caret-position="149">
+          <caret line="220" column="0" lean-forward="false" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -615,7 +616,7 @@
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="50" lean-forward="false" selection-start-line="0" selection-start-column="50" selection-end-line="0" selection-end-column="50" />
+          <caret line="0" column="168" lean-forward="false" selection-start-line="0" selection-start-column="168" selection-end-line="0" selection-end-column="168" />
           <folding />
         </state>
       </provider>
