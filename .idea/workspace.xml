@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e2c935f-3e21-46d7-b8fa-303e90cff9b1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,8 +49,8 @@
       <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="66" lean-forward="false" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
+            <state relative-caret-position="0">
+              <caret line="0" column="148" lean-forward="false" selection-start-line="0" selection-start-column="148" selection-end-line="0" selection-end-column="148" />
               <folding />
             </state>
           </provider>
@@ -151,21 +150,6 @@
               <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
               <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
               <item name="lendapi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
-              <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
-              <item name="lendapi" type="462c0819:PsiDirectoryNode" />
-              <item name="v1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
-              <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
-              <item name="lendapi" type="462c0819:PsiDirectoryNode" />
-              <item name="v1" type="462c0819:PsiDirectoryNode" />
-              <item name="accounts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
@@ -591,10 +575,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.coverage">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="66" lean-forward="false" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
+        <state relative-caret-position="0">
+          <caret line="0" column="148" lean-forward="false" selection-start-line="0" selection-start-column="148" selection-end-line="0" selection-end-column="148" />
           <folding />
         </state>
       </provider>
