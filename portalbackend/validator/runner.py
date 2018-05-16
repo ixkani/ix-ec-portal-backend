@@ -11,7 +11,6 @@ class HerokuTestSuiteRunner(DiscoverRunner):
         ###
         # WARNING: NOT handling 'TEST_MIRROR', 'TEST_DEPENDENCIES'
         ###
-
         # get new connections to test database
         test_connections = ConnectionHandler(settings.TEST_DATABASES)
 
