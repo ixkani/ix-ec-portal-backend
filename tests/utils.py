@@ -76,7 +76,8 @@ class TestUtils(object):
 
     @staticmethod
     def _get(client, string, ):
-        response = client.get(reverse(string))
+        response = client.get(reverse(string),format='json', secure=TestConstants.SECURE_CONNECTION,
+                               HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
 
     @staticmethod
