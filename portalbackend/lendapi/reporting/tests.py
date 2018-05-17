@@ -1,8 +1,8 @@
 from portalbackend.settings import RUN_UNIT_TEST
-from tests.reporting.testcases import tc_monthly_report, tc_questionaire_answer, tc_questionnaire, \
-    tc_previous_report_edit
 
 if RUN_UNIT_TEST:
+    from tests.reporting.testcases import tc_monthly_report, tc_questionaire_answer, tc_questionnaire, \
+        tc_previous_report_edit
 
     # @unittest - Tests Monthly Report List api calls
     tc_monthly_report_list = tc_monthly_report._001_MonthlyReportListTestCase

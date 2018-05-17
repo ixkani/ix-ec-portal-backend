@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portalbackend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/portalbackend/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,38 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="271">
+              <caret line="447" column="52" selection-start-line="447" selection-start-column="48" selection-end-line="447" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tests.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="25" column="40" lean-forward="true" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
+            <state>
+              <caret column="25" selection-start-column="25" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -105,9 +86,9 @@
         <option value="$PROJECT_DIR$/tests/utils.py" />
         <option value="$PROJECT_DIR$/tests/accounting/testcases/tc_connect.py" />
         <option value="$PROJECT_DIR$/portalbackend/settings.py" />
-        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" />
-        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" />
         <option value="$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py" />
+        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" />
+        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" />
       </list>
     </option>
   </component>
@@ -221,8 +202,8 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32970452" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32917318" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30407023" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32917318" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30407023" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -491,40 +472,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
+    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3720">
-          <caret line="447" column="52" selection-start-line="447" selection-start-column="52" selection-end-line="447" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py">
+    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="25" column="40" lean-forward="true" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="447" column="52" selection-start-line="447" selection-start-column="48" selection-end-line="447" selection-end-column="52" />
         </state>
       </provider>
     </entry>

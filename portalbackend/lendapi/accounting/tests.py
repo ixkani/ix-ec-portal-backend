@@ -1,15 +1,8 @@
 from portalbackend.settings import RUN_UNIT_TEST
-from tests.accounting.testcases import (
-    tc_connect,
-    tc_coa,
-    tc_coa_map,
-    tc_trial_balance,
-    tc_generate_statement,
-    tc_income_statement,
-    tc_balance_sheet
-)
 
 if RUN_UNIT_TEST:
+    from tests.accounting.testcases import tc_connect, tc_coa, tc_coa_map, tc_trial_balance, tc_generate_statement, \
+        tc_income_statement, tc_balance_sheet
 
     # @unittest - Tests Connection api calls
     tc_connect_view = tc_connect._001_ConnectionTestCase

@@ -1,20 +1,10 @@
 from portalbackend.settings import RUN_UNIT_TEST
-from tests.accounts.testcases import (
-    tc_user,
-    tc_company,
-    tc_contact,
-    tc_espresso_contact,
-    tc_change_password,
-    tc_sceduled_maintaince,
-    tc_two_factor,
-    tc_login_logout,
-    tc_forms
-)
+
 
 if RUN_UNIT_TEST:
 
-    #change as your wish
-
+    from tests.accounts.testcases import tc_user, tc_company, tc_contact, tc_espresso_contact, tc_change_password, \
+        tc_sceduled_maintaince, tc_two_factor, tc_login_logout, tc_forms
 
     # @unittest - Tests User List api calls
     tc_user_list_view = tc_user._001_UserListTestCase
