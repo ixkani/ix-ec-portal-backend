@@ -1,6 +1,6 @@
 from portalbackend.settings import RUN_UNIT_TEST
 
-if RUN_UNIT_TEST:
+if RUN_UNIT_TEST is True:
     from tests.accounting.testcases import tc_connect, tc_coa, tc_coa_map, tc_trial_balance, tc_generate_statement, \
         tc_income_statement, tc_balance_sheet
 

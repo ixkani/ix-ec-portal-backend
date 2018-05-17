@@ -1,7 +1,7 @@
 from portalbackend.settings import RUN_UNIT_TEST
 
 
-if RUN_UNIT_TEST:
+if RUN_UNIT_TEST is True:
     from tests.reporting.testcases import tc_monthly_report, tc_questionaire_answer, tc_questionnaire, \
         tc_previous_report_edit
 

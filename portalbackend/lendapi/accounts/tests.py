@@ -1,7 +1,7 @@
 from portalbackend.settings import RUN_UNIT_TEST
 
 
-if RUN_UNIT_TEST:
+if RUN_UNIT_TEST is True:
 
     from tests.accounts.testcases import tc_user, tc_company, tc_contact, tc_espresso_contact, tc_change_password, \
         tc_sceduled_maintaince, tc_two_factor, tc_login_logout, tc_forms
