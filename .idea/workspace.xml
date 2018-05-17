@@ -14,8 +14,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="447" column="13" selection-start-line="447" selection-end-line="447" selection-end-column="13" />
+            <state relative-caret-position="285">
+              <caret line="447" selection-start-line="447" selection-end-line="447" />
             </state>
           </provider>
         </entry>
@@ -24,7 +24,7 @@
         <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="25" selection-start-column="25" selection-end-column="25" />
+              <caret column="42" selection-start-column="42" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -81,10 +81,10 @@
         <option value="$PROJECT_DIR$/tests/constants.py" />
         <option value="$PROJECT_DIR$/tests/utils.py" />
         <option value="$PROJECT_DIR$/tests/accounting/testcases/tc_connect.py" />
-        <option value="$PROJECT_DIR$/portalbackend/settings.py" />
         <option value="$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py" />
         <option value="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" />
         <option value="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" />
+        <option value="$PROJECT_DIR$/portalbackend/settings.py" />
       </list>
     </option>
   </component>
@@ -190,6 +190,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="60" y="-11" width="1301" height="780" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -484,14 +485,14 @@
     <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="25" selection-start-column="25" selection-end-column="25" />
+          <caret column="42" selection-start-column="42" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="447" column="13" selection-start-line="447" selection-end-line="447" selection-end-column="13" />
+        <state relative-caret-position="285">
+          <caret line="447" selection-start-line="447" selection-end-line="447" />
         </state>
       </provider>
     </entry>
