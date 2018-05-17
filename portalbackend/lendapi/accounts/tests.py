@@ -1,62 +1,65 @@
 from portalbackend.settings import RUN_UNIT_TEST
-from tests.accounts.testcases.tc_change_password import _001_EmailValidationTestCase, _002_ForgotPasswordTestCase, \
-    _003_ChangePasswordTestCase
-from tests.accounts.testcases.tc_company import _001_CompanyListTestCase, _002_CompanyDetailsTestCase, \
-    _003_CompanyMetaDetailsTestCase
-from tests.accounts.testcases.tc_contact import _001_ContactDetailsTestCase
-from tests.accounts.testcases.tc_espresso_contact import _001_EspressoContactsTestCase
-from tests.accounts.testcases.tc_forms import AccountsFormTest
-from tests.accounts.testcases.tc_login_logout import _001_LoginViewTestCase, _002_LogoutTestCase
-from tests.accounts.testcases.tc_sceduled_maintaince import _001_ScheduledMaintenanceDetailsTestCase
-from tests.accounts.testcases.tc_two_factor import _001_TwoFactorAuthenticationDetailsTestCase
-from tests.accounts.testcases.tc_user import _001_UserListTestCase, _002_MeTestCase, _003_UserDetailsTestCase
+from tests.accounts.testcases import (
+    tc_user,
+    tc_company,
+    tc_contact,
+    tc_espresso_contact,
+    tc_change_password,
+    tc_sceduled_maintaince,
+    tc_two_factor,
+    tc_login_logout,
+    tc_forms
+)
 
 if RUN_UNIT_TEST:
 
+    #change as your wish
+
+
     # @unittest - Tests User List api calls
-    tc_user_list_view = _001_UserListTestCase
+    tc_user_list_view = tc_user._001_UserListTestCase
 
     # @unittest - Tests Me api calls
-    tc_user_me_view = _002_MeTestCase
+    tc_user_me_view = tc_user._002_MeTestCase
 
     # @unittest - Tests User Details api calls
-    tc_user_detail_view = _003_UserDetailsTestCase
+    tc_user_detail_view = tc_user._003_UserDetailsTestCase
 
     # @unittest - Tests Company List api calls
-    tc_company_list_view = _001_CompanyListTestCase
+    tc_company_list_view = tc_company._001_CompanyListTestCase
 
     # @unittest - Tests Company Details api calls
-    tc_company_details_view = _002_CompanyDetailsTestCase
+    tc_company_details_view = tc_company._002_CompanyDetailsTestCase
 
     # @unittest - Tests Company Meta api calls
-    tc_company_meta_view = _003_CompanyMetaDetailsTestCase
+    tc_company_meta_view = tc_company._003_CompanyMetaDetailsTestCase
 
     # @unittest - Tests Contact Details api calls
-    tc_contact_view = _001_ContactDetailsTestCase
+    tc_contact_view = tc_contact._001_ContactDetailsTestCase
 
     # @unittest - Tests Espresso Contact api calls
-    tc_espresso_contact_view = _001_EspressoContactsTestCase
+    tc_espresso_contact_view = tc_espresso_contact._001_EspressoContactsTestCase
 
     # @unittest - Tests Email validation api calls
-    tc_email_validation_view = _001_EmailValidationTestCase
+    tc_email_validation_view = tc_change_password._001_EmailValidationTestCase
 
     # @unittest - Tests Forgot password api calls
-    tc_forgot_password_view = _002_ForgotPasswordTestCase
+    tc_forgot_password_view = tc_change_password._002_ForgotPasswordTestCase
 
     # @unittest - Tests Change password api calls
-    tc_change_password_view = _003_ChangePasswordTestCase
+    tc_change_password_view = tc_change_password._003_ChangePasswordTestCase
 
     # @unittest - Tests Scheduled Maintenance Details api calls
-    tc_sceduled_maintaince_view = _001_ScheduledMaintenanceDetailsTestCase
+    tc_sceduled_maintaince_view = tc_sceduled_maintaince._001_ScheduledMaintenanceDetailsTestCase
 
     # @unittest - Tests Two Factor Authentication api calls
-    tc_two_factor_view = _001_TwoFactorAuthenticationDetailsTestCase
+    tc_two_factor_view = tc_two_factor._001_TwoFactorAuthenticationDetailsTestCase
 
     # @unittest - Tests Login api calls
-    tc_login_view = _001_LoginViewTestCase
+    tc_login_view = tc_login_logout._001_LoginViewTestCase
 
     # @unittest - Tests Logout api calls
-    tc_logout_view = _002_LogoutTestCase
+    tc_logout_view = tc_login_logout._002_LogoutTestCase
 
     # @unittest - Tests Two Factor Authentication api calls
-    form_test = AccountsFormTest
+    form_test = tc_forms.AccountsFormTest
