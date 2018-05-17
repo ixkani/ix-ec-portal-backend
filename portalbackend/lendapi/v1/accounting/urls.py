@@ -5,8 +5,8 @@ from . import views
 urlpatterns = [
 
     url(r'^connect/?$', views.CreateConnection.as_view(), name='connect'),
-    url(r'^qbo/authCodeHandler/?$', views.QuickBooksAuthCodeHandler.as_view(), name='authCodeHandler'),
-    url(r'^xero/authCodeHandler/(?P<pk>[0-9]+)/$', views.XeroAuthCodeHandler.as_view(), name='authCodeHandler'),
+    url(r'^qbo/authCodeHandler/?$', views.QuickBooksAuthCodeHandler.as_view(), name='qbo-authCodeHandler'),
+    url(r'^xero/authCodeHandler/(?P<pk>[0-9]+)/$', views.XeroAuthCodeHandler.as_view(), name='xero-authCodeHandler'),
     url(r'^company/(?P<pk>[0-9]+)/accounting/refresh/?$', views.RefreshToken.as_view(), name='refresh'),
     url(r'^company/(?P<pk>[0-9]+)/accounting/disconnect/?$', views.DisconnectToken.as_view(), name='disconnect'),
     url(r'^company/(?P<pk>[0-9]+)/accounting/trialbalance/?$', views.TrialBalanceView.as_view(), name='trial-balance'),

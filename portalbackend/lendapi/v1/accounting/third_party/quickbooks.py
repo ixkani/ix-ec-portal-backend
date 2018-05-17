@@ -40,7 +40,7 @@ class QuickBooks(object):
         """
         try:
             if not getDiscoveryDocument:
-                # todo: need to clarify this scenario occurs or not and handle corect redirct urls
+                # todo: need to clarify this scenario occurs or not and handle correct redirct urls
                 auth_cancel_url = settings.QBO_AUTH_CANCEL_URL
                 return redirect(auth_cancel_url)
             url = getDiscoveryDocument.auth_endpoint
@@ -70,7 +70,7 @@ class QuickBooks(object):
             state = request.GET.get('state', None)
             error = request.GET.get('error', None)
             auth_cancel_url = settings.QBO_AUTH_CANCEL_URL
-            print('############ auth code handerl state ', state)
+            print('############ auth code handler state ', state)
 
             if error == 'access_denied':
                 print('############ auth code handerl access deined ', error)
@@ -301,6 +301,7 @@ class QuickBooks(object):
                 exists.gl_account_currency = account["CurrencyRef"]["value"]
                 exists.gl_account_id = account["Id"]
                 exists.gl_account_bal = account["CurrentBalance"]
+                exists.gl_account_type = account["AccountType"]
                 exists.save()
                 # doesn't return coa that already existed in the system
                 # coas.append(exists)

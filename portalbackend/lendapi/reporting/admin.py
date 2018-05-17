@@ -33,6 +33,8 @@ class QuestionAnswerInline(admin.TabularInline):
     model = Answer
     extra = 0
     fields = [field.name for field in Answer._meta.fields]
+    readonly_fields = ['company','monthly_report',]
+    show_change_link = True
     form = AnswerForm
 
 

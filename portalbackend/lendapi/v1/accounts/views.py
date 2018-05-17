@@ -320,7 +320,6 @@ class LogoutView(views.APIView):
     """
     permission_classes = (AllowAny,)
     def get(self, request):
-        print(request.user)
         user=User.objects.filter(username=request.user).first()
         if user:
             user.is_logged_in = False
@@ -551,7 +550,6 @@ class EmailValidation(generics.ListCreateAPIView):
 
             # Generate unique token
             token = Utils.generate_unique_token()
-            print(token)
             user = user.first()
             # Save forgot password details in table
             forgot_password = ForgotPasswordRequest(user=user, email=email, token=token,
@@ -561,7 +559,6 @@ class EmailValidation(generics.ListCreateAPIView):
 
             subject = APP_NAME
             body = "Hi " + user.username.title() + ",\n\n"+FORGOT_PASSWORD_EMAIL_BODY+FORGOT_PASSWORD_EMAIL_URL + str(token) + "/\n"
-            print(body)
             Utils.send_mail([email, ], subject=subject, body=body)
 
         except MultipleObjectsReturned:
@@ -679,7 +676,6 @@ class TwoFactorAuthenticationDetails(views.APIView):
             }
             return Utils.dispatch_success(request,data)
         except Exception as e:
-            print(e)
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
     def post(self,request):
@@ -695,7 +691,6 @@ class TwoFactorAuthenticationDetails(views.APIView):
             else:
                 return Utils.dispatch_failure(request,"VALIDATION_ERROR")
         except Exception as e:
-            print(e)
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
     def put(self, request):
@@ -713,5 +708,4 @@ class TwoFactorAuthenticationDetails(views.APIView):
             user.save()
             return Utils.dispatch_success(request, [])
         except Exception as e:
-            print(e)
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')

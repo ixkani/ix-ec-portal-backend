@@ -1,0 +1,505 @@
+[{
+	"company": 1,
+	"cust_account_id": 9,
+	"cust_account_name": "Interest earned",
+	"espresso_account_id": 6740,
+	"espresso_account_name": "Other Income (Expenses)"
+}, {
+	"company": 1,
+	"cust_account_id": 89,
+	"cust_account_name": "Interest expense",
+	"espresso_account_id": 6730,
+	"espresso_account_name": "Depreciation & Amortization"
+}, {
+	"company": 1,
+	"cust_account_id": 85,
+	"cust_account_name": "Inventory Asset",
+	"espresso_account_id": 1200,
+	"espresso_account_name": "Other Current Assets"
+}, {
+	"company": 1,
+	"cust_account_id": 88,
+	"cust_account_name": "Inventory Shrinkage",
+	"espresso_account_id": 6730,
+	"espresso_account_name": "Depreciation & Amortization"
+},  {
+	"company": 1,
+	"cust_account_id": 55,
+	"cust_account_name": "Leasehold Improvements",
+	"espresso_account_id": 1500,
+	"espresso_account_name": "Fixed Assets"
+}, {
+	"company": 1,
+	"cust_account_id": 10,
+	"cust_account_name": "Legal and professional fees",
+	"espresso_account_id": 6710,
+	"espresso_account_name": "SRED"
+}, {
+	"company": 1,
+	"cust_account_id": 29,
+	"cust_account_name": "Markup",
+	"espresso_account_id": 4500,
+	"espresso_account_name": "Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 11,
+	"cust_account_name": "Meals and entertainment",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 56,
+	"cust_account_name": "Merchant Account Fees",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+}, {
+	"company": 1,
+	"cust_account_id": 12,
+	"cust_account_name": "Miscellaneous",
+	"espresso_account_id": 6300,
+	"espresso_account_name": "G&A"
+}, {
+	"company": 1,
+	"cust_account_id": 57,
+	"cust_account_name": "Note Payable",
+	"espresso_account_id": 2900,
+	"espresso_account_name": "Other Liabilities"
+}, {
+	"company": 1,
+	"cust_account_id": 13,
+	"cust_account_name": "Office expenses",
+	"espresso_account_id": 6720,
+	"espresso_account_name": "IRAP/Grants Received"
+}, {
+	"company": 1,
+	"cust_account_id": 60,
+	"cust_account_name": "Printed Materials purchased for clients",
+	"espresso_account_id": 6720,
+	"espresso_account_name": "IRAP/Grants Received"
+}, {
+	"company": 1,
+	"cust_account_id": 62,
+	"cust_account_name": "Professional Fees",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 17,
+	"cust_account_name": "Promotional",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 63,
+	"cust_account_name": "Purchases",
+	"espresso_account_id": 6720,
+	"espresso_account_name": "IRAP/Grants Received"
+},  {
+	"company": 1,
+	"cust_account_id": 72,
+	"cust_account_name": "Unapplied Cash Bill Payment Expense",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+},  {
+	"company": 1,
+	"cust_account_id": 75,
+	"cust_account_name": "Uncategorised Expense",
+	"espresso_account_id": 6300,
+	"espresso_account_name": "G&A"
+},{
+	"company": 1,
+	"cust_account_id": 95,
+	"cust_account_name": "Uncategorized Expense",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 94,
+	"cust_account_name": "Uncategorized Income",
+	"espresso_account_id": 4000,
+	"espresso_account_name": "Non-Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 26,
+	"cust_account_name": "Undeposited Funds",
+	"espresso_account_id": 1200,
+	"espresso_account_name": "Other Current Assets"
+}, {
+	"company": 1,
+	"cust_account_id": 27,
+	"cust_account_name": "Utilities",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 82,
+	"cust_account_name": "Utilities - Electric & Gas",
+	"espresso_account_id": 6300,
+	"espresso_account_name": "G&A"
+}, {
+	"company": 1,
+	"cust_account_id": 83,
+	"cust_account_name": "Utilities - Water",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 77,
+	"cust_account_name": "Vehicles",
+	"espresso_account_id": 1600,
+	"espresso_account_name": "Patents & Intangible Assets"
+}, {
+	"company": 1,
+	"cust_account_id": 78,
+	"cust_account_name": "Venue Fees paid on behalf of clients",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 79,
+	"cust_account_name": "Visa Credit Card",
+	"espresso_account_id": 2100,
+	"espresso_account_name": "Deferred Revenue"
+}, {
+	"company": 1,
+	"cust_account_id": 44,
+	"cust_account_name": "Cost of Sales - billable expenses",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+}, {
+	"company": 1,
+	"cust_account_id": 45,
+	"cust_account_name": "Depreciation Expense",
+	"espresso_account_id": 6300,
+	"espresso_account_name": "G&A"
+},  {
+	"company": 1,
+	"cust_account_id": 46,
+	"cust_account_name": "Entertainment Booking Fees paid on behalf of clients",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 8,
+	"cust_account_name": "Insurance",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 50,
+	"cust_account_name": "Insurance Expense",
+	"espresso_account_id": 6730,
+	"espresso_account_name": "Depreciation & Amortization"
+}, {
+	"company": 1,
+	"cust_account_id": 51,
+	"cust_account_name": "Insurance Expense-General Liability Insurance",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 52,
+	"cust_account_name": "Insurance Expense-Health Insurance",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 53,
+	"cust_account_name": "Insurance Expense-Life and Disability Insurance",
+	"espresso_account_id": 6710,
+	"espresso_account_name": "SRED"
+}, {
+	"company": 1,
+	"cust_account_id": 30,
+	"cust_account_name": "Billable Expense Income",
+	"espresso_account_id": 4500,
+	"espresso_account_name": "Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 35,
+	"cust_account_name": "Billable Expenses Income",
+	"espresso_account_id": 4500,
+	"espresso_account_name": "Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 36,
+	"cust_account_name": "Business Licenses and Permits",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 37,
+	"cust_account_name": "Charitable Contributions",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 47,
+	"cust_account_name": "Equipment rental",
+	"espresso_account_id": 6740,
+	"espresso_account_name": "Other Income (Expenses)"
+}, {
+	"company": 1,
+	"cust_account_id": 48,
+	"cust_account_name": "Exchange Gain or Loss",
+	"espresso_account_id": 6710,
+	"espresso_account_name": "SRED"
+}, {
+	"company": 1,
+	"cust_account_id": 58,
+	"cust_account_name": "Opening Balance Equity",
+	"espresso_account_id": 3900,
+	"espresso_account_name": "Retained Earnings (Loss)"
+}, {
+	"company": 1,
+	"cust_account_id": 14,
+	"cust_account_name": "Other Portfolio Income",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+}, {
+	"company": 1,
+	"cust_account_id": 59,
+	"cust_account_name": "Owner's Equity",
+	"espresso_account_id": 3900,
+	"espresso_account_name": "Retained Earnings (Loss)"
+}, {
+	"company": 1,
+	"cust_account_id": 80,
+	"cust_account_name": "Owner's Equity - Contributions",
+	"espresso_account_id": 3100,
+	"espresso_account_name": "Minority Equity Position"
+}, {
+	"company": 1,
+	"cust_account_id": 81,
+	"cust_account_name": "Owner's Equity - Draws",
+	"espresso_account_id": 3900,
+	"espresso_account_name": "Retained Earnings (Loss)"
+}, {
+	"company": 1,
+	"cust_account_id": 16,
+	"cust_account_name": "Prepaid expenses",
+	"espresso_account_id": 1100,
+	"espresso_account_name": "Accounts Receivables"
+}, {
+	"company": 1,
+	"cust_account_id": 61,
+	"cust_account_name": "Printing and Reproduction",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 19,
+	"cust_account_name": "Rent or lease payments",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 20,
+	"cust_account_name": "Repair and maintenance",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+}, {
+	"company": 1,
+	"cust_account_id": 65,
+	"cust_account_name": "Sales",
+	"espresso_account_id": 4000,
+	"espresso_account_name": "Non-Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 23,
+	"cust_account_name": "Taxes and Licenses",
+	"espresso_account_id": 6740,
+	"espresso_account_name": "Other Income (Expenses)"
+}, {
+	"company": 1,
+	"cust_account_id": 70,
+	"cust_account_name": "Telephone Expense",
+	"espresso_account_id": 6730,
+	"espresso_account_name": "Depreciation & Amortization"
+}, {
+	"company": 1,
+	"cust_account_id": 24,
+	"cust_account_name": "Travel",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+}, {
+	"company": 1,
+	"cust_account_id": 71,
+	"cust_account_name": "Travel Expense",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 25,
+	"cust_account_name": "Travel meals",
+	"espresso_account_id": 6730,
+	"espresso_account_name": "Depreciation & Amortization"
+}, {
+	"company": 1,
+	"cust_account_id": 31,
+	"cust_account_name": "Accounts Payable",
+	"espresso_account_id": 2100,
+	"espresso_account_name": "Deferred Revenue"
+}, {
+	"company": 1,
+	"cust_account_id": 90,
+	"cust_account_name": "Accounts Payable (A/P) - HKD",
+	"espresso_account_id": 2050,
+	"espresso_account_name": "Bank Debt"
+}, {
+	"company": 1,
+	"cust_account_id": 32,
+	"cust_account_name": "Accounts Receivable",
+	"espresso_account_id": 1150,
+	"espresso_account_name": "SRED/ITC Receivable"
+}, {
+	"company": 1,
+	"cust_account_id": 92,
+	"cust_account_name": "Accounts Receivable (A/R) - USD",
+	"espresso_account_id": 1150,
+	"espresso_account_name": "SRED/ITC Receivable"
+}, {
+	"company": 1,
+	"cust_account_id": 33,
+	"cust_account_name": "Accumulated Depreciation",
+	"espresso_account_id": 1600,
+	"espresso_account_name": "Patents & Intangible Assets"
+}, {
+	"company": 1,
+	"cust_account_id": 3,
+	"cust_account_name": "Advertising",
+	"espresso_account_id": 6730,
+	"espresso_account_name": "Depreciation & Amortization"
+}, {
+	"company": 1,
+	"cust_account_id": 34,
+	"cust_account_name": "Ask My Accountant",
+	"espresso_account_id": 6300,
+	"espresso_account_name": "G&A"
+}, {
+	"company": 1,
+	"cust_account_id": 4,
+	"cust_account_name": "Bank charges",
+	"espresso_account_id": 6700,
+	"espresso_account_name": "Interest Income (Expense)"
+}, {
+	"company": 1,
+	"cust_account_id": 38,
+	"cust_account_name": "Chequing",
+	"espresso_account_id": 1000,
+	"espresso_account_name": "Cash"
+}, {
+	"company": 1,
+	"cust_account_id": 39,
+	"cust_account_name": "Commission Income",
+	"espresso_account_id": 4000,
+	"espresso_account_name": "Non-Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 5,
+	"cust_account_name": "Commissions and fees",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 40,
+	"cust_account_name": "Commissions Paid",
+	"espresso_account_id": 6720,
+	"espresso_account_name": "IRAP/Grants Received"
+}, {
+	"company": 1,
+	"cust_account_id": 41,
+	"cust_account_name": "Computer and Internet Expenses",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 42,
+	"cust_account_name": "Continuing Education",
+	"espresso_account_id": 6740,
+	"espresso_account_name": "Other Income (Expenses)"
+}, {
+	"company": 1,
+	"cust_account_id": 84,
+	"cust_account_name": "Cost of Goods Sold",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+},  {
+	"company": 1,
+	"cust_account_id": 49,
+	"cust_account_name": "Furniture and Equipment",
+	"espresso_account_id": 1500,
+	"espresso_account_name": "Fixed Assets"
+}, {
+	"company": 1,
+	"cust_account_id": 86,
+	"cust_account_name": "GST/HST Payable",
+	"espresso_account_id": 2050,
+	"espresso_account_name": "Bank Debt"
+}, {
+	"company": 1,
+	"cust_account_id": 87,
+	"cust_account_name": "GST/HST Suspense",
+	"espresso_account_id": 2150,
+	"espresso_account_name": "Other Current Liabilities"
+}, {
+	"company": 1,
+	"cust_account_id": 15,
+	"cust_account_name": "Penalties and settlements",
+	"espresso_account_id": 6720,
+	"espresso_account_name": "IRAP/Grants Received"
+}, {
+	"company": 1,
+	"cust_account_id": 43,
+	"cust_account_name": "Cost of sales",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 66,
+	"cust_account_name": "Sales Discounts",
+	"espresso_account_id": 4000,
+	"espresso_account_name": "Non-Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 67,
+	"cust_account_name": "Sales of Product Income",
+	"espresso_account_id": 4500,
+	"espresso_account_name": "Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 1,
+	"cust_account_name": "Services",
+	"espresso_account_id": 4000,
+	"espresso_account_name": "Non-Recurring Revenues"
+}, {
+	"company": 1,
+	"cust_account_id": 21,
+	"cust_account_name": "Stationery and printing",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 68,
+	"cust_account_name": "Subcontracted Services",
+	"espresso_account_id": 5000,
+	"espresso_account_name": "Cost of Goods Sold"
+}, {
+	"company": 1,
+	"cust_account_id": 22,
+	"cust_account_name": "Supplies",
+	"espresso_account_id": 6100,
+	"espresso_account_name": "Sales and Marketing Expenses"
+}, {
+	"company": 1,
+	"cust_account_id": 69,
+	"cust_account_name": "Taxes - Property",
+	"espresso_account_id": 6200,
+	"espresso_account_name": "R&D (Gross - excluding SRED)"
+}, {
+	"company": 1,
+	"cust_account_id": 76,
+	"cust_account_name": "Uncategorised Income",
+	"espresso_account_id": 4500,
+	"espresso_account_name": "Recurring Revenues"
+}]

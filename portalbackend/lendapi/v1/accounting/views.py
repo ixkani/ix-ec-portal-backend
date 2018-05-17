@@ -158,7 +158,6 @@ class Statement(views.APIView):
                 if credit_debit_equality is not None:
                     if len(credit_debit_equality) > 0:
                         response['credit_debit_unequals'] = credit_debit_equality
-                        print(response)
                 # returns the response from All Sight
                 return Utils.dispatch_success(request, response)
             except Exception as e:
@@ -429,10 +428,8 @@ class CreateConnection(APIView):
                 return Utils.dispatch_failure(request, "RESOURCE_NOT_FOUND")
             return Accounting().get_instance_by_id(company_id).connect(request, company_id)
         except KeyError:
-            print('not working')
             return redirect(request.META["HTTP_REFERRER"])
         except Exception as e:
-            print(e)
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')
 
 
@@ -522,7 +519,6 @@ class ChartOfAccounts(views.APIView):
         """
         try:
             print('##### Chart of Accounts RAW Request')
-            print(request.data)
             print('####### End of CoA Request')
 
             company = AccountsUtils.get_company(pk)

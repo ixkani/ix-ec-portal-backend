@@ -2,6 +2,7 @@ import os
 import datetime
 
 from dateutil.relativedelta import relativedelta
+from django.db import transaction
 
 from django.http import Http404
 from django.utils import timezone
@@ -14,7 +15,8 @@ from rest_framework import views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from portalbackend.lendapi.reporting.models import MonthlyReport, Question, Answer,FinancialStatementEntry
+from portalbackend.lendapi.reporting.models import MonthlyReport, Question, Answer, FinancialStatementEntry, \
+    QuestionCategory
 from portalbackend.lendapi.utils import PageNumberPaginationDataOnly
 from .serializers import MonthlyReportSerializer, CondensedMonthlyReportSerializer, QuestionWithAnswerSerializer, \
     CreateAnswerSerializer
@@ -125,7 +127,7 @@ class MonthlyReportDetail(views.APIView):
             if monthly_report:
                 serializer = MonthlyReportSerializer(monthly_report, context={'request': request, 'company_id': pk})
                 return Utils.dispatch_success(request,serializer.data)
-            return Utils.dispatch_success(request,'MONTHLY_REPORT_NOT_FOUND')
+            return Utils.dispatch_failure(request,'MONTHLY_REPORT_NOT_FOUND')
         except Exception as e:
             return Utils.dispatch_failure (request,'INTERNAL_SERVER_ERROR')
 
@@ -154,7 +156,7 @@ class MonthlyReportDetail(views.APIView):
                 else:
                     return Utils.dispatch_failure (request,'VALIDATION_ERROR',serializer.errors)
 
-            return Utils.dispatch_success (request,'MONTHLY_REPORT_NOT_FOUND')
+            return Utils.dispatch_failure(request,'MONTHLY_REPORT_NOT_FOUND')
         except Exception as e:
             return Utils.dispatch_failure (request,'INTERNAL_SERVER_ERROR')
 
@@ -172,7 +174,7 @@ class MonthlyReportDetail(views.APIView):
                 if monthly_report:
                     monthly_report.delete()
                     return Utils.dispatch_success(request,'DELETED_SUCCESSFULLY')
-                return Utils.dispatch_success(request, 'MONTHLY_REPORT_NOT_FOUND')
+                return Utils.dispatch_failure(request, 'MONTHLY_REPORT_NOT_FOUND')
             return Utils.dispatch_failure(request,'UNAUTHORIZED_ACCESS')
 
         except Exception as e:
@@ -193,10 +195,12 @@ class MonthlyReportStatusDetail(views.APIView):
                 monthly_report = ReportingUtils.get_monthly_report(pk=pk, period=report_identifier)
             else:
                 monthly_report = ReportingUtils.get_monthly_report(pk=pk, report_id=report_identifier)
-            serializer = CondensedMonthlyReportSerializer(monthly_report, context={'request': request, 'company_id': pk})
-            if len(serializer.data) > 0:
+
+            if monthly_report:
+                serializer = CondensedMonthlyReportSerializer(monthly_report,
+                                                              context={'request': request, 'company_id': pk})
                 return Utils.dispatch_success (request,serializer.data)
-            return Utils.dispatch_success (request,'MONTHLY_REPORT_NOT_FOUND')
+            return Utils.dispatch_failure(request,'MONTHLY_REPORT_NOT_FOUND')
         except Exception as e:
             return Utils.dispatch_failure (request,'INTERNAL_SERVER_ERROR')
 
@@ -386,6 +390,7 @@ class QuestionnaireDetail(views.APIView):
                         serializer = CreateAnswerSerializer(data=item, context=context)
                     if serializer.is_valid():
                         serializer.save()
+
             except Exception as e:
                 error = ["%s" % e]
                 return Utils.dispatch_failure(request,'DATA_PARSING_ISSUE', error)
@@ -483,5 +488,4 @@ class PreviousMonthlyReportEditDetails(views.APIView):
                 Utils.log_prev_report_edit(company,monthly_report,request.user,changed_items)
             return Utils.dispatch_success(request,[])
         except Exception as e:
-            print(e)
             return Utils.dispatch_failure(request, 'INTERNAL_SERVER_ERROR')

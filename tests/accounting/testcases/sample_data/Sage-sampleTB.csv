@@ -1,0 +1,139 @@
+Test123 Inc.,,,
+Trial Balance As at 10/31/2016,,,
+,,,
+,,,
+Account Number,Account Description,Debits,Credits
+______________,________________________________,________________,________________
+1010,Bank account - TD,1046181.48,-
+1020,Bank account - HSBC,0,-
+1030,Bank account - BMO,0,-
+1040,Bank account - M&T Bank,3764.86,-
+1070,Investment (GIC),10007.02,-
+1210,Accounts Receivable - trade,5540.25,-
+1220,Accounts receivable - other,0,-
+1225,Allowance for Doubtful Accounts,0,-
+1310,Inventory,380815.08,-
+1375,Inventory obsolesence/write-downs,0,-
+1410,Prepaid Expenses,900,-
+1420,Deposits,7947.3,-
+1430,Advances,0,-
+1510,Sewage and storage equipment,0,-
+1520,Sewage & storage equipment - Acc Am,0,-
+1530,Other equipment,0,-
+1605,Office complex,0,-
+1610,Machinery & tools,30225.03,-
+1620,Diffuser equipment,41394.23,-
+1630,Computer equipment,19183.85,-
+1640,Office furniture & equipment,11806.64,-
+1650,Vehicles,0,-
+1690,Vehicles under finance lease,0,-
+1705,Acc amort - Office complex,0,-
+1710,Acc amort - Machinery & tools,-,27769.57
+1720,Acc amort - Diffuser equipment,-,41394.23
+1730,Acc amort - Computer equipment,-,19183.85
+1740,Acc Amort - Office furniture & equi,-,11806.64
+1750,Acc amort - Vehicles,0,-
+1790,Acc amort - Vehicles under finance,0,-
+1810,Intangibles,252183.92,-
+1910,Investment in subsidiaries,0,-
+2010,Accounts payable - trade,-,1621108.92
+2020,Accounts payable - other,-,500442.16
+2030,Source deductions payable,-,0
+2032,EI payable,-,0
+2034,CPP payable,-,0
+2035,Federal tax payable,-,0
+2040,Group benefits payable,-,0
+2045,Vacation payable,-,24384.82
+2050,GST/HST paid on purchases,39608.85,-
+2055,GST/HST charged on sales,-,16539.17
+2060,GST adjustments,-,0
+2065,GST owing (refund),-,0
+2070,BC PST payable,-,0
+2080,Interest payable,-,0
+2100,Accrued liabilities,-,221253.26
+2200,Demand loan payable,-,0
+2225,Secured demand loan payable,-,0
+2230,Secured loan (1979927 Alberta Ltd.),-,0
+2250,Advances from related parties,-,0
+2300,Obligation under finance lease,-,0
+2400,Convertible debentures,-,0
+2450,Corporate taxes payable,-,0
+2510,Obligation under finance lease,-,0
+2600,Convertible debentures,-,0
+2910,Due to/from Test123 Inc.,7576281,-
+2915,Due to/from Test123 Diffusion Inc.,-,10345168.26
+2920,Due to/from Test123 Septic Inc.,6347720.26,-
+2925,Due to/from Test123 US Inc.,-,0
+2945,Due to/from adjustment account,-,3578833
+3100,Common shares,-,5891945
+3120,Class A Preferred shares,-,2072017.08
+3150,Share issuance costs,-,0
+3300,Warrants,-,0
+3400,Contributed surplus,-,25794021.19
+3500,Equity component convert debenture,-,0
+3800,Retained earnings - prior year,33889688.65,-
+4100,Product sales,-,485608.4
+4400,Rental income,-,8000
+4500,Service work revenue,-,0
+4800,Other revenue,-,0
+5100,Product costs - material,19360.67,-
+5200,Product costs - labour,0,-
+5400,Rental income - direct expenses,0,-
+5500,Service & set-ups,0,-
+5800,"Brokerage, freight & duty",0,-
+5900,Commissions,0,-
+6010,Salaries & wages - admin,648654.33,-
+6040,Salaries & wages - commissions,493963,-
+6045,Salaries & wages - adjustments,0,-
+6050,Employee benefits,34226.16,-
+6052,EI expense,2898.9,-
+6054,CPP expense,7692.3,-
+6055,Federal tax,0,-
+6070,Group insurance,0,-
+6075,WCB expense,2191.48,-
+6080,Vacation pay,0,-
+6090,Vehicle allowance,0,-
+6100,Advertising and promotion,0,-
+6110,Consulting & contract services,149734,-
+6120,Corporate compliance & IR,25141.22,-
+6125,Fees & licenses,620,-
+6130,Insurance,36239.48,-
+6135,Meals & entertainment (50%),21147.82,-
+6140,Office supplies & costs,11079.83,-
+6145,Postage & courier,388.14,-
+6150,Professional fees - accounting,22667.61,-
+6155,Professional fees - legal,43423.65,-
+6160,Rent,18627.14,-
+6165,Telephone,12316.05,-
+6170,Travel & trade shows,47816.36,-
+6175,Travel - meals,0,-
+6180,Vehicle costs,323.91,-
+6190,Bad debt expense,0,-
+6210,Courier & freight,0,-
+6220,Shop supplies,916.06,-
+6225,Field trial costs,6350,-
+6230,Repairs & maintenance,0,-
+6240,Shop utilities,3231.83,-
+6245,Insurance,0,-
+6250,Vehicle,0,-
+6410,Amortization - property & equipment,3075.2,-
+6450,Amortization - equipment held for,0,-
+6510,Bank charges,12460.99,-
+6520,Interest expense,120534.45,-
+6525,Interest expense (non-deductible),0,-
+6530,Interest income,-,3.72
+6550,Interest on convertible debentures,378611.17,-
+6560,Accretion of debenture obligation,369150,-
+6570,Amortization of financing costs,116484,-
+6600,Share-based payments,0,-
+6700,Foreign exchange loss (gain),1980.42,-
+6800,Loss (gain) on disposal of assets,525,-
+6910,Gain on settlement of debt,-,2281185.3
+6920,Restructuring costs,665584.98,-
+6950,Impairment of assets,0,-
+,,________________,________________
+,,,
+,,52940664.57,52940664.57
+,,Err:510,Err:510
+,,,
+Generated On: 09/06/2017,,,

@@ -158,7 +158,7 @@
                     {% if details.is_total %}
                         <tr>
                             <td class="total-report-cell-1" width=80%>{{ details.description }}</td>
-                            <td class="total-report-cell-2" width=20%>{{ details.value }}</td>
+                            <td class="total-report-cell-2" width=20%>&#36;{{ details.value }}</td>
                         </tr>
                     {% else %}
                         <tr>
@@ -176,7 +176,7 @@
                {% for row,details in IS.INCOME.items %}
                     {% if details.is_total %}
                         <tr>
-                            <td class="total-report-cell-1" width=80%>{{ details.description }}</td>
+                            <td class="total-report-cell-1" width=80%>&#36;{{ details.description }}</td>
                             <td class="total-report-cell-2" width=20%>{{ details.value }}</td>
                         </tr>
                     {% else %}

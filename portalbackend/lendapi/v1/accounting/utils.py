@@ -14,6 +14,7 @@ import requests
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
+from django.db import transaction
 from django.http import HttpResponse
 from django.utils.timezone import utc
 from rest_framework import status
@@ -213,6 +214,8 @@ class Utils(object):
             errors['message'] = error_message
             errors['errors'] = response
 
+        if hasattr(transaction, 'set_rollback'):
+            transaction.set_rollback(True)
 
         Utils.record_log(request, errors, code)
         return Response(data=errors, status=code)
@@ -252,6 +255,10 @@ class Utils(object):
         else:
             message = getattr(ErrorMessage, response)
             data = {'status': 'success', 'message': message}
+            if 'DATA_NOT_FOUND' == response :
+                data['code'] = ErrorCode.DATA_NOT_FOUND
+            if 'NO_DATA_CHANGES' == response:
+                data['code'] = ErrorCode.NO_DATA_CHANGES
 
         Utils.record_log(request, data, code)
         return Response(data=data, status=code)
@@ -399,7 +406,6 @@ class Utils(object):
             'redirect_uri': settings.REDIRECT_URI,
             'grant_type': 'authorization_code'
         }
-        print(payload)
         r = requests.post(token_endpoint, data=payload, headers=headers)
 
         if r.status_code != 200:
@@ -428,7 +434,6 @@ class Utils(object):
         }
         r = requests.post(token_endpoint, data=payload, headers=headers)
         bearer_raw = json.loads(r.text)
-
         if 'id_token' in bearer_raw:
             idToken = bearer_raw['id_token']
         else:

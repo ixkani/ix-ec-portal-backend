@@ -1,0 +1,64 @@
+id,tag_id,short_label,description,tag_category,abstract,formula,name,sort_order,is_total_row,all_sight_name,tag_group
+1,4000,Non-Recurring Revenues,Non-Recurring Revenues,revenue,FALSE,#N/A,rev_nonrecurring,1,FALSE,NonRecurringRevenues,income
+2,4500,Recurring Revenues,Recurring Revenues,revenue,FALSE,#N/A,rev_recurring,2,FALSE,RecurringRevenues,income
+3,4900,Total Revenues,Total Revenues,revenue,TRUE,rev_nonrecurring + rev_recurring,rev_total,3,TRUE,TotalRevenue,abstract
+4,5000,Cost of Goods Sold,Cost of Goods Sold,expense,FALSE,#N/A,exp_cogs,4,FALSE,CostOfGoodsSold,expense
+5,5999,Gross Profit,Gross Profit,income,TRUE,rev_total - exp_cogs,gross_profit,5,TRUE,GrossProfit,abstract
+6,6100,Sales & Marketing Expenses,Sales & Marketing Expenses,expense,FALSE,#N/A,exp_sales,6,FALSE,SalesAndMarketingExpenses,expense
+7,6200,Research & Development (excluding SRED),Research & Development (excluding SRED),expense,FALSE,#N/A,exp_randd,7,FALSE,RDGrossMinusExcludingSRED,expense
+8,6300,General & Administrative Expenses,General & Administrative Expenses,expense,FALSE,#N/A,exp_ganda,8,FALSE,GA,expense
+9,6695,Total Operating Expenses,Total Operating Expenses,expense,TRUE,exp_sales + exp_randd + exp_ganda,exp_operating_expenses,9,TRUE,TotalOperatingExpenses,abstract
+10,6699,EBITDA,EBITDA,income,TRUE,gross_profit - exp_operating_expenses,ebitda,10,TRUE,Ebitda,abstract
+11,6700,Interest Income (Expense),Interest Income (Expense),expense,FALSE,#N/A,exp_interest,11,FALSE,InterestIncomeExpense,expense
+12,6710,SR & ED,SR & ED,expense,FALSE,#N/A,exp_sred,12,FALSE,SREDAccrual,expense
+13,6720,IRAP/Grants Received,IRAP/Grants Received,expense,FALSE,#N/A,exp_grants,13,FALSE,IRAPGrantsReceived,expense
+14,6730,Depreciation & Amortization,Depreciation & Amortization,expense,FALSE,#N/A,exp_dep_amort,14,FALSE,DepreciationAndAmortization,expense
+15,6740,Other Income (Expenses),Other Income (Expenses),expense,FALSE,#N/A,exp_other,15,FALSE,OtherIncomeExpenses,expense
+16,6900,Net Income,Net Income,income,TRUE,ebitda - exp_interest - exp_sred - exp_grants - exp_dep_amort - exp_other,net_income,16,TRUE,NetIncome,abstract
+17,1000,Cash,Cash,cash,FALSE,#N/A,asset_cash,17,FALSE,Cash,asset
+18,1100,Accounts Receivables,Accounts Receivables,current_asset,FALSE,#N/A,asset_ar,18,FALSE,AccountReceivables,asset
+19,1150,Tax Credit Receivable,Tax Credit Receivable,current_asset,FALSE,#N/A,asset_itc,19,FALSE,SREDReceivable,asset
+20,1200,Other Current Assets,Other Current Assets,current_asset,FALSE,#N/A,asset_other_cur,20,FALSE,OtherCurrentAssets,asset
+21,1499,Total Current Assets,Total Current Assets,current_asset,TRUE,asset_cash + asset_ar + asset_itc + asset_other_cur,asset_tot_cur,21,TRUE,TotalCurrentAssets,abstract
+22,1500,Fixed Assets,Fixed Assets,long_term_asset,FALSE,#N/A,asset_fixed,22,FALSE,FixedAssets,asset
+23,1600,Patents & Intangible Assets,Patents & Intangible Assets,long_term_asset,FALSE,#N/A,asset_intangible,23,FALSE,PatentsAndIntangibleAssets,asset
+24,1700,Other Assets,Other Assets,long_term_asset,FALSE,#N/A,asset_other_lt,24,FALSE,OtherAssets,asset
+25,1999,Total Assets,Total Assets,total_assets,TRUE,asset_tot_cur + asset_fixed + asset_intangible + asset_other_lt,asset_total,25,TRUE,TotalAssets,abstract
+26,2000,Accounts Payable and Accrued Liabilities,Accounts Payable and Accrued Liabilities,current_liabilities,FALSE,#N/A,liab_ap,26,FALSE,AccountsPayableAndAccruedLiabilities,liability
+27,2050,Bank Debt,Bank Debt,current_liabilities,FALSE,#N/A,liab_bank_debt,27,FALSE,BankDebt,liability
+28,2100,Deferred Revenue,Deferred Revenue,current_liabilities,FALSE,#N/A,liab_deferred_rev,28,FALSE,DeferredRevenue,liability
+29,2150,Other Current Liabilities,Other Current Liabilities,current_liabilities,FALSE,#N/A,liab_other_cur,29,FALSE,OtherCurrentLiabilities,liability
+30,2199,Total Current Liabilities,Total Current Liabilities,current_liabilities,TRUE,liab_ap + liab_bank_debt + liab_deferred_rev + liab_other_cur,liab_tot_cur,30,TRUE,TotalCurrentLiabilities,abstract
+31,2500,Espresso Debt Outstanding,Espresso Debt Outstanding,long_term_liabilities,FALSE,#N/A,liab_espresso,31,FALSE,EspressoDebtOutstanding,liability
+32,2600,Senior Secured Debt (to Espresso),Senior Secured Debt (to Espresso),long_term_liabilities,FALSE,#N/A,liab_senior,32,FALSE,SeniorSecuredDebt,liability
+33,2700,Subordinated Debt (to Espresso),Subordinated Debt (to Espresso),long_term_liabilities,FALSE,#N/A,liab_subordinate,33,FALSE,SubordinatedDebt,liability
+34,2800,Shareholder Loans,Shareholder Loans,long_term_liabilities,FALSE,#N/A,liab_shareholder_loans,34,FALSE,ShareholderLoans,liability
+35,2900,Other Liabilities,Other Liabilities,long_term_liabilities,FALSE,#N/A,liab_other_lt,35,FALSE,OtherLiabilities,liability
+36,2999,Total Liabilities,Total Liabilities,liabilities,TRUE,liab_tot_cur + liab_espresso + liab_senior + liab_subordinate + liab_shareholder_loans + liab_other_lt,liab_total,36,TRUE,TotalLiabilities,abstract
+37,3000,Share Capital and Contributed Capital,Share Capital and Contributed Capital,equity,FALSE,#N/A,equity_share_capital,37,FALSE,ShareAndContributedCapital,equity
+38,3100,Minority Equity Position,Minority Equity Position,equity,FALSE,#N/A,equity_minority_position,38,FALSE,MinorityEquityPosition,equity
+39,3200,Equity Portion of LT Debt,Equity Portion of LT Debt,equity,FALSE,#N/A,equity_liab_portion,39,FALSE,EquityPositionOfLTDebt,equity
+40,3900,Retained Earnings (Loss),Retained Earnings (Loss),equity,FALSE,#N/A,equity_retained_earnings,40,FALSE,RetainedEarningsLoss,equity
+41,3997,Net Income Year to Date,Net Income Year to Date,equity,TRUE,#N/A,equity_ytd_income,41,TRUE,NetIncomeYTD,abstract
+42,3998,Total Equity,Total Equity,equity,TRUE,equity_share_capital + equity_minority_position + equity_liab_portion + equity_retained_earnings,equity_total,42,TRUE,TotalEquity,abstract
+43,3999,Total Liabilities & Equity,Total Liabilities & Equity,total_liabilities_equity,TRUE,equity_total + liab_total,equity_liab_total,43,TRUE,TotalLiabilityAndEquity,abstract
+44,7000,Change in Depreciation & Amortization,Change in Depreciation & Amortization,cashflow,TRUE,#N/A,cf_depreciation,44,FALSE,ChangeinDepreciationAndAmortization,abstract
+45,7010,Change in Accounts Receivable,Change in Accounts Receivable,cashflow,TRUE,#N/A,cf_change_ar,45,FALSE,ChangeinAccountsReceivable,abstract
+46,7020,Change in SRED Receivable,Change in SRED Receivable,cashflow,TRUE,#N/A,cf_change_sred,46,FALSE,ChangeinSREDReceivable,abstract
+47,7030,Change in Accounts Payable,Change in Accounts Payable,cashflow,TRUE,#N/A,cf_change_ap,47,FALSE,ChangeinAccountsPayable,abstract
+48,7040,Change in Deferred Revenue,Change in Deferred Revenue,cashflow,TRUE,#N/A,cf_change_deferred_rev,48,FALSE,ChangeinDeferredRevenue,abstract
+49,7050,Change in Interest Accrual,Change in Interest Accrual,cashflow,TRUE,#N/A,cf_interest_accrual,49,FALSE,ChangeinInterestAccrual,abstract
+50,7060,Change in Other Working Capital,Change in Other Working Capital,cashflow,TRUE,#N/A,cf_change_other_wc,50,FALSE,ChangeinOtherWorkingCapital,abstract
+51,7069,Cash Flow from Operations,Cash Flow from Operations,cashflow,TRUE,#N/A,cf_cash_from_operations,51,FALSE,CashFlowfromOperations,abstract
+52,7070,Change in Fixed Assets,Change in Fixed Assets,cashflow,TRUE,#N/A,cf_change_fixedassets,52,FALSE,ChangeinFixedAssets,abstract
+53,7079,Cash Flow from Investments,Cash Flow from Investments,cashflow,TRUE,#N/A,cf_cash_from_investing,53,FALSE,CashFlowfromInvestments,abstract
+54,7080,Change in Espresso Liability,Change in Espresso Liability,cashflow,TRUE,#N/A,cf_change_espresso,54,FALSE,ChangeinEspressoLiability,abstract
+55,7090,Change in Senior Debt,Change in Senior Debt,cashflow,TRUE,#N/A,cf_change_senior_debt,55,FALSE,ChangeinSeniorDebt,abstract
+56,7100,Change in Subordinate Debt,Change in Subordinate Debt,cashflow,TRUE,#N/A,cf_change_subdebt,56,FALSE,ChangeinSubordinateDebt,abstract
+57,7110,Change in Bank Debt,Change in Bank Debt,cashflow,TRUE,#N/A,cf_change_bank_debt,57,FALSE,ChangeinBankDebt,abstract
+58,7120,Change in Shareholder Loans,Change in Shareholder Loans,cashflow,TRUE,#N/A,cf_change_shareholder_loans,58,FALSE,ChangeinShareholderLoans,abstract
+59,7130,Change in Other Debt,Change in Other Debt,cashflow,TRUE,#N/A,cf_change_other_debt,59,FALSE,ChangeinOtherDebt,abstract
+60,7140,Change in Equity,Change in Equity,cashflow,TRUE,#N/A,cf_change_equity,60,FALSE,ChangeinEquity,abstract
+61,7150,Change in Other Financing Items,Change in Other Financing Items,cashflow,TRUE,#N/A,cf_change_other_fin,61,FALSE,ChangeinOtherFinancingItems,abstract
+62,7200,Cash Flow from Financing,Cash Flow from Financing,cashflow,TRUE,#N/A,cf_cash_from_financing,62,FALSE,CashFlowfromFinancing,abstract
+63,7999,Change in Cash for Period,Change in Cash for Period,cashflow,TRUE,#N/A,cf_change_in_cash,63,FALSE,ChangeinCashforPeriod,abstract

@@ -21,9 +21,9 @@ urlpatterns = [
         views.MonthlyReportSignoff.as_view(), name='report-signoff'),
 
     url(r'^company/(?P<pk>[0-9]+)/monthlyreport/(?P<report_identifier>(\d{4}-\d{2}|[0-9]+))/questionnaire/$',
-        views.QuestionnaireDetail.as_view(), name='report-questionnaire'),
+        views.QuestionnaireDetail.as_view(), name='report-questionnaire-details'),
 
     url(r'^company/(?P<pk>[0-9]+)/questionnaire/$',
-        views.QuestionnaireList.as_view(), name='report-questionnaire'),
+        views.QuestionnaireList.as_view(), name='report-questionnaire-list'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

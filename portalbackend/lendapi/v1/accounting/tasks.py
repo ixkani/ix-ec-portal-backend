@@ -21,23 +21,20 @@ def trial_balance_for_period(pk, period_offset):
     company = AccountsUtils.get_company(pk)
     st = time.time()
     credentials = AccountingUtils.get_credentials_by_company(company)
-
     if not credentials:
         return
 
     if not cm.monthly_reporting_current_period:
         return
 
-    if company.accounting_type == Company.QUICKBOOKS:
+    if company.accounting_type.lower() == Company.QUICKBOOKS.lower():
         period = cm.monthly_reporting_current_period - relativedelta(months=+period_offset, day=31)
         # print('##### Getting TRIAL BALANCE for period ', period)
 
         query = '?start_date=' + period.strftime('%Y-%m-1') + '&end_date=' + period.strftime('%Y-%m-%d')
         # print('####### QBO TB QUERY ', query)
-
         # for query in query_list:
         trial_balance_response, status_code = Utils.get_trial_balance(credentials.accessToken, credentials.realmId, query)
-
         if status_code >= 400:
             bearer = Utils.get_bearer_token_from_refresh_token(credentials.refreshToken)
             new_credentials = AccountingUtils.updateAccountingSession(company, bearer.accessToken,
@@ -51,7 +48,7 @@ def trial_balance_for_period(pk, period_offset):
         entries = QuickBooks.save_trial_balance(company, trial_balance_response)
         TrialBalance.objects.bulk_create(entries)
 
-    if company.accounting_type == Company.XERO:
+    if company.accounting_type.lower() == Company.XERO.lower():
         period = cm.monthly_reporting_current_period - relativedelta(months=+period_offset, day=31)
         # params = {'fromDate': str(period.strftime('%Y-%m-01')), 'toDate': str(period.strftime('%Y-%m-%d'))}
         params = {'date': str(period.strftime('%Y-%m-%d'))}

@@ -42,12 +42,12 @@ class ReportingUtils(object):
 
         if period:
             monthly_report = MonthlyReport.objects.filter(company_id=pk, lookup_period=period).first()
-            print('company_id is ', pk, ' and lookup period is ', period)
+            # print('company_id is ', pk, ' and lookup period is ', period)
         else:
             monthly_report = MonthlyReport.objects.filter(company=pk, id=report_id).first()
-            print('company_id is ', pk, ' and lookup id is ', report_id)
+            # print('company_id is ', pk, ' and lookup id is ', report_id)
 
-        print('mr is ', monthly_report)
+        # print('mr is ', monthly_report)
 
         if not monthly_report:
             return None
@@ -56,7 +56,6 @@ class ReportingUtils(object):
     @staticmethod
     def has_answers_for_period(pk, report_identifier):
         has_answers = False
-
         # see if a report exists for the period
 
         if '-' in report_identifier:

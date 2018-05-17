@@ -193,7 +193,6 @@ class AccountingUtils(object):
                     val2 = dict_debits[key]
                     if val1 != val2:
                         credit_debit_mismatch.append(key)
-            print(credit_debit_mismatch)
             return credit_debit_mismatch
         except Exception as e:
             print(str(e))
@@ -289,7 +288,6 @@ class AccountingUtils(object):
                 # since we're forced to match on strings, we strip out all non-numeric / non-alpha characters
                 # and lower all alpha to reduce the chance for mis match between submitted and default tag names
                 lookup_key = re.sub('[^a-zA-Z0-9]', '', account.gl_account_type).lower()
-
                 default_map_dict = mappings[lookup_key]
             except KeyError:
                 # error = ["%s" % e]
@@ -298,7 +296,6 @@ class AccountingUtils(object):
                 print({"error": "no mapping for account type: {} ".format(account.gl_account_type)})
             else:
                 entry = CoAMap.objects.filter(company=company, cust_account_id=account.gl_account_id).first()
-
                 # send back anything that's new, so it can be mapped
                 if not entry:
                     mapping = CoAMap(company=company,

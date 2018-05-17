@@ -1,0 +1,77 @@
+id,software,account_category,default_map_id,default_map_name
+1,quickbooks,bank,1000,Cash
+2,quickbooks,accountsreceivable,1100,Accounts Receivables
+3,quickbooks,othercurrentasset,1200,Other Current Assets
+4,quickbooks,fixedasset,1500,Fixed Assets
+5,quickbooks,otherasset,1700,Other Assets
+6,quickbooks,accountspayable,2000,Accounts Payable and Accrued Liabilities
+7,quickbooks,creditcard,2000,Accounts Payable and Accrued Liabilities
+8,quickbooks,othercurrentliability,2150,Other Current Liabilities
+9,quickbooks,longtermliability,2900,Other Liabilities
+10,quickbooks,equity,3000,Share Capital and Contributed Capital
+11,quickbooks,income,4000,Non-Recurring Revenues
+12,quickbooks,costofgoodssold,5000,Cost of Goods Sold
+13,quickbooks,expense,6300,G&A
+14,quickbooks,otherincome,6740,Other Income (Expenses)
+15,quickbooks,otherexpense,6740,Other Income (Expenses)
+16,sage,bank,1000,Cash
+17,sage,accountsreceivable,1100,Accounts Receivables
+18,sage,allowanceforbaddebts,1100,Accounts Receivables
+19,sage,inventory,1200,Other Current Assets
+20,sage,othercurrentasset,1200,Other Current Assets
+21,sage,othernoncurrentasset,1700,Other Assets
+22,sage,capitalasset,1500,Fixed Assets
+23,sage,accumamortdepreciation,1500,Fixed Assets
+24,sage,accountspayable,2000,Accounts Payable and Accrued Liabilities
+25,sage,payrolltaxpayable,2000,Accounts Payable and Accrued Liabilities
+26,sage,employeedeductionspayable,2000,Accounts Payable and Accrued Liabilities
+27,sage,otherpayable,2150,Other Current Liabilities
+28,sage,salestaxpayable,2000,Accounts Payable and Accrued Liabilities
+29,sage,othercurrentliability,2150,Other Current Liabilities
+30,sage,shorttermdebt,2150,Other Current Liabilities
+31,sage,debt,2900,Other Liabilities
+32,sage,incometaxpayable,2900,Other Liabilities
+33,sage,longtermdebt,2900,Other Liabilities
+34,sage,longtermliability,2900,Other Liabilities
+35,sage,sharecapital,3000,Share Capital and Contributed Capital
+36,sage,equity,3000,Share Capital and Contributed Capital
+37,sage,retainedearnings,3000,Share Capital and Contributed Capital
+38,sage,currentearnings,3000,Share Capital and Contributed Capital
+39,sage,revenue,4000,Non-Recurring Revenues
+40,sage,costofgoodssold,5000,Cost of Goods Sold
+41,sage,payrollexpense,6300,G&A
+42,sage,generaladminexpense,6300,G&A
+43,sage,operatingexpense,6300,G&A
+44,sage,amortdepreciationexpense,6740,Other Income (Expenses)
+45,sage,interestexpense,6740,Other Income (Expenses)
+46,sage,nonoperatingexpense,6740,Other Income (Expenses)
+47,sage,employeebenefits,6300,General & Administrative Expenses
+48,sage,baddebtexpense,6300,General & Administrative Expenses
+49,sage,expense,6300,General & Administrative Expenses
+50,sage,gain,6740,Other Income (Expenses)
+51,sage,otherrevenue,4000,Non-Recurring Revenues
+52,sage,operatingrevenue,4000,Non-Recurring Revenues
+53,sage,liability,2150,Other Current Liabilities
+54,sage,currentliability,2150,Other Current Liabilities
+55,sage,asset,1700,Other Assets
+56,xero,BANK,1000,Cash
+57,xero,CURRENT,1200,Other Current Assets
+58,xero,CURRLIAB,2150,Other Current Liabilities
+59,xero,DEPRECIATN,6730,Depreciation & Amortization
+60,xero,DIRECTCOSTS,5000,Cost of Goods Sold
+61,xero,EQUITY,3000,Share Capital and Contributed Capital
+62,xero,EXPENSE,6300,General & Administrative Expenses
+63,xero,FIXED,1500,Fixed Assets
+64,xero,INVENTORY,1200,Other Current Assets
+65,xero,LIABILITY,2150,Other Current Liabilities
+66,xero,NONCURRENT,1700,Other Assets
+67,xero,OTHERINCOME,6740,Other Income (Expenses)
+68,xero,OVERHEADS,6300,General & Administrative Expenses
+69,xero,PREPAYMENT,1200,Other Current Assets
+70,xero,REVENUE,4000,Non-Recurring Revenues
+71,xero,SALES,4000,Non-Recurring Revenues
+72,xero,TERMLIAB,2700,Subordinated Debt (to Espresso)
+73,xero,PAYGLIABILITY,2150,Other Current Liabilities
+74,xero,SUPERANNUATIONEXPENSE,6300,General & Administrative Expenses
+75,xero,SUPERANNUATIONLIABILITY,2150,Other Current Liabilities
+76,xero,WAGESEXPENSE,6300,General & Administrative Expenses

@@ -31,9 +31,9 @@ class MonthlyReport(models.Model):
     submitted_on = models.DateField(blank=True, null=True)
     lookup_period = models.CharField(max_length=8, blank=True, null=True)
     signoff_by_name = models.CharField(max_length=100, null=True, blank=True,validators=[
-        RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[\"-\.'#&!]|[)\]])+$")])
+        RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[[\\\/\"-\.'#&!]|[)\]])+$")])
     signoff_by_title = models.CharField(max_length=100, null=True, blank=True,validators=[
-        RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[\"-\.'#&!]|[)\]])+$")])
+        RegexValidator("^([(\[]|[a-zA-Z0-9_\s]|[[\\\/\"-\.'#&!]|[)\]])+$")])
     signoff_date = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
