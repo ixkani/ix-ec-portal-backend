@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 
 from portalbackend.lendapi.accounts.models import Company
 
-from tests.constants import ResponseCodeConstant, CompanyConstant
+from tests.constants import ResponseCodeConstant, CompanyConstant, TestConstants
 from tests.utils import TestUtils
 
 
@@ -27,7 +27,8 @@ class _001_ConnectionTestCase(APITestCase):
         self.data = {
             "company": self.company.id
         }
-        response = self.client.get('/lend/v1/connect/', self.data)
+        response = self.client.get('/lend/v1/connect/', self.data, format='json', secure=TestConstants.SECURE_CONNECTION,
+                               HTTP_HOST=TestConstants.HOST_URL)
         code = response.status_code
         self.assertEqual(code, ResponseCodeConstant.REDIRECT_302)
 
@@ -38,7 +39,8 @@ class _001_ConnectionTestCase(APITestCase):
         TestUtils._create_accounting_configuration(Company.QUICKBOOKS)
         self.data = {
         }
-        response = self.client.get('/lend/v1/connect/', self.data)
+        response = self.client.get('/lend/v1/connect/', self.data, format='json', secure=TestConstants.SECURE_CONNECTION,
+                               HTTP_HOST=TestConstants.HOST_URL)
         code = response.status_code
         self.assertEqual(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
 
@@ -48,7 +50,8 @@ class _001_ConnectionTestCase(APITestCase):
         """
         self.data = {
         }
-        response = self.client.get('/lend/v1/connect/', self.data)
+        response = self.client.get('/lend/v1/connect/', self.data, format='json', secure=TestConstants.SECURE_CONNECTION,
+                               HTTP_HOST=TestConstants.HOST_URL)
         code = response.status_code
 
         self.assertEqual(code, ResponseCodeConstant.RESOURCE_NOT_FOUND_404)
