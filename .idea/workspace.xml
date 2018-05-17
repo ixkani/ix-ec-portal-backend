@@ -14,8 +14,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="221" column="57" selection-start-line="221" selection-start-column="57" selection-end-line="221" selection-end-column="57" />
+            <state relative-caret-position="70">
+              <caret line="287" column="61" selection-start-line="287" selection-start-column="21" selection-end-line="287" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -23,17 +23,8 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-92">
-              <caret line="146" column="7" selection-start-line="146" selection-start-column="7" selection-end-line="146" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="client.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.virtualenvs/myenv/lib/python3.4/site-packages/django/test/client.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="342" column="19" selection-start-line="342" selection-start-column="13" selection-end-line="342" selection-end-column="19" />
+            <state relative-caret-position="60">
+              <caret line="78" column="46" selection-start-line="78" selection-start-column="46" selection-end-line="78" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -74,6 +65,7 @@
       <find>print(response)</find>
       <find>HEROKU_POSTGRESQL_BLACK_URL</find>
       <find>suite</find>
+      <find>CLIENT</find>
     </findStrings>
     <replaceStrings>
       <replace>TestConstants.HOST_URL</replace>
@@ -187,8 +179,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="-4" width="1299" height="772" extended-state="7" />
-    <editor active="true" />
+    <frame x="61" y="-4" width="1299" height="772" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -196,7 +187,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32970452" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="1.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.4851794" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29928172" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
@@ -418,24 +409,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
+    <entry file="file://$USER_HOME$/.virtualenvs/myenv/lib/python3.4/site-packages/django/test/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="221" column="57" selection-start-line="221" selection-start-column="57" selection-end-line="221" selection-end-column="57" />
+        <state relative-caret-position="547">
+          <caret line="342" column="19" selection-start-line="342" selection-start-column="13" selection-end-line="342" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.virtualenvs/myenv/lib/python3.4/site-packages/django/test/client.py">
+    <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="342" column="19" selection-start-line="342" selection-start-column="13" selection-end-line="342" selection-end-column="19" />
+        <state relative-caret-position="70">
+          <caret line="287" column="61" selection-start-line="287" selection-start-column="21" selection-end-line="287" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-92">
-          <caret line="146" column="7" selection-start-line="146" selection-start-column="7" selection-end-line="146" selection-end-column="7" />
+        <state relative-caret-position="60">
+          <caret line="78" column="46" selection-start-line="78" selection-start-column="46" selection-end-line="78" selection-end-column="46" />
         </state>
       </provider>
     </entry>
