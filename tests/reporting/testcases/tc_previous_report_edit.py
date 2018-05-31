@@ -50,16 +50,16 @@ class _001_PreviousMonthlyReportEditDetailsTestCase(APITestCase):
         edited_data = {
             "Balancesheet": {
                 "data": {
-                    "Cash": "3.00",
+                    "Cash": "3",
                     "OtherCurrentLiabilities": "",
-                    "Currentbalance": "4.00"  # invalid Financial Tag
+                    "Currentbalance": "4"  # invalid Financial Tag
                 }
             },
             "Incomestatement": {
                 "data": {
-                    "Ebitda": "3.00",
+                    "Ebitda": "3",
                     "RecurringRevenues": "",
-                    "IncomeValue": "4.00"  # invalid Financial Tag
+                    "IncomeValue": "4"  # invalid Financial Tag
                 }
             },
             "Answers": [

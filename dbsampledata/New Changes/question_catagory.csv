@@ -1,0 +1,10 @@
+id,group_name,is_active,purpose
+2,Employee Information,true,questions about employees
+3,Covenants,true,questions about covenants
+4,General Info,true,General questions with no specific category
+5,Certification,true,questions about company certification of financial statements
+1,Compliance,true,To Ensure the compliance of companys
+6,Customers,true,questions about Customers
+7,Credit Questionaire,true,questions about Credits
+8,CAW Compliance Info,true,questions about CAW Compliance Info
+9,Basic Metrics,true,questions about Basic Metrics

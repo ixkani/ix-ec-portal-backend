@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.db import transaction
+from django.db.transaction import TransactionManagementError
 from django.http import HttpResponse
 from django.utils.timezone import utc
 from rest_framework import status
@@ -214,10 +215,14 @@ class Utils(object):
             errors['message'] = error_message
             errors['errors'] = response
 
-        if hasattr(transaction, 'set_rollback'):
-            transaction.set_rollback(True)
-
         Utils.record_log(request, errors, code)
+
+        try:
+            if hasattr(transaction, 'set_rollback'):
+                transaction.set_rollback(True)
+        except TransactionManagementError:
+            return Response(data=errors, status=code)
+
         return Response(data=errors, status=code)
 
     @staticmethod
@@ -809,17 +814,16 @@ class Utils(object):
         row = "<tr>" \
                 "<td>%s</td>" \
                 "<td>%s</td>" \
-                "<td>%s</td>" \
-                "<td>%s</td>" \
-                "<td>%s</td>" \
+                "<td align='right'>%s</td>" \
+                "<td align='right'>%s</td>" \
                 "<td>%s</td>" \
                 "</tr>"
         for balancesheet in edited_changes["Balancesheet"]:
             data+=row % ("Balance Sheet",
-                         balancesheet["object"].fse_tag.all_sight_name,
+                         balancesheet["object"].fse_tag.short_label,
                          balancesheet["old_value"],
                          balancesheet["new_value"],
-                         user,today)
+                         today)
             log = PreviousReportEditLogger(company=company,
                                            user=user,
                                            reporting_period = monthly_report,
@@ -831,10 +835,10 @@ class Utils(object):
             log.save()
         for incomestatement in edited_changes["Incomestatement"]:
             data+=row % ("Income Statement",
-                         incomestatement["object"].fse_tag.all_sight_name,
+                         incomestatement["object"].fse_tag.short_label,
                          incomestatement["old_value"],
                          incomestatement["new_value"],
-                         user,today)
+                         today)
             log = PreviousReportEditLogger(company=company,
                                            user=user,
                                            reporting_period = monthly_report,
@@ -849,7 +853,7 @@ class Utils(object):
                          answer["object"].question.question_text,
                          answer["old_value"],
                          answer["new_value"],
-                         user,today)
+                         today)
             log = PreviousReportEditLogger(company=company,
                                            user=user,
                                            reporting_period = monthly_report,

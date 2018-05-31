@@ -1,0 +1,2 @@
+id,name,external_id,default_currency,website,employee_count,accounting_typeis_tag_error_notified
+1,Developers,X002SKSKD,CAD,http://ec-portal-backend.herokuapp.com/,13,Quickbooks,false

@@ -237,7 +237,7 @@ class MonthlyReportSignoff(views.APIView):
             if monthly_report is None:
                 return Utils.dispatch_failure(request, 'MONTHLY_REPORT_NOT_FOUND')
 
-            if monthly_report.status == MonthlyReport.COMPLETE:
+            if monthly_report.status == MonthlyReport.COMPLETE and meta.monthly_reporting_current_period_status == CompanyMeta.COMPLETE:
                 #return Response({"status": "INFO", "message": ""})
                 return Utils.dispatch_success(request,'MONTHLY_REPORT_ALREADY_EXISTS_WITH_COMPLETED')
             # if we're signing off as part of the setup process, then we need to set this flag to False
@@ -293,7 +293,7 @@ class MonthlyReportSignoff(views.APIView):
             return Utils.dispatch_failure(request,'VALIDATION_ERROR',serializer.errors)
 
         except Exception as e:
-            return Utils.dispatch_failure (request,'INTERNAL_SERVER_ERROR')
+            return Utils.dispatch_failure(request,'INTERNAL_SERVER_ERROR')
 
 
 class QuestionnaireList(views.APIView):
@@ -312,7 +312,7 @@ class QuestionnaireList(views.APIView):
 
             # get an empty set of questions
             qs1 = Question.objects.filter(Q(common_to_all_companies=True, show_on_ui=True) |
-                                          Q(common_to_all_companies=False, company=pk, show_on_ui=True))\
+                                          Q(common_to_all_companies=False,show_on_ui=True,company=pk))\
                                           .all()
 
             qs1 = ReportingUtils.sanitize_next_questions(qs1)
@@ -420,8 +420,7 @@ class PreviousMonthlyReportEditDetails(views.APIView):
             data=request.data
             for name,value in data["Balancesheet"]["data"].items():
                 if value is "":
-                    value = "0.00"
-                value = float (float (value.replace (',', '')))
+                    value = "0"
 
                 fse_tag = FinancialStatementEntryTag.objects.filter(all_sight_name = name).first()
                 balancesheet = FinancialStatementEntry.objects.filter(company=company,
@@ -433,10 +432,10 @@ class PreviousMonthlyReportEditDetails(views.APIView):
                 if balancesheet is None:
                     continue
 
-                if float(balancesheet.value) != float(value):
+                if int(balancesheet.value) != int(value):
                     change_available = True
                     old_value = balancesheet.value
-                    balancesheet.value = value
+                    balancesheet.value = int(value)
                     balancesheet.save()
                     changed_items["Balancesheet"].append({
                         "object":balancesheet,
@@ -446,9 +445,8 @@ class PreviousMonthlyReportEditDetails(views.APIView):
 
             for name,value in data["Incomestatement"]["data"].items():
                 if value is "":
-                    value = "0.00"
-                value = float (float (value.replace (',', '')))
-
+                    value = "0"
+                print(value)
                 fse_tag = FinancialStatementEntryTag.objects.filter(all_sight_name = name).first()
                 incomestatement = FinancialStatementEntry.objects.filter(company=company,
                                                                       period_ending=monthly_report.period_ending,
@@ -458,10 +456,10 @@ class PreviousMonthlyReportEditDetails(views.APIView):
                 if incomestatement is None:
                     continue
 
-                if float(incomestatement.value) != float(value):
+                if int(incomestatement.value) != int(value):
                     change_available = True
                     old_value = incomestatement.value
-                    incomestatement.value = value
+                    incomestatement.value = int(value)
                     incomestatement.save()
                     changed_items["Incomestatement"].append({
                         "object": incomestatement,

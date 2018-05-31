@@ -39,6 +39,9 @@ class AccountingOauth2(models.Model):
 
     class Meta:
         db_table = "accountingoauth2"
+        indexes = [
+            models.Index (fields=['company',]),
+        ]
 
 
 class TrialBalance(models.Model):
@@ -61,6 +64,9 @@ class TrialBalance(models.Model):
         db_table = 'trialbalance'
         verbose_name = 'Trial Balance'
         verbose_name_plural = 'Trial Balances'
+        indexes = [
+            models.Index(fields=['company','period','gl_account_id',]),
+        ]
 
 
 class CoAMap(models.Model):
@@ -81,6 +87,9 @@ class CoAMap(models.Model):
     class Meta:
         db_table = 'coamap'
         verbose_name = 'Chart of Accounts Map'
+        indexes = [
+            models.Index (fields=['company', 'cust_account_id',]),
+        ]
 
 
 class CoA(models.Model):
@@ -104,6 +113,11 @@ class CoA(models.Model):
         verbose_name = 'Chart of Accounts'
         verbose_name_plural = 'Chart of Accounts'
 
+        indexes = [
+            models.Index(fields=['company', 'gl_account_id', 'gl_account_name', 'gl_account_type']),
+            models.Index(fields=['company', 'gl_account_name', 'gl_account_type'])
+        ]
+
 
 class DefaultAccountTagMapping(models.Model):
     """
@@ -118,6 +132,9 @@ class DefaultAccountTagMapping(models.Model):
     class Meta:
         db_table = 'defaultaccounttagmapping'
         verbose_name = 'Account Tag Mapping'
+        indexes = [
+            models.Index(fields=['software',])
+            ]
 
 class FinancialStatementEntryTag(models.Model):
     """
@@ -162,3 +179,8 @@ class LoginInfo(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, max_length=20)
     created = models.DateTimeField(blank=True, null=True)
     company = models.ForeignKey(Company)
+
+    class Meta:
+        indexes = [
+            models.Index (fields=['company', ]),
+        ]

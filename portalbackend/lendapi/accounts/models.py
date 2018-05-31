@@ -89,6 +89,10 @@ class User(AbstractUser):
     is_logged_in = models.BooleanField (default=False, verbose_name='User Logged In')
     class Meta:
         db_table = "user"
+        indexes = [
+             models.Index(fields=['username',]),
+             models.Index(fields=['email',])
+         ]
 
 
 class ForgotPasswordRequest(models.Model):
@@ -103,6 +107,11 @@ class ForgotPasswordRequest(models.Model):
 
     class Meta:
         db_table = "forgot_password_request"
+
+        indexes = [
+             models.Index(fields=['user']),
+             models.Index(fields=['token'])
+         ]
 
 
 class Contact(models.Model):
@@ -136,6 +145,10 @@ class Contact(models.Model):
 
     class Meta:
         db_table = "contact"
+
+        indexes = [
+            models.Index(fields=['company',]),
+        ]
 
 
 class CompanyMeta(models.Model):
@@ -189,6 +202,9 @@ class CompanyMeta(models.Model):
 
     class Meta:
         db_table = "companymeta"
+        indexes = [
+            models.Index (fields=['company',])
+        ]
 
 
 class AccountingConfiguration(models.Model):
@@ -225,6 +241,7 @@ class AccountingConfiguration(models.Model):
 
     class Meta:
         db_table = "accountingconfiguration"
+
 
 
 # this function can probably be phased out. Need to assess and decide. #brad #todo
@@ -270,6 +287,10 @@ class EspressoContact(models.Model):
 
     class Meta:
         db_table = "espressocontact"
+        indexes = [
+            models.Index (fields=['company',]),
+            models.Index (fields=['contact','company'])
+        ]
 
 @receiver(post_save,sender=CompanyMeta)
 def remove_meta(sender, instance, **kwargs):
@@ -285,6 +306,11 @@ class UserSession(models.Model):
     end_time = models.DateTimeField(default=None)
     is_first_time = models.BooleanField(default=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['user',])
+        ]
+
 class FiscalYearEnd(models.Model):
     # TODO : CHECK THIS OUT - is_active is neccesary if not found first data will be loaded
     company = models.ForeignKey(Company)
@@ -294,6 +320,11 @@ class FiscalYearEnd(models.Model):
     last_update_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['company', 'is_active',])
+        ]
+
 class ScheduledMaintenance(models.Model):
     message = models.TextField()
     start_time = models.DateTimeField()
@@ -302,3 +333,7 @@ class ScheduledMaintenance(models.Model):
 
 class LoggedInUser(models.Model):
     user = models.ForeignKey(User)
+    class Meta:
+        indexes = [
+            models.Index(fields=['user',])
+        ]

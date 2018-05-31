@@ -101,6 +101,9 @@ class FinancialStatementEntrySerializer(serializers.ModelSerializer):
         ret = [{obj.fse_tag.all_sight_name : obj.value}]
         return ret[0]
 
+    def value(self,obj):
+        return int(obj.value)
+
     class Meta:
         model = FinancialStatementEntry
 

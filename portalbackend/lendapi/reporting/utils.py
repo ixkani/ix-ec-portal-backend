@@ -80,7 +80,7 @@ class ReportingUtils(object):
 
         if monthly_report:
             qs1 = Question.objects.filter(common_to_all_companies=True, show_on_ui=True).all()
-            qs2 = Question.objects.filter(common_to_all_companies=False, company=pk, show_on_ui=True).all()
+            qs2 = Question.objects.filter(common_to_all_companies=False,show_on_ui=True,company=pk).all()
             if not qs1 and qs2:
                 qs2 = ReportingUtils.sanitize_next_questions(qs2)
                 return qs2

@@ -214,8 +214,8 @@ class QuickBooks(object):
                     d['Credit'] = float(d["Credit"]) if d["Credit"] != "" else 0
 
                     rows_affected = TrialBalance.objects.filter(company=company,
-                                                                gl_account_id=d["id"],
-                                                                period=period).update(debit=d["Debit"],
+                                                                period=period,
+                                                                gl_account_id=d["id"]).update(debit=d["Debit"],
                                                                                       credit=d["Credit"],
                                                                                       gl_account_name=d["Account"])
                     if rows_affected == 0:

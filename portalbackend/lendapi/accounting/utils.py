@@ -126,7 +126,7 @@ class AccountingUtils(object):
 
             for key, value in month.items():
                 if value is None:
-                    value = '0.00'
+                    value = '0'
 
                 if key not in fixed_fields:
                     check_key_exists = sight_tag_lookup.get (key, None)
@@ -145,10 +145,10 @@ class AccountingUtils(object):
 
                     else:
                         rows_affected = FinancialStatementEntry.objects.filter(
-                                            fse_tag_id=cur_tag['id'],
-                                            period_ending=period,
                                             company=company,
-                                            statement_type=statement_type).update(value=value)
+                                            period_ending=period,
+                                            statement_type=statement_type,
+                                            fse_tag_id=cur_tag['id']).update(value=value)
 
                         # 0 rows affected == it doesn't exist
                         if rows_affected == 0:
@@ -171,18 +171,18 @@ class AccountingUtils(object):
                 tag_category="total_liabilities_equity")
             total_assets = FinancialStatementEntryTag.objects.get(tag_category="total_assets")
             financial_statement_entry_equity = FinancialStatementEntry.objects.filter(
-                fse_tag_id=total_liabilities_equity,
                 company=company,
-                statement_type=FinancialStatementEntry.BALANCE_SHEET)
+                statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                fse_tag_id=total_liabilities_equity)
             dict_credits = {}
             dict_debits = {}
             for financial_statement_entry_object in financial_statement_entry_equity:
                 dict_credits[str(financial_statement_entry_object.period_ending)] = int(
                     financial_statement_entry_object.value)
             financial_statement_entry_assets = FinancialStatementEntry.objects.filter(
-                fse_tag_id=total_assets,
                 company=company,
-                statement_type=FinancialStatementEntry.BALANCE_SHEET)
+                statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                fse_tag_id=total_assets)
             for financial_statement_entry_object in financial_statement_entry_assets:
                 dict_debits[str(financial_statement_entry_object.period_ending)] = int(
                     financial_statement_entry_object.value)
@@ -358,7 +358,7 @@ class AccountingUtils(object):
         template = get_template (template_src)
         html = template.render (context_dict)
         result = BytesIO ()
-        pdf = pisa.pisaDocument (BytesIO (html.encode ("ISO-8859-1")), result)
+        pdf = pisa.pisaDocument (BytesIO (html.encode ("UTF-8")), result)
         if not pdf.err:
             return HttpResponse (result.getvalue (), content_type='application/pdf')
         return None

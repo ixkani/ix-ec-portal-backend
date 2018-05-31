@@ -266,13 +266,15 @@ class BalanceSheetView(views.APIView):
                     return Utils.dispatch_failure(request, dates[1])
                 elif len(dates) == 2:
                     queryset = FinancialStatementEntry.objects.filter(company=company,
+                                                                      period_ending__range=(dates[0], dates[1]),
                                                                       statement_type=FinancialStatementEntry.BALANCE_SHEET,
-                                                                      period_ending__range=(dates[0], dates[1]))
+                                                                      )
                 elif len(dates) == 1:
                     print(dates)
                     queryset = FinancialStatementEntry.objects.filter(company=company,
+                                                                      period_ending=dates[0],
                                                                       statement_type=FinancialStatementEntry.BALANCE_SHEET,
-                                                                      period_ending=dates[0])
+                                                                      )
                 else:
                     print(dates)
                     queryset = FinancialStatementEntry.objects.filter(company=company,
@@ -316,10 +318,12 @@ class BalanceSheetView(views.APIView):
         try:
             if self.request.user.is_superuser:
                 company = AccountsUtils.get_company(pk)
-                if FinancialStatementEntry.objects.filter(statement_type=FinancialStatementEntry.BALANCE_SHEET,
-                                                          company=company).count():
-                    FinancialStatementEntry.objects.filter(statement_type=FinancialStatementEntry.BALANCE_SHEET,
-                                                           company=company).delete()
+                if FinancialStatementEntry.objects.filter(company=company,
+                                                          statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                                                          ).count():
+                    FinancialStatementEntry.objects.filter(company=company,
+                                                           statement_type=FinancialStatementEntry.BALANCE_SHEET,
+                                                           ).delete()
                     return Utils.dispatch_success(request, 'DELETED_SUCCESSFULLY')
                 return Utils.dispatch_success(request, "DATA_NOT_FOUND")
             return Utils.dispatch_failure(request, 'UNAUTHORIZED_ACCESS')
@@ -353,12 +357,14 @@ class IncomeStatementView(views.APIView):
                     return Utils.dispatch_failure(request, dates[1])
                 elif len(dates) == 2:
                     queryset = FinancialStatementEntry.objects.filter(company=company,
+                                                                      period_ending__range=(dates[0], dates[1]),
                                                                       statement_type=FinancialStatementEntry.INCOME_STATEMENT,
-                                                                      period_ending__range=(dates[0], dates[1]))
+                                                                      )
                 elif len(dates) == 1:
                     queryset = FinancialStatementEntry.objects.filter(company=company,
+                                                                      period_ending=dates[0],
                                                                       statement_type=FinancialStatementEntry.INCOME_STATEMENT,
-                                                                      period_ending=dates[0])
+                                                                      )
                 else:
                     queryset = FinancialStatementEntry.objects.filter(company=company,
                                                                       statement_type=FinancialStatementEntry.INCOME_STATEMENT)
@@ -403,10 +409,12 @@ class IncomeStatementView(views.APIView):
         try:
             if self.request.user.is_superuser:
                 company = AccountsUtils.get_company(pk)
-                if FinancialStatementEntry.objects.filter(statement_type=FinancialStatementEntry.INCOME_STATEMENT,
-                                                          company=company).count():
-                    FinancialStatementEntry.objects.filter(statement_type=FinancialStatementEntry.INCOME_STATEMENT,
-                                                           company=company).delete()
+                if FinancialStatementEntry.objects.filter(company=company,
+                                                          statement_type=FinancialStatementEntry.INCOME_STATEMENT,
+                                                          ).count():
+                    FinancialStatementEntry.objects.filter(company=company,
+                                                           statement_type=FinancialStatementEntry.INCOME_STATEMENT,
+                                                           ).delete()
                     return Utils.dispatch_success(request, 'DELETED_SUCCESSFULLY')
                 return Utils.dispatch_success(request, "DATA_NOT_FOUND")
             return Utils.dispatch_failure(request, 'UNAUTHORIZED_ACCESS')
@@ -729,23 +737,25 @@ class GeneratePDF (views.APIView):
                     return Utils.dispatch_failure (request, dates[1])
                 elif len (dates) == 2:
                     bs_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          period_ending__range=(dates[0], dates[1]),
                                                                           statement_type=FinancialStatementEntry.BALANCE_SHEET,
-                                                                          period_ending__range=(dates[0], dates[1]))
+                                                                          )
 
                     is_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          period_ending__range=(dates[0], dates[1]),
                                                                           statement_type=FinancialStatementEntry.INCOME_STATEMENT,
-                                                                          period_ending__range=(dates[0], dates[1]))
+                                                                          )
                 elif len (dates) == 1:
-                    print(dates)
                     bs_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          period_ending=dates[0],
                                                                           statement_type=FinancialStatementEntry.BALANCE_SHEET,
-                                                                          period_ending=dates[0])
+                                                                          )
 
                     is_queryset = FinancialStatementEntry.objects.filter (company=company,
+                                                                          period_ending=dates[0],
                                                                           statement_type=FinancialStatementEntry.INCOME_STATEMENT,
-                                                                          period_ending=dates[0])
+                                                                          )
                 else:
-                    print(dates)
                     bs_queryset = FinancialStatementEntry.objects.filter (company=company,
                                                                           statement_type=FinancialStatementEntry.BALANCE_SHEET)
                     is_queryset = FinancialStatementEntry.objects.filter (company=company,
@@ -773,7 +783,6 @@ class GeneratePDF (views.APIView):
                         answer = question_and_answer.data[row]['answer']['answer']
                         if row is not 0 and qalist[row-1]["answer_data_type"] == "boolean" and answer_data_type == "varchar(255)" or answer_data_type == "varchar(511)":
                             if question_text.split(' ')[1].split(',')[0].lower() != qalist[row - 1]["answer"].lower():
-                                print(answer)
                                 answer = None
                         qalist[row] = {"question": question_text, "answer_data_type": answer_data_type, "short_tag": short_tag, "answer":answer, "count": int(len (question_and_answer.data))}
                     ordered_data["QUESTIONNAIRE"] = qalist
@@ -823,7 +832,6 @@ class GeneratePDF (views.APIView):
             ordered_data["PERIOD"] = reportlist
             orderlist['REPORT'] = ordered_data
 
-
             pdf = AccountingUtils.render_to_pdf('pdf-layout.html', orderlist)
             response = HttpResponse (pdf, content_type='application/pdf')
 
@@ -831,13 +839,14 @@ class GeneratePDF (views.APIView):
                 response = HttpResponse (pdf, content_type='application/pdf')
                 filename = PREVIOUS_MONTHLY_REPORT_DOWNLOAD_FILE_PREFIX+"%s.pdf" % (report_month_fillform+' '+split_date[0])
                 content = "inline; filename='%s'" % (filename)
-                download = request.GET.get ("download")
+                download = request.GET.get("download")
                 if download:
                     content = "attachment; filename='%s'" % (filename)
                 response['Content-Disposition'] = content
                 return response
             return Utils.dispatch_success (request, 'DATA_NOT_FOUND')
         except Exception as e:
+            print(e)
             return Utils.dispatch_failure (request, 'INTERNAL_SERVER_ERROR')
 
 

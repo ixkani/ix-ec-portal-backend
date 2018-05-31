@@ -232,8 +232,9 @@ class XeroAccountings(object):
                     except Exception:
                         continue
 
-                    exists = TrialBalance.objects.filter(company=company, gl_account_id=d["Id"],
-                                                         period=period).first()
+                    exists = TrialBalance.objects.filter(company=company,
+                                                         period=period,
+                                                         gl_account_id = d["Id"]).first()
 
                     if exists:
                         exists.debit, exists.credit = d["Debit"], d["Credit"]

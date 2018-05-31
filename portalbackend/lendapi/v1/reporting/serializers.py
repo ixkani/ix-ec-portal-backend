@@ -77,7 +77,7 @@ class QuestionWithAnswerSerializer(serializers.ModelSerializer):
 
         report =  ReportingUtils.get_monthly_report(pk=company, period=period)
 
-        print('getting answers')
+        # print('getting answers')
         if report:
             answer = Answer.objects.filter(company=company, monthly_report=report, question=obj.id).first()
             if not answer:

@@ -245,7 +245,7 @@ class CSVUtils(object):
                 else:
                     print(line)
 
-                exists = TrialBalance.objects.filter(period=period_ending, gl_account_id=line[0], company=company).first()
+                exists = TrialBalance.objects.filter(company=company,period=period_ending, gl_account_id=line[0]).first()
                 if exists:
                     exists.debit = CSVUtils.check_float_value(line[2])
                     exists.credit = CSVUtils.check_float_value(line[3])
@@ -310,9 +310,10 @@ class CSVUtils(object):
                 print('#### TB QB glaccountid is ', gl_account_id)
                 if not gl_account_id:
                     gl_account_id = 9999
-                exists = TrialBalance.objects.filter(period=period_ending,
+                exists = TrialBalance.objects.filter(company=company,
+                                                     period=period_ending,
                                                      gl_account_id=gl_account_id,
-                                                     company=company).first()
+                                                     ).first()
 
                 print('############# checking for FLOAT ', line[1], line[2])
                 if exists:

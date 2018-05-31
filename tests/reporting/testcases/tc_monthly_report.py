@@ -4,6 +4,7 @@ import datetime
 
 from rest_framework.test import APITestCase
 
+from portalbackend.lendapi.accounts.models import CompanyMeta
 from portalbackend.lendapi.reporting.models import MonthlyReport
 from portalbackend.validator.errormapping import ErrorMessage
 
@@ -405,7 +406,8 @@ class _004_MonthlyReportSignoffTestCase(APITestCase):
         }
         self.report.status = MonthlyReport.COMPLETE
         self.report.save()
-
+        self.meta.monthly_reporting_current_period_status = CompanyMeta.COMPLETE
+        self.meta.save()
         code, response = TestUtils._put_with_args(self.client, URLConstant.MonthlyReportSignoff, [self.company.id],
                                                   self.data)
         self.assertEqual(code, ResponseCodeConstant.SUCCESS_200)

@@ -74,10 +74,12 @@ class PreviousReportEditLoggerAdmin(admin.ModelAdmin):
     list_display = ['company','user','reporting_period','section_name','changed_item','old_value','new_value','date_changed']
     search_fields = ('company__name','section_name','user__username','question_item__question_text','finacial_statement_item__fse_tag__all_sight_name')
     #'finacial_statement_item__fsetag__all_sight_name','question_item__question_text'
+
     def changed_item(self,obj):
         if obj.section_name == PreviousReportEditLogger.ANSWER:
             return obj.question_item
         return obj.finacial_statement_item
+
     def has_add_permission(self, request):
         return False
 

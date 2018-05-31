@@ -205,13 +205,13 @@ WSGI_APPLICATION = 'portalbackend.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 try:
     from .databases import DBCONFIG
-except Exception:
-    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
-                                 'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': '',
-                             }}
 # except Exception:
-#     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'dummy1',
-#                                 'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
+#     DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'borrowerportal',
+#                                  'HOST': '', 'PORT': 5432, 'USER': '', 'PASSWORD': '',
+#                              }}
+except Exception:
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'dummy1',
+                                'HOST': '', 'PORT': 5432, 'USER': 'muthukumar', 'PASSWORD': 'welcome'}}
 else:
     DATABASES = DBCONFIG
 

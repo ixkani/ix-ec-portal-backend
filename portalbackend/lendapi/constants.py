@@ -22,12 +22,11 @@ LOG_PREV_REPORT_EDIT_SUBJECT = "IMPORTANT: %s has changed their Historical Month
 
 LOG_PREV_REPORT_EDIT_BODY = "The following changes have been made to the <b>%s</b> monthly reporting submission for " \
                             "<b>%s</b> by <b>%s</b> <br><br>" \
-                            "<table border='1' style='border-collapse:collapse; border-spacing: 50px 0; font-family:Sans-Serif; font-size:14px'" \
+                            "<table border='1' cellpadding='10' style='border-collapse:collapse; border-spacing: 50px 0; font-family:Sans-Serif; font-size:14px'" \
                             "<tr><th>Section Name</th>" \
                             "<th>Changed Item Desc.</th>" \
                             "<th>Old Value</th>" \
                             "<th>New value</th>" \
-                            "<th>Changed By</th>" \
                             "<th>Date changed</th></tr>%s</table><br>" \
 
 SESSION_EXPIRE_MINUTES = 60
