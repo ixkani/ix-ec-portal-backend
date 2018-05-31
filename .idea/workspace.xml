@@ -40,7 +40,7 @@
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="173" selection-start-column="173" selection-end-column="173" />
+              <caret column="150" selection-start-column="150" selection-end-column="150" />
             </state>
           </provider>
         </entry>
@@ -136,6 +136,7 @@
         <option value="$PROJECT_DIR$/tests/accounting/testcases/tc_connect.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/portalbackend/settings.py" />
+        <option value="$PROJECT_DIR$/release-tasks.sh" />
         <option value="$PROJECT_DIR$/Procfile" />
       </list>
     </option>
@@ -269,13 +270,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26604">
@@ -622,10 +616,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/release-tasks.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="173" selection-start-column="173" selection-end-column="173" />
+          <caret column="150" selection-start-column="150" selection-end-column="150" />
         </state>
       </provider>
     </entry>
