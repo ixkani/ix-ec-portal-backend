@@ -141,8 +141,6 @@ CORS_ORIGIN_WHITELIST = (
     'portal.espressocapital.com',
     'portal.espressocapital.com.herokudns.com',
     'espressocapital--dev.cs50.my.salesforce.com',
-    'espresso-ix-backend.herokuapp.com',
-    'espresso-ix.herokuapp.com',
 )
 
 ROOT_URLCONF = 'portalbackend.urls'
@@ -282,6 +280,7 @@ if environment == ENVIRONMENT_DEVELOPMENT:
 
     # Quickbooks
     # TODO: Only for identity,need to remove once confirmed, CLIENT_ID & CLIENT_SECRET
+    HOST_URL = 'localhost:4200'
     QBO_AUTH_REDIRECT_URL = "http://localhost:4200/coa-match/quickbooks"
     QBO_AUTH_CANCEL_URL = "http://localhost:4200/sync"
     CLIENT_ID = 'Q0W1osEOriGM0rwlt7ZBE2ArpDAuczZyDxUmQyx6neVBbU4lkI'
@@ -307,6 +306,8 @@ if environment == ENVIRONMENT_DEVELOPMENT:
 elif environment == ENVIRONMENT_STAGING:
 
     DEBUG = True
+
+    HOST_URL = os.environ.get('HOST_URL','https://ec-portal-backend.herokuapp.com/')
 
     # QUICKBOOKS
     # TODO: Only for identity,need to remove once confirmed, CLIENT_ID & CLIENT_SECRET
@@ -353,7 +354,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
 
     # Environment Check
     # Add all the variables in this list to prevalidate the environment
-    environment_variable_check = ['DATABASE_URL', 'DISABLE_COLLECTSTATIC', 'FIXIE_URL',
+    environment_variable_check = ['HOST_URL','DATABASE_URL', 'DISABLE_COLLECTSTATIC', 'FIXIE_URL',
                                   'FORGOT_PASSWORD_EMAIL_URL', 'MAKE_SAVE_CALL_TO_ALL_SIGHT',
                                   'MONITORING_REDIRECT_PAGE', 'ALLSIGHT_URL', 'PAPERTRAIL_API_TOKEN', 'PROXY_REQUIRED',
                                   'QBO_AUTH_CANCEL_URL', 'QBO_AUTH_REDIRECT_URL', 'QBO_BASEURL',
@@ -372,6 +373,7 @@ elif environment == ENVIRONMENT_PRODUCTION:
             print("\nVariable " + environment + " need to be filled and cannot be empty\n")
             raise EnvironmentError
 
+    HOST_URL = os.environ.get('HOST_URL')
     # QUICKBOOKS
     QBO_AUTH_REDIRECT_URL = os.environ.get('QBO_AUTH_REDIRECT_URL')
     QBO_AUTH_CANCEL_URL = os.environ.get('QBO_AUTH_CANCEL_URL')

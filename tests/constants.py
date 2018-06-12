@@ -1,3 +1,6 @@
+from portalbackend import settings
+
+
 class TestConstants:
     """
     Common configurable constants
@@ -13,7 +16,7 @@ class TestConstants:
     UNBALANCED_THRESHOLD = 0.1
 
 
-    HOST_URL = 'espresso-ix-backend.herokuapp.com'
+    HOST_URL = settings.HOST_URL
     SECURE_CONNECTION = True
 
 
