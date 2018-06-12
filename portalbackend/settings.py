@@ -280,7 +280,7 @@ if environment == ENVIRONMENT_DEVELOPMENT:
 
     # Quickbooks
     # TODO: Only for identity,need to remove once confirmed, CLIENT_ID & CLIENT_SECRET
-    HOST_URL = 'localhost:4200'
+    HOST_URL = os.environ.get('HOST_URL','espresso-ix-backend.herokuapp.com')
     QBO_AUTH_REDIRECT_URL = "http://localhost:4200/coa-match/quickbooks"
     QBO_AUTH_CANCEL_URL = "http://localhost:4200/sync"
     CLIENT_ID = 'Q0W1osEOriGM0rwlt7ZBE2ArpDAuczZyDxUmQyx6neVBbU4lkI'
@@ -307,7 +307,7 @@ elif environment == ENVIRONMENT_STAGING:
 
     DEBUG = True
 
-    HOST_URL = os.environ.get('HOST_URL','https://ec-portal-backend.herokuapp.com/')
+    HOST_URL = os.environ.get('HOST_URL','https://wolverine.espressocapital.com/')
 
     # QUICKBOOKS
     # TODO: Only for identity,need to remove once confirmed, CLIENT_ID & CLIENT_SECRET
