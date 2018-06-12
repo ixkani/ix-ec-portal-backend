@@ -25,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="149" column="37" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="37" />
+            <state relative-caret-position="119">
+              <caret line="212" column="59" selection-start-line="212" selection-start-column="59" selection-end-line="212" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -46,6 +46,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="388">
+              <caret line="50" lean-forward="true" selection-start-line="8" selection-end-line="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="22" selection-end-column="96" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
@@ -55,11 +73,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3">
+            <state relative-caret-position="93">
               <caret line="138" column="41" selection-start-line="138" selection-start-column="41" selection-end-line="138" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-start-column="2" selection-end-line="22" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tc_connect.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/accounting/testcases/tc_connect.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="41" column="92" selection-start-line="41" selection-start-column="92" selection-end-line="41" selection-end-column="92" />
             </state>
           </provider>
         </entry>
@@ -125,13 +161,13 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/release-tasks.sh" />
         <option value="$PROJECT_DIR$/Procfile" />
-        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" />
-        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" />
-        <option value="$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py" />
         <option value="$PROJECT_DIR$/release.sh" />
         <option value="$PROJECT_DIR$/tests/constants.py" />
-        <option value="$PROJECT_DIR$/portalbackend/settings.py" />
         <option value="$PROJECT_DIR$/tests/utils.py" />
+        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py" />
+        <option value="$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py" />
+        <option value="$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py" />
+        <option value="$PROJECT_DIR$/portalbackend/settings.py" />
       </list>
     </option>
   </component>
@@ -166,6 +202,33 @@
               <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
               <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
               <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
+              <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
+              <item name="lendapi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
+              <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
+              <item name="lendapi" type="462c0819:PsiDirectoryNode" />
+              <item name="accounting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
+              <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
+              <item name="lendapi" type="462c0819:PsiDirectoryNode" />
+              <item name="accounts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="espresso-ix-backend" type="462c0819:PsiDirectoryNode" />
+              <item name="portalbackend" type="462c0819:PsiDirectoryNode" />
+              <item name="lendapi" type="462c0819:PsiDirectoryNode" />
+              <item name="reporting" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="espresso-ix-backend" type="b2602c69:ProjectViewProjectNode" />
@@ -237,7 +300,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32970452" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="1.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.28393134" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.32111552" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
@@ -529,32 +592,12 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/release-tasks.sh" />
-    <entry file="file://$PROJECT_DIR$/tests/accounting/testcases/tc_connect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="41" column="92" selection-start-line="41" selection-start-column="92" selection-end-line="41" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/release.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret selection-end-line="8" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/constants.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -570,13 +613,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="149" column="37" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/reporting/testcases/tc_questionnaire.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -589,8 +625,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3">
+        <state relative-caret-position="93">
           <caret line="138" column="41" selection-start-line="138" selection-start-column="41" selection-end-line="138" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/accounting/testcases/tc_connect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="41" column="92" selection-start-line="41" selection-start-column="92" selection-end-line="41" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounting/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-start-column="2" selection-end-line="22" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/accounts/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="50" lean-forward="true" selection-start-line="8" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/portalbackend/lendapi/reporting/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="22" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/portalbackend/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="212" column="59" selection-start-line="212" selection-start-column="59" selection-end-line="212" selection-end-column="59" />
         </state>
       </provider>
     </entry>
