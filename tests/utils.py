@@ -83,9 +83,15 @@ class TestUtils(object):
     @staticmethod
     def _get_with_args(client, string, args):
         if type(args) is list:
+            print('####################')
+            print(TestConstants.HOST_URL)
             response = client.get(reverse(string, args=args),format='json', secure=TestConstants.SECURE_CONNECTION,
                                HTTP_HOST=TestConstants.HOST_URL)
+            print('####################')
         else:
+            print('####################')
+            print(TestConstants.HOST_URL)
+            print('####################')
             response = client.get(reverse(string, args=[args]),format='json', secure=TestConstants.SECURE_CONNECTION,
                                HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
@@ -102,6 +108,9 @@ class TestUtils(object):
 
     @staticmethod
     def _put(client, string, data):
+        print('####################')
+        print(TestConstants.HOST_URL)
+        print('####################')
         response = client.put(reverse(string), data,format='json', secure=TestConstants.SECURE_CONNECTION,
                                HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
@@ -119,9 +128,15 @@ class TestUtils(object):
     @staticmethod
     def _delete(client, string, args):
         if type(args) is list:
+            print('####################')
+            print(TestConstants.HOST_URL)
+            print('####################')
             response = client.delete(reverse(string, args=args),format='json', secure=TestConstants.SECURE_CONNECTION,
                                HTTP_HOST=TestConstants.HOST_URL)
         else:
+            print('####################')
+            print(TestConstants.HOST_URL)
+            print('####################')
             response = client.delete(reverse(string, args=[args]),format='json', secure=TestConstants.SECURE_CONNECTION,
                                HTTP_HOST=TestConstants.HOST_URL)
         return response.status_code, response.data
