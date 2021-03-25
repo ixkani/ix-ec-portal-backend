@@ -45,7 +45,7 @@ pypi-publisher==0.0.4
 python-dateutil==2.6.1
 pytz==2017.2
 pyxero==0.9.0
-PyYAML==3.12
+PyYAML==5.4
 redis==2.10.6
 reportlab==3.4.0
 requests==2.18.3
