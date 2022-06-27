@@ -47,7 +47,7 @@ pytz==2017.2
 pyxero==0.9.0
 PyYAML==3.12
 redis==2.10.6
-reportlab==3.4.0
+reportlab==3.5.55
 requests==2.18.3
 requests-oauthlib==0.8.0
 simplejson==3.11.1
